@@ -60,3 +60,5 @@ Authored code: **GPL-3.0-only**. Artwork by **szampan**: CC0. Open Sans: OFL-1.1
 Upstream code retains its notices; see [CREDITS.txt](CREDITS.txt),
 [LICENSING.md](LICENSING.md) and the included dependency licenses.
 The project license grants no rights to the original game content.
+
+Credits will be posted later!
