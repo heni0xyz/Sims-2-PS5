@@ -1,0 +1,24 @@
+{
+  "author": "szampan",
+  "provided": "2026-10-31",
+  "purpose": "PS5 title icon/background and editable sources for the future GitHub release",
+  "files": {
+    "sims2.png": {
+      "bytes": 53219,
+      "sha256": "ecff25ceb8a08997ce526a05704e43c2fa6656b156f9efe8f5ca7b2cdc32ff2f"
+    },
+    "sims2bg.png": {
+      "bytes": 38645,
+      "sha256": "52a4a3ea2a1cb458270e954704c251160010c277eed1a8eeddba39e63be4f08e"
+    },
+    "sims2.pxz": {
+      "bytes": 2351,
+      "sha256": "8bb2ce7479fa9385b1638504e825afaab65459be309ea049f13077189f3fcf71"
+    },
+    "sims2bg.pxz": {
+      "bytes": 1853,
+      "sha256": "44ac5458b12359a8abfdccc58720b28e68cdfb7af5f25977e4e163fa730aade6"
+    }
+  },
+  "license": "CC0-1.0"
+}

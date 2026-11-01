@@ -1,0 +1,126 @@
+{
+  "schema": 1,
+  "source_format": "BC2 32x32/16x16/8x8",
+  "source_bytes": 1344,
+  "selectors": [
+    {
+      "resource": "button_xbx_a",
+      "glyph": "playstation_button_cross",
+      "original": "fa3fc0425ddb1703",
+      "patched": "5f80b53d17f49bf2",
+      "svg_sha256": "99f10d52721ec97a5ddef748c72a3fadaa6a0085071c2c7200b246b51819924f"
+    },
+    {
+      "resource": "button_xbx_b",
+      "glyph": "playstation_button_circle",
+      "original": "40bcefd986d57285",
+      "patched": "bc6007dc085fc445",
+      "svg_sha256": "25b96587a67842bf059eebe653ce0945d81715655adf92be0326eb800e166f99"
+    },
+    {
+      "resource": "button_xbx_x",
+      "glyph": "playstation_button_square",
+      "original": "d0c603b258dbbec7",
+      "patched": "0a69e4fb901011e3",
+      "svg_sha256": "f6aef0bdc5017a6be18fbae5e5aee89ec678574277aaf7d8f9876fac4238434c"
+    },
+    {
+      "resource": "button_xbx_y",
+      "glyph": "playstation_button_triangle",
+      "original": "ac98ccdaec9e9599",
+      "patched": "4387402f67cfa3ea",
+      "svg_sha256": "1a5aea5d68026f51dff5940efc13ce1fb725a6fba66c953de73ac7a5049bc238"
+    },
+    {
+      "resource": "button_xbx_l",
+      "glyph": "playstation_trigger_l2",
+      "original": "1c8e5d25638ffbe8",
+      "patched": "2fd648ebc0a0b832",
+      "svg_sha256": "ae89a40ccb5ae3e3b79e604d9e1f4903e773f87d36b18686b2d123ce3e4a5473"
+    },
+    {
+      "resource": "button_xbx_r",
+      "glyph": "playstation_trigger_r2",
+      "original": "4ff359eb280b7c6c",
+      "patched": "ded46d3fc0c56d27",
+      "svg_sha256": "da1e0239321400b2e0a2941759bb75fb7382f0450ed38db2abe2eac999ea011c"
+    },
+    {
+      "resource": "cntr_XBX_whit",
+      "glyph": "playstation_trigger_l1",
+      "original": "77b5e43bc5afc051",
+      "patched": "15df3857bb5d9761",
+      "svg_sha256": "ae444563986badefcdc417b3d744be0676670fffd36783d91c1592d14f21b93a"
+    },
+    {
+      "resource": "button_xbx_black",
+      "glyph": "playstation_trigger_r1",
+      "original": "b2423ddacdda6c9b",
+      "patched": "c58983d660612aa7",
+      "svg_sha256": "387a37176b86facb7629b0020c56f5cb780f14d30d62e54baa394ecd2ee8229b"
+    },
+    {
+      "resource": "cntr_XBX_strt",
+      "glyph": "playstation5_button_options",
+      "original": "4a00a5774e24cd4a",
+      "patched": "5dd041117034b032",
+      "svg_sha256": "a399c8b72af736c7488c9b8927a653b2aeeab72d10730ad432ab8c37f4dfe218"
+    },
+    {
+      "resource": "cntr_XBX_back",
+      "glyph": "playstation5_touchpad_press",
+      "original": "38a4f4d2da102bcc",
+      "patched": "1b79f909335ef598",
+      "svg_sha256": "ca2f82f276dde64585407a3977d64b1774d18d79aef6d7c823daed68697fd85f"
+    },
+    {
+      "resource": "cntr_XBX_Lanl",
+      "glyph": "playstation_stick_l",
+      "original": "bbde126b72478448",
+      "patched": "fb92f8673c9f5a8d",
+      "svg_sha256": "c5097b1eab526cddc799ae77a6bf8d29b759408be2420357ba85b7441d6430e2"
+    },
+    {
+      "resource": "cntr_XBX_Ranl",
+      "glyph": "playstation_stick_r",
+      "original": "095f93c642c8a8d7",
+      "patched": "4708b3c61e531daa",
+      "svg_sha256": "c8ba98ac6b7793d1033a230df73f9b51f9ba2205ec15febcc481597c165c0b65"
+    },
+    {
+      "resource": "cntr_XBX_Dpad",
+      "glyph": "playstation_dpad",
+      "original": "379e12d4699070cc",
+      "patched": "3f0310addda89da6",
+      "svg_sha256": "adf2481a5f530ad905a552f13f58a5f001774b0caa97c1469c8af0475c1c24f6"
+    },
+    {
+      "resource": "cntr_XBX_DupB",
+      "glyph": "playstation_dpad_up",
+      "original": "4d11b6567155fa66",
+      "patched": "1fba1a5da1a3ef70",
+      "svg_sha256": "e61c695f420ac22fc860b764a1527e0cf2bfd6e38162731c001bfe9121a7a0a8"
+    },
+    {
+      "resource": "cntr_XBX_DdwB",
+      "glyph": "playstation_dpad_down",
+      "original": "e599674b2f0ecc2b",
+      "patched": "a91380698d9cb34f",
+      "svg_sha256": "c06abfab82a6e264f4f62c546922afe6f53619bbdfae699baa9d599677093ac3"
+    },
+    {
+      "resource": "cntr_XBX_DlfB",
+      "glyph": "playstation_dpad_left",
+      "original": "90beeb1b4adbcf74",
+      "patched": "41592c634068182e",
+      "svg_sha256": "5c81b1632941d5d297c282750f4ed4587ac3a277527df56604b8b2bf04526d7a"
+    },
+    {
+      "resource": "cntr_XBX_DrtB",
+      "glyph": "playstation_dpad_right",
+      "original": "7820c9b118822692",
+      "patched": "68eb47215e04d34b",
+      "svg_sha256": "32d64ec2639ef291983daba2c3eb5eae6722a5fa0289737d049a12d6275f622a"
+    }
+  ]
+}

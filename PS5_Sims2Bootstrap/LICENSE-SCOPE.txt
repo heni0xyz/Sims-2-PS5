@@ -1,0 +1,10 @@
+The Sims 2 public preparation screen
+
+New instruction-screen code: Copyright 2026 OpenAI Codex, for szampan.
+GPL-3.0-only; full license in COPYING.
+Unmodified foundation files retain their original copyright and MIT notices
+(LICENSE.md and individual files). The combined authored title is GPLv3.
+szampan's title icon/background: CC0-1.0.
+Open Sans: SIL OFL 1.1; see licenses/opensans.
+RADV, SDK, CRT, native packaging and other dependencies retain their own licenses.
+No game-derived C++ or Xbox game content is part of this instruction title.

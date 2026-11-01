@@ -1,0 +1,10 @@
+TGP482 — XboxXBERecomp static recompiler, signature scanner, Disc parser and SDK.
+Kenney — Input Prompts 1.5A, filled-white PNG/SVG artwork, CC0-1.0.
+The Open Sans Project Authors — Open Sans Regular3.003, SIL OFL1.1;
+Mihawk and PS5_VulkanTemplate contributors — PS5 title foundation and RADV stack.
+John Törnblom and PS5_PayloadSDK contributors — public PS5 toolchain/platform work.
+Zydis contributors — x86 decoding; toml++ contributors — configuration parsing.
+Khronos/glslang and SPIR-V Tools contributors — HLSL/SPIR-V shader compilation.
+Arseny Kapoulkine and volk contributors — public Vulkan function loader.
+The original game remains the work of its original authors and rights holders.
+SDK and dependency notices remain applicable; see PROVENANCE.md and sdk/LICENSE.

@@ -1,0 +1,332 @@
+{
+  "schema": 1,
+  "source_project": "previous local PS5 port; only individually authored patches and CC0 artwork",
+  "source_revision": "3ceb219",
+  "patch_commits": [
+    "298defe",
+    "7052f70",
+    "08bb60d",
+    "fa28fc0",
+    "7d0a1df",
+    "4471ba7"
+  ],
+  "authorization": "Owner explicitly requested reusing our previous PS5 prompt and 16:9 analysis on 30 October 2026",
+  "excluded": [
+    "inherited game config",
+    "inherited hooks.cpp",
+    "generated game sources",
+    "owner game assets"
+  ],
+  "files": [
+    {
+      "path": "src/game/ui_aspect.h",
+      "sha256_at_import": "d77192d2dbb7a1b4b1386e964c69a512c97432cc613196154825a0e0dfc07e0b",
+      "author": "OpenAI Codex, at szampan direction"
+    },
+    {
+      "path": "src/game/ui_aspect.cpp",
+      "sha256_at_import": "5acf06d43594bdddb398ec634ecc8076f8b07f66a8772a24e412db90ca6fa90e",
+      "author": "OpenAI Codex, at szampan direction"
+    },
+    {
+      "path": "tools/ps5/patch_prompts.py",
+      "sha256_at_import": "dec8a716c0d4e44ec945bf6cfd57fb75af4d69452efb7fa1d6b64caceee51bf6",
+      "author": "OpenAI Codex, at szampan direction"
+    },
+    {
+      "path": "tools/ps5/compile_prompt_mips.py",
+      "sha256_at_import": "dbfc970255133d2346748856ac16ad27a68897d31c45ff89d4c425671e3429b2",
+      "author": "OpenAI Codex, at szampan direction"
+    },
+    {
+      "path": "tools/ps5/verify_guest_aspect.py",
+      "sha256_at_import": "8cd7d6c94c3bf77153dd43ddddafce74dd00f32195f603a4cb5ee1fd919fac4a",
+      "author": "OpenAI Codex, at szampan direction"
+    },
+    {
+      "path": "tests/ps5/ui_aspect_test.cpp",
+      "sha256_at_import": "92a6e7d72a454b7c47244828c9e54f76a9a0a0e5aca19b49bdede802cfae7357",
+      "author": "OpenAI Codex, at szampan direction"
+    },
+    {
+      "path": "tests/ps5/test_prompt_patch.py",
+      "sha256_at_import": "71f92c6d3112d91cbc607bf5f105e642a339377866dd6d59f50ea3db6406d72b",
+      "author": "OpenAI Codex, at szampan direction"
+    },
+    {
+      "path": "tests/ps5/test_prompt_mips.py",
+      "sha256_at_import": "4bc9378d2be5540de01b2930ce56c73e5c03f77429eff0d6e38a8b0cc38a0fce",
+      "author": "OpenAI Codex, at szampan direction"
+    },
+    {
+      "path": "mods/dualsense/button_xbx_a.bc2",
+      "sha256_at_import": "ca98f7fbcb488e4b0f0c11405bee4f82f2335b8ad3c1abb73e3b2bc4b8234485",
+      "author": "Kenney (CC0-1.0)"
+    },
+    {
+      "path": "mods/dualsense/button_xbx_b.bc2",
+      "sha256_at_import": "665d628830544bcb4457695ab077a5e48b2483e47efbea7ecfbdf133567c22f7",
+      "author": "Kenney (CC0-1.0)"
+    },
+    {
+      "path": "mods/dualsense/button_xbx_black.bc2",
+      "sha256_at_import": "20793766d043c26b68ec7a12107e951df965fdcc9281ed3cd05deab0f886ec0f",
+      "author": "Kenney (CC0-1.0)"
+    },
+    {
+      "path": "mods/dualsense/button_xbx_l.bc2",
+      "sha256_at_import": "3b643d2adaa7f6e2602e31f41221ade11e6b76e585f45c087790339187cd7881",
+      "author": "Kenney (CC0-1.0)"
+    },
+    {
+      "path": "mods/dualsense/button_xbx_r.bc2",
+      "sha256_at_import": "908a8295ca637db5ca29da8f1004f892ca30a18f16e4066a568e97d69cbd3aba",
+      "author": "Kenney (CC0-1.0)"
+    },
+    {
+      "path": "mods/dualsense/button_xbx_x.bc2",
+      "sha256_at_import": "0c8d8d46465cfed05814c3366c53c5b4eb1362c0390d7a09a5c3e3737135f7bb",
+      "author": "Kenney (CC0-1.0)"
+    },
+    {
+      "path": "mods/dualsense/button_xbx_y.bc2",
+      "sha256_at_import": "11a099713133229ee9608cf82a834aa7deba90103fc0cadce4014ab48233f992",
+      "author": "Kenney (CC0-1.0)"
+    },
+    {
+      "path": "mods/dualsense/cntr_XBX_back.bc2",
+      "sha256_at_import": "b0157bf0710571f05d3f7c330054424bedbf742343af90f23a33d6f2ea5e116f",
+      "author": "Kenney (CC0-1.0)"
+    },
+    {
+      "path": "mods/dualsense/cntr_XBX_DdwB.bc2",
+      "sha256_at_import": "f29440e7f119b4322204a3118c410ad9e30e1d61d05105732c4ce228c793cc0b",
+      "author": "Kenney (CC0-1.0)"
+    },
+    {
+      "path": "mods/dualsense/cntr_XBX_DlfB.bc2",
+      "sha256_at_import": "a5554a1120bd156da585892519f08a185670a9cef40033f01c521083df44fb0c",
+      "author": "Kenney (CC0-1.0)"
+    },
+    {
+      "path": "mods/dualsense/cntr_XBX_Dpad.bc2",
+      "sha256_at_import": "39d9379062e76fcb07b4f84104ea48fdccd9d14293057eb93caff13a0a77cfcd",
+      "author": "Kenney (CC0-1.0)"
+    },
+    {
+      "path": "mods/dualsense/cntr_XBX_DrtB.bc2",
+      "sha256_at_import": "d24c88d70138638ade0d55a8e070a40d3b4278bae6443af47eb967ab7377347a",
+      "author": "Kenney (CC0-1.0)"
+    },
+    {
+      "path": "mods/dualsense/cntr_XBX_DupB.bc2",
+      "sha256_at_import": "8b836e602eea8c9d1fa1bb352af9c115b09e75d6f4e9ff4428e65f5da0bad1ee",
+      "author": "Kenney (CC0-1.0)"
+    },
+    {
+      "path": "mods/dualsense/cntr_XBX_Lanl.bc2",
+      "sha256_at_import": "f0458391e99b4916fbfdd47cf777b3e24704aebdb8ab47f486ff291b1bb4ecf5",
+      "author": "Kenney (CC0-1.0)"
+    },
+    {
+      "path": "mods/dualsense/cntr_XBX_Ranl.bc2",
+      "sha256_at_import": "56cf5cf5ae6439a4bfaeeb028eb205e60ea1ff7870da88dd51d2ca4e79a6b32a",
+      "author": "Kenney (CC0-1.0)"
+    },
+    {
+      "path": "mods/dualsense/cntr_XBX_strt.bc2",
+      "sha256_at_import": "2bfe515a30d6420716195537291d25558a4a84d40b94122de736692229755aaa",
+      "author": "Kenney (CC0-1.0)"
+    },
+    {
+      "path": "mods/dualsense/cntr_XBX_whit.bc2",
+      "sha256_at_import": "b92bfb26583c8cab24dfea1e15385d8796e44f6b43cc53792fc46c33f204559a",
+      "author": "Kenney (CC0-1.0)"
+    },
+    {
+      "path": "mods/dualsense/manifest.json",
+      "sha256_at_import": "576a4a3de161abe5194e7821c9c8bcc28c24bc202b6e9dfe57c4b9ff83d23fdb",
+      "author": "OpenAI Codex, at szampan direction"
+    },
+    {
+      "path": "mods/dualsense/README.md",
+      "sha256_at_import": "a9d868398c092bb4368d2164fe9de1844a399ab2da7c637d8810469d0facf934",
+      "author": "OpenAI Codex, at szampan direction"
+    },
+    {
+      "path": "mods/dualsense/kenney/License.txt",
+      "sha256_at_import": "ca2f58f80f903512119da5828868199478119818cd7ecffb303d625cb74cbb5a",
+      "author": "Kenney (CC0-1.0)"
+    },
+    {
+      "path": "mods/dualsense/kenney/PNG/playstation5_button_options.png",
+      "sha256_at_import": "330360b4eb9f62799521a01a8c95c9ca0ef31bf9ab235fd551fe0c35a0e973f3",
+      "author": "Kenney (CC0-1.0)"
+    },
+    {
+      "path": "mods/dualsense/kenney/PNG/playstation5_touchpad_press.png",
+      "sha256_at_import": "b2a355f7efcf4d188a64a62d024f1dd46c1e5a190926527dc3f5ef66e7b1b755",
+      "author": "Kenney (CC0-1.0)"
+    },
+    {
+      "path": "mods/dualsense/kenney/PNG/playstation_button_circle.png",
+      "sha256_at_import": "74a47e04595c6db17a5c7d6f3e9c8830732d3e81f1e66ff4b19782213c9411d7",
+      "author": "Kenney (CC0-1.0)"
+    },
+    {
+      "path": "mods/dualsense/kenney/PNG/playstation_button_cross.png",
+      "sha256_at_import": "afa03be5a125aea7e9746e030adc63d78689e8931c05905b7c079b755796fbcc",
+      "author": "Kenney (CC0-1.0)"
+    },
+    {
+      "path": "mods/dualsense/kenney/PNG/playstation_button_square.png",
+      "sha256_at_import": "66e53b7714e0e16eafa04713718667fa5b78b7c739f315e380a88f533eafc6db",
+      "author": "Kenney (CC0-1.0)"
+    },
+    {
+      "path": "mods/dualsense/kenney/PNG/playstation_button_triangle.png",
+      "sha256_at_import": "73f646a94056a71484f788375dd25efa1555489085e7f2f727175b1384b89e1c",
+      "author": "Kenney (CC0-1.0)"
+    },
+    {
+      "path": "mods/dualsense/kenney/PNG/playstation_dpad.png",
+      "sha256_at_import": "785171ce3d605c75accb44b6da44d05c2581cff3c32d905ab44ef76961f4222e",
+      "author": "Kenney (CC0-1.0)"
+    },
+    {
+      "path": "mods/dualsense/kenney/PNG/playstation_dpad_down.png",
+      "sha256_at_import": "0134426f2d1db5ef7c99165e2a1b4882990d32f723862ff729a7a40400cdefe4",
+      "author": "Kenney (CC0-1.0)"
+    },
+    {
+      "path": "mods/dualsense/kenney/PNG/playstation_dpad_left.png",
+      "sha256_at_import": "4edb3f077997458e8c740e1af1971ba674b3ec505e7b70cde18ee24f7e1f65ea",
+      "author": "Kenney (CC0-1.0)"
+    },
+    {
+      "path": "mods/dualsense/kenney/PNG/playstation_dpad_right.png",
+      "sha256_at_import": "68937ba4b0f0c648fbe72098f98e0b26a935320794e39b71a3c606969260703d",
+      "author": "Kenney (CC0-1.0)"
+    },
+    {
+      "path": "mods/dualsense/kenney/PNG/playstation_dpad_up.png",
+      "sha256_at_import": "2ada6d91024bc9ee88b3dfd586e6e34cd9d2fe6c0b027ddd0a9fdd2b9af054da",
+      "author": "Kenney (CC0-1.0)"
+    },
+    {
+      "path": "mods/dualsense/kenney/PNG/playstation_stick_l.png",
+      "sha256_at_import": "8d2dc664f862155ddfecd7eaf082345da7c8099881c4cd595f0aa01ecfb2c47f",
+      "author": "Kenney (CC0-1.0)"
+    },
+    {
+      "path": "mods/dualsense/kenney/PNG/playstation_stick_r.png",
+      "sha256_at_import": "61d98a35a5360fa66cd74743b0f63d32b8204bfc0ec58c0bf08fe3e55b8ea90b",
+      "author": "Kenney (CC0-1.0)"
+    },
+    {
+      "path": "mods/dualsense/kenney/PNG/playstation_trigger_l1.png",
+      "sha256_at_import": "17a323e995f7706a8237ef1db173a70f62b40585f6cb8a4557da05c92a4b8a94",
+      "author": "Kenney (CC0-1.0)"
+    },
+    {
+      "path": "mods/dualsense/kenney/PNG/playstation_trigger_l2.png",
+      "sha256_at_import": "add3292ad43a4562bfb8b2150feeb8356d85a8c0e01da946a40d80a85ebf2de8",
+      "author": "Kenney (CC0-1.0)"
+    },
+    {
+      "path": "mods/dualsense/kenney/PNG/playstation_trigger_r1.png",
+      "sha256_at_import": "4fcd174085f00fdf22b286966d47ff52b2eac065df57b16ac68306ebb5d519a0",
+      "author": "Kenney (CC0-1.0)"
+    },
+    {
+      "path": "mods/dualsense/kenney/PNG/playstation_trigger_r2.png",
+      "sha256_at_import": "40549ef0e5162d51c5389ca97d1160adf77f5c41dd7d66e13c8dff22e6279f45",
+      "author": "Kenney (CC0-1.0)"
+    },
+    {
+      "path": "mods/dualsense/kenney/SVG/playstation5_button_options.svg",
+      "sha256_at_import": "a399c8b72af736c7488c9b8927a653b2aeeab72d10730ad432ab8c37f4dfe218",
+      "author": "Kenney (CC0-1.0)"
+    },
+    {
+      "path": "mods/dualsense/kenney/SVG/playstation5_touchpad_press.svg",
+      "sha256_at_import": "ca2f82f276dde64585407a3977d64b1774d18d79aef6d7c823daed68697fd85f",
+      "author": "Kenney (CC0-1.0)"
+    },
+    {
+      "path": "mods/dualsense/kenney/SVG/playstation_button_circle.svg",
+      "sha256_at_import": "25b96587a67842bf059eebe653ce0945d81715655adf92be0326eb800e166f99",
+      "author": "Kenney (CC0-1.0)"
+    },
+    {
+      "path": "mods/dualsense/kenney/SVG/playstation_button_cross.svg",
+      "sha256_at_import": "99f10d52721ec97a5ddef748c72a3fadaa6a0085071c2c7200b246b51819924f",
+      "author": "Kenney (CC0-1.0)"
+    },
+    {
+      "path": "mods/dualsense/kenney/SVG/playstation_button_square.svg",
+      "sha256_at_import": "f6aef0bdc5017a6be18fbae5e5aee89ec678574277aaf7d8f9876fac4238434c",
+      "author": "Kenney (CC0-1.0)"
+    },
+    {
+      "path": "mods/dualsense/kenney/SVG/playstation_button_triangle.svg",
+      "sha256_at_import": "1a5aea5d68026f51dff5940efc13ce1fb725a6fba66c953de73ac7a5049bc238",
+      "author": "Kenney (CC0-1.0)"
+    },
+    {
+      "path": "mods/dualsense/kenney/SVG/playstation_dpad.svg",
+      "sha256_at_import": "adf2481a5f530ad905a552f13f58a5f001774b0caa97c1469c8af0475c1c24f6",
+      "author": "Kenney (CC0-1.0)"
+    },
+    {
+      "path": "mods/dualsense/kenney/SVG/playstation_dpad_down.svg",
+      "sha256_at_import": "c06abfab82a6e264f4f62c546922afe6f53619bbdfae699baa9d599677093ac3",
+      "author": "Kenney (CC0-1.0)"
+    },
+    {
+      "path": "mods/dualsense/kenney/SVG/playstation_dpad_left.svg",
+      "sha256_at_import": "5c81b1632941d5d297c282750f4ed4587ac3a277527df56604b8b2bf04526d7a",
+      "author": "Kenney (CC0-1.0)"
+    },
+    {
+      "path": "mods/dualsense/kenney/SVG/playstation_dpad_right.svg",
+      "sha256_at_import": "32d64ec2639ef291983daba2c3eb5eae6722a5fa0289737d049a12d6275f622a",
+      "author": "Kenney (CC0-1.0)"
+    },
+    {
+      "path": "mods/dualsense/kenney/SVG/playstation_dpad_up.svg",
+      "sha256_at_import": "e61c695f420ac22fc860b764a1527e0cf2bfd6e38162731c001bfe9121a7a0a8",
+      "author": "Kenney (CC0-1.0)"
+    },
+    {
+      "path": "mods/dualsense/kenney/SVG/playstation_stick_l.svg",
+      "sha256_at_import": "c5097b1eab526cddc799ae77a6bf8d29b759408be2420357ba85b7441d6430e2",
+      "author": "Kenney (CC0-1.0)"
+    },
+    {
+      "path": "mods/dualsense/kenney/SVG/playstation_stick_r.svg",
+      "sha256_at_import": "c8ba98ac6b7793d1033a230df73f9b51f9ba2205ec15febcc481597c165c0b65",
+      "author": "Kenney (CC0-1.0)"
+    },
+    {
+      "path": "mods/dualsense/kenney/SVG/playstation_trigger_l1.svg",
+      "sha256_at_import": "ae444563986badefcdc417b3d744be0676670fffd36783d91c1592d14f21b93a",
+      "author": "Kenney (CC0-1.0)"
+    },
+    {
+      "path": "mods/dualsense/kenney/SVG/playstation_trigger_l2.svg",
+      "sha256_at_import": "ae89a40ccb5ae3e3b79e604d9e1f4903e773f87d36b18686b2d123ce3e4a5473",
+      "author": "Kenney (CC0-1.0)"
+    },
+    {
+      "path": "mods/dualsense/kenney/SVG/playstation_trigger_r1.svg",
+      "sha256_at_import": "387a37176b86facb7629b0020c56f5cb780f14d30d62e54baa394ecd2ee8229b",
+      "author": "Kenney (CC0-1.0)"
+    },
+    {
+      "path": "mods/dualsense/kenney/SVG/playstation_trigger_r2.svg",
+      "sha256_at_import": "da1e0239321400b2e0a2941759bb75fb7382f0450ed38db2abe2eac999ea011c",
+      "author": "Kenney (CC0-1.0)"
+    }
+  ]
+}

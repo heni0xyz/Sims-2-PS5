@@ -1,0 +1,43 @@
+{
+  "sdk": {
+    "url": "https://github.com/TGP482/XboxXBERecomp.git",
+    "public_base": "91146ff6e2a218b19c1109dc665d06020472ab57",
+    "revision": "faeb0eaca270e01a9e83bb2bc587c824c458ac32",
+    "local_changes": "Linux harness only; tool/recompiler source unchanged",
+    "license": "MIT"
+  },
+  "runtime_sdk": {
+    "url": "https://github.com/abilliontokens/XboxXBERecomp.git",
+    "public_base": "adc40ab688be14da932514bd9f6f59a29dab3c65",
+    "previous_local_pin": "85bea0eb9666a9dbfe4c3ea54377509038d29e1b",
+    "revision": "163c80f2a9a2ac5b35b71eeebacae5526988b3de",
+    "local_changes": "First-present CPU-front upload correction verified by asset-free Vulkan startup screens; previous texture/native-detail/UI/ISO policies preserved; async completion remains disabled by title defaults",
+    "license": "MIT upstream/earlier integration; new extensions GPL-3.0-only (LOCAL_CHANGES_LICENSE.md)"
+  },
+  "ps5_foundation": {
+    "template_revision": "832e783f0230326b36266e27f1482beb5d3b2565",
+    "local_revision": "1d9a274d0615d8995fae9c0138421fe34e76b2db",
+    "native_sdk_revision": "60ea4c66bf0944e85ea1d3eb078ec45079e7616b",
+    "vulkan_revision": "f410e67a0241b3e8edcdbcd2a9b285dfc4a412ed",
+    "glslang_revision": "1062752a891c95b2bfeed9e356562d88f9df84ac"
+  },
+  "host_dependencies": {
+    "zydis": {
+      "tag": "v4.1.1",
+      "revision": "a2278f1d254e492f6a6b39f6cb5d1f5d515659dc"
+    },
+    "tomlplusplus": {
+      "tag": "v3.4.0",
+      "revision": "30172438cee64926dc41fdd9c11fb3ba5b2ba9de"
+    }
+  },
+  "public_fonts": {
+    "opensans": {
+      "url": "https://github.com/googlefonts/opensans",
+      "license_reference_revision": "bd7e37632246368c60fdcbd374dbf9bad11969b6",
+      "supplied_version": "3.003",
+      "supplied_ttf_sha256": "33e93bec67d91c396876db50694213802a39e43a911bb5c22322f0dbdf4d5e43",
+      "license": "OFL-1.1"
+    }
+  }
+}

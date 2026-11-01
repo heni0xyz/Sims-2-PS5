@@ -1,0 +1,26 @@
+/assets/*
+!/assets/README.md
+/generated/
+/out/
+/private/
+__pycache__/
+*.iso
+*.xbe
+*.arc
+*.xmv
+*.zip
+*.elf
+*.bin
+*.prx
+
+# Public source safety
+*.dmp
+*.log
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.pfx
+*.s2tex
+*.s2font

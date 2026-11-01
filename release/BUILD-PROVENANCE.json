@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "project_revision": "331fc457e0e2fc9e7d9e4110efd6768dc6265679",
+  "bootstrap_revision": "cf6fa19e17df04d7e99d7ea60b6546fe9a372d75",
+  "runtime_build_id": "f48a3b24684ecd4f2479a7c0",
+  "native_sdk": "60ea4c66bf0944e85ea1d3eb078ec45079e7616b",
+  "public_setup_eboot_sha256": "ed6279e16133bd9949aac013d7caa79988aea8b1939ba6f22457965ab6351afa",
+  "source_status": "PUBLIC_SOURCE_WITHOUT_GENERATED_GAME_CODE",
+  "console_status": "NEW_ROUTE_NOT_TESTED",
+  "mac_status": "NATIVE_KIT_APP_NOT_BUILT",
+  "publication": "NONE"
+}

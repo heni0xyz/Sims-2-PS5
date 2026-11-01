@@ -1,0 +1,6 @@
+# First navigation probe. These are normal controller presses, not code skips.
+# SDK harness units: presented frame, button, held frames.
+# Inspect captured images before declaring any menu/gameplay milestone passed.
+30 A 3
+180 A 3
+360 START 3

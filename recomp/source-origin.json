@@ -1,0 +1,24 @@
+{
+  "schema": 1,
+  "source_snapshot_sha256": "618b30063efbbdbe62becc49fb0994dd2f72d377781f14c881e82a957ea4c80f",
+  "components": {
+    "project": {
+      "revision": "aa0ee2ac07990b8c4c07813d9c549c530d4a8cc9",
+      "archive_prefix": "sims2-independent"
+    },
+    "sdk": {
+      "revision": "faeb0eaca270e01a9e83bb2bc587c824c458ac32",
+      "archive_prefix": "sims2-independent/sdk"
+    },
+    "runtime-sdk": {
+      "revision": "163c80f2a9a2ac5b35b71eeebacae5526988b3de",
+      "archive_prefix": "sims2-independent/runtime-sdk"
+    },
+    "ps5-foundation": {
+      "revision": "1d9a274d0615d8995fae9c0138421fe34e76b2db",
+      "archive_prefix": "PS5_Sims2Independent"
+    }
+  },
+  "layout": "SDK source trees are included, not Git submodules. No unpublished commit must be fetched.",
+  "native_game_code_included": false
+}

@@ -1,0 +1,193 @@
+{
+  "schema": 1,
+  "patch": "sims2-usa-dualsense-kenney-v1",
+  "source_archive_sha256": "c4b8efc39156b9091ed7050810cedc4bb5c2080775bb208e8ab77447a802304e",
+  "source_entry_count": 11443,
+  "patched_archive_sha256": "f85fd71249aca0750c104fec286f4b2adfd67b56317cd99904f19017d1005bf4",
+  "upstream": {
+    "author": "Kenney",
+    "license": "CC0-1.0",
+    "version": "1.5A",
+    "page": "https://kenney.nl/assets/input-prompts",
+    "archive_sha256": "ac2fcf599080b0f3ba2d174c9474db6df1a0e96ff0662580e2da79a122ab78a1"
+  },
+  "texture": {
+    "width": 32,
+    "height": 32,
+    "levels": 3,
+    "format": "BC2",
+    "bottom_up": true
+  },
+  "replacements": [
+    {
+      "resource": "button_xbx_a",
+      "glyph": "playstation_button_cross",
+      "mips_file": "button_xbx_a.bc2",
+      "header_sha256": "4c134d2e835bf29bfc2ff3120e49bf50a06ba12684fb6645b77f5f8ab863d03a",
+      "original_mips_sha256": "912505f04712b1791e50655d8f092f2335932e68bb0d3e74dfe451226d50d091",
+      "mips_sha256": "ca98f7fbcb488e4b0f0c11405bee4f82f2335b8ad3c1abb73e3b2bc4b8234485",
+      "png_sha256": "afa03be5a125aea7e9746e030adc63d78689e8931c05905b7c079b755796fbcc",
+      "svg_sha256": "99f10d52721ec97a5ddef748c72a3fadaa6a0085071c2c7200b246b51819924f"
+    },
+    {
+      "resource": "button_xbx_b",
+      "glyph": "playstation_button_circle",
+      "mips_file": "button_xbx_b.bc2",
+      "header_sha256": "4c134d2e835bf29bfc2ff3120e49bf50a06ba12684fb6645b77f5f8ab863d03a",
+      "original_mips_sha256": "306193a6ef696bf955bf6e2c35a9d2516b49f7ca564beacfedc507ec4cafb694",
+      "mips_sha256": "665d628830544bcb4457695ab077a5e48b2483e47efbea7ecfbdf133567c22f7",
+      "png_sha256": "74a47e04595c6db17a5c7d6f3e9c8830732d3e81f1e66ff4b19782213c9411d7",
+      "svg_sha256": "25b96587a67842bf059eebe653ce0945d81715655adf92be0326eb800e166f99"
+    },
+    {
+      "resource": "button_xbx_x",
+      "glyph": "playstation_button_square",
+      "mips_file": "button_xbx_x.bc2",
+      "header_sha256": "4c134d2e835bf29bfc2ff3120e49bf50a06ba12684fb6645b77f5f8ab863d03a",
+      "original_mips_sha256": "965ce3fe785a4bfd29eefc2106fcf27b047d6b8665d6c92e6d1d15a2977451fe",
+      "mips_sha256": "0c8d8d46465cfed05814c3366c53c5b4eb1362c0390d7a09a5c3e3737135f7bb",
+      "png_sha256": "66e53b7714e0e16eafa04713718667fa5b78b7c739f315e380a88f533eafc6db",
+      "svg_sha256": "f6aef0bdc5017a6be18fbae5e5aee89ec678574277aaf7d8f9876fac4238434c"
+    },
+    {
+      "resource": "button_xbx_y",
+      "glyph": "playstation_button_triangle",
+      "mips_file": "button_xbx_y.bc2",
+      "header_sha256": "4c134d2e835bf29bfc2ff3120e49bf50a06ba12684fb6645b77f5f8ab863d03a",
+      "original_mips_sha256": "035e7407d1101fb4da6bb46148baff8a40d737efec83ab3312415fea927d4fae",
+      "mips_sha256": "11a099713133229ee9608cf82a834aa7deba90103fc0cadce4014ab48233f992",
+      "png_sha256": "73f646a94056a71484f788375dd25efa1555489085e7f2f727175b1384b89e1c",
+      "svg_sha256": "1a5aea5d68026f51dff5940efc13ce1fb725a6fba66c953de73ac7a5049bc238"
+    },
+    {
+      "resource": "button_xbx_l",
+      "glyph": "playstation_trigger_l2",
+      "mips_file": "button_xbx_l.bc2",
+      "header_sha256": "4c134d2e835bf29bfc2ff3120e49bf50a06ba12684fb6645b77f5f8ab863d03a",
+      "original_mips_sha256": "c6cdf9ffbc12ba7cba5b272b813a6584da19f5d4058feaeb61b6b37d10be879a",
+      "mips_sha256": "3b643d2adaa7f6e2602e31f41221ade11e6b76e585f45c087790339187cd7881",
+      "png_sha256": "add3292ad43a4562bfb8b2150feeb8356d85a8c0e01da946a40d80a85ebf2de8",
+      "svg_sha256": "ae89a40ccb5ae3e3b79e604d9e1f4903e773f87d36b18686b2d123ce3e4a5473"
+    },
+    {
+      "resource": "button_xbx_r",
+      "glyph": "playstation_trigger_r2",
+      "mips_file": "button_xbx_r.bc2",
+      "header_sha256": "4c134d2e835bf29bfc2ff3120e49bf50a06ba12684fb6645b77f5f8ab863d03a",
+      "original_mips_sha256": "8fcd8c5515381aaa0342985b77228813243154be76ba20157cd48abe2e95e297",
+      "mips_sha256": "908a8295ca637db5ca29da8f1004f892ca30a18f16e4066a568e97d69cbd3aba",
+      "png_sha256": "40549ef0e5162d51c5389ca97d1160adf77f5c41dd7d66e13c8dff22e6279f45",
+      "svg_sha256": "da1e0239321400b2e0a2941759bb75fb7382f0450ed38db2abe2eac999ea011c"
+    },
+    {
+      "resource": "cntr_XBX_whit",
+      "glyph": "playstation_trigger_l1",
+      "mips_file": "cntr_XBX_whit.bc2",
+      "header_sha256": "1d7176b83a6da26c1ef1965f7eef9b6dbe1c0c5016167110cccada664834829f",
+      "original_mips_sha256": "4b6348f1e65fe977312fa30ed15c18403fbe0211fc6848a3080c1226e3fbefc4",
+      "mips_sha256": "b92bfb26583c8cab24dfea1e15385d8796e44f6b43cc53792fc46c33f204559a",
+      "png_sha256": "17a323e995f7706a8237ef1db173a70f62b40585f6cb8a4557da05c92a4b8a94",
+      "svg_sha256": "ae444563986badefcdc417b3d744be0676670fffd36783d91c1592d14f21b93a"
+    },
+    {
+      "resource": "button_xbx_black",
+      "glyph": "playstation_trigger_r1",
+      "mips_file": "button_xbx_black.bc2",
+      "header_sha256": "4c134d2e835bf29bfc2ff3120e49bf50a06ba12684fb6645b77f5f8ab863d03a",
+      "original_mips_sha256": "e075ef668800090bd7df383059789da0c36194b8a3b92843ba626605314ef49c",
+      "mips_sha256": "20793766d043c26b68ec7a12107e951df965fdcc9281ed3cd05deab0f886ec0f",
+      "png_sha256": "4fcd174085f00fdf22b286966d47ff52b2eac065df57b16ac68306ebb5d519a0",
+      "svg_sha256": "387a37176b86facb7629b0020c56f5cb780f14d30d62e54baa394ecd2ee8229b"
+    },
+    {
+      "resource": "cntr_XBX_strt",
+      "glyph": "playstation5_button_options",
+      "mips_file": "cntr_XBX_strt.bc2",
+      "header_sha256": "1d7176b83a6da26c1ef1965f7eef9b6dbe1c0c5016167110cccada664834829f",
+      "original_mips_sha256": "05d82863faaf06be7c9adf46db6ce4f6a9f6caead6d726c39fb6a477300cba55",
+      "mips_sha256": "2bfe515a30d6420716195537291d25558a4a84d40b94122de736692229755aaa",
+      "png_sha256": "330360b4eb9f62799521a01a8c95c9ca0ef31bf9ab235fd551fe0c35a0e973f3",
+      "svg_sha256": "a399c8b72af736c7488c9b8927a653b2aeeab72d10730ad432ab8c37f4dfe218"
+    },
+    {
+      "resource": "cntr_XBX_back",
+      "glyph": "playstation5_touchpad_press",
+      "mips_file": "cntr_XBX_back.bc2",
+      "header_sha256": "1d7176b83a6da26c1ef1965f7eef9b6dbe1c0c5016167110cccada664834829f",
+      "original_mips_sha256": "6c0eb7dda68e620307d82b9b4a6520b6e3a85776c8a68a3b3d5abc6332968f7a",
+      "mips_sha256": "b0157bf0710571f05d3f7c330054424bedbf742343af90f23a33d6f2ea5e116f",
+      "png_sha256": "b2a355f7efcf4d188a64a62d024f1dd46c1e5a190926527dc3f5ef66e7b1b755",
+      "svg_sha256": "ca2f82f276dde64585407a3977d64b1774d18d79aef6d7c823daed68697fd85f"
+    },
+    {
+      "resource": "cntr_XBX_Lanl",
+      "glyph": "playstation_stick_l",
+      "mips_file": "cntr_XBX_Lanl.bc2",
+      "header_sha256": "1d7176b83a6da26c1ef1965f7eef9b6dbe1c0c5016167110cccada664834829f",
+      "original_mips_sha256": "e392a8ed4070e3daa09113b3bc5fdf80e38d2754db1e6c41003e34c71f6d6568",
+      "mips_sha256": "f0458391e99b4916fbfdd47cf777b3e24704aebdb8ab47f486ff291b1bb4ecf5",
+      "png_sha256": "8d2dc664f862155ddfecd7eaf082345da7c8099881c4cd595f0aa01ecfb2c47f",
+      "svg_sha256": "c5097b1eab526cddc799ae77a6bf8d29b759408be2420357ba85b7441d6430e2"
+    },
+    {
+      "resource": "cntr_XBX_Ranl",
+      "glyph": "playstation_stick_r",
+      "mips_file": "cntr_XBX_Ranl.bc2",
+      "header_sha256": "1d7176b83a6da26c1ef1965f7eef9b6dbe1c0c5016167110cccada664834829f",
+      "original_mips_sha256": "16c6f30e64f44e3b1bc2802c2ef00fcf554dd2845b7af8d74841c49b8b4c48c8",
+      "mips_sha256": "56cf5cf5ae6439a4bfaeeb028eb205e60ea1ff7870da88dd51d2ca4e79a6b32a",
+      "png_sha256": "61d98a35a5360fa66cd74743b0f63d32b8204bfc0ec58c0bf08fe3e55b8ea90b",
+      "svg_sha256": "c8ba98ac6b7793d1033a230df73f9b51f9ba2205ec15febcc481597c165c0b65"
+    },
+    {
+      "resource": "cntr_XBX_Dpad",
+      "glyph": "playstation_dpad",
+      "mips_file": "cntr_XBX_Dpad.bc2",
+      "header_sha256": "1d7176b83a6da26c1ef1965f7eef9b6dbe1c0c5016167110cccada664834829f",
+      "original_mips_sha256": "0180cb493f71df5eca7ad36d5c4eb0c8b729557bd0e496b7d18eed2d6d92c797",
+      "mips_sha256": "39d9379062e76fcb07b4f84104ea48fdccd9d14293057eb93caff13a0a77cfcd",
+      "png_sha256": "785171ce3d605c75accb44b6da44d05c2581cff3c32d905ab44ef76961f4222e",
+      "svg_sha256": "adf2481a5f530ad905a552f13f58a5f001774b0caa97c1469c8af0475c1c24f6"
+    },
+    {
+      "resource": "cntr_XBX_DupB",
+      "glyph": "playstation_dpad_up",
+      "mips_file": "cntr_XBX_DupB.bc2",
+      "header_sha256": "1d7176b83a6da26c1ef1965f7eef9b6dbe1c0c5016167110cccada664834829f",
+      "original_mips_sha256": "7d9bbdf3878482d853d007f8437cd002ebbd8ba20e5eebed66af5a975af96689",
+      "mips_sha256": "8b836e602eea8c9d1fa1bb352af9c115b09e75d6f4e9ff4428e65f5da0bad1ee",
+      "png_sha256": "2ada6d91024bc9ee88b3dfd586e6e34cd9d2fe6c0b027ddd0a9fdd2b9af054da",
+      "svg_sha256": "e61c695f420ac22fc860b764a1527e0cf2bfd6e38162731c001bfe9121a7a0a8"
+    },
+    {
+      "resource": "cntr_XBX_DdwB",
+      "glyph": "playstation_dpad_down",
+      "mips_file": "cntr_XBX_DdwB.bc2",
+      "header_sha256": "1d7176b83a6da26c1ef1965f7eef9b6dbe1c0c5016167110cccada664834829f",
+      "original_mips_sha256": "62bcbf70b2f3accbc4873897fced7f440623404e5eb7a7889ede15180ba6c31f",
+      "mips_sha256": "f29440e7f119b4322204a3118c410ad9e30e1d61d05105732c4ce228c793cc0b",
+      "png_sha256": "0134426f2d1db5ef7c99165e2a1b4882990d32f723862ff729a7a40400cdefe4",
+      "svg_sha256": "c06abfab82a6e264f4f62c546922afe6f53619bbdfae699baa9d599677093ac3"
+    },
+    {
+      "resource": "cntr_XBX_DlfB",
+      "glyph": "playstation_dpad_left",
+      "mips_file": "cntr_XBX_DlfB.bc2",
+      "header_sha256": "1d7176b83a6da26c1ef1965f7eef9b6dbe1c0c5016167110cccada664834829f",
+      "original_mips_sha256": "148cff6fbce1a7a49903e975d6f0c0472e36d7bb74e4fc4cc1bdea5b43e88471",
+      "mips_sha256": "a5554a1120bd156da585892519f08a185670a9cef40033f01c521083df44fb0c",
+      "png_sha256": "4edb3f077997458e8c740e1af1971ba674b3ec505e7b70cde18ee24f7e1f65ea",
+      "svg_sha256": "5c81b1632941d5d297c282750f4ed4587ac3a277527df56604b8b2bf04526d7a"
+    },
+    {
+      "resource": "cntr_XBX_DrtB",
+      "glyph": "playstation_dpad_right",
+      "mips_file": "cntr_XBX_DrtB.bc2",
+      "header_sha256": "1d7176b83a6da26c1ef1965f7eef9b6dbe1c0c5016167110cccada664834829f",
+      "original_mips_sha256": "ea06d1e62a2f76187a6c84aeb4042607c7b28fef7c5cfc98fd7793fdac7ff974",
+      "mips_sha256": "d24c88d70138638ade0d55a8e070a40d3b4278bae6443af47eb967ab7377347a",
+      "png_sha256": "68937ba4b0f0c648fbe72098f98e0b26a935320794e39b71a3c606969260703d",
+      "svg_sha256": "32d64ec2639ef291983daba2c3eb5eae6722a5fa0289737d049a12d6275f622a"
+    }
+  ]
+}

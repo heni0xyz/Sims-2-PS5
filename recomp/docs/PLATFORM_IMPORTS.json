@@ -1,0 +1,131 @@
+{
+  "scope": "Only pre-existing Codex-authored generic platform/build glue; no original game project config/hooks/generated code",
+  "runtime_sdk": {
+    "public_base": "adc40ab688be14da932514bd9f6f59a29dab3c65",
+    "local_revision": "8f5b2796ce7577d5264ed60505af3bac8f506551",
+    "upstream": "https://github.com/abilliontokens/XboxXBERecomp",
+    "license_file": "runtime-sdk/LICENSE",
+    "license": "MIT"
+  },
+  "files": [
+    {
+      "path": "platform/ps5/app.cpp",
+      "source_project": "local PS5 implementation; authored by Codex at szampan request",
+      "source_revision": "7052f700083569f3d02a44edd8c1d1563cb52eca",
+      "source_sha256": "8bc158cfa94ebad3ccde2f3dab52e8646de7112f7f261dc40aac1f6e250e32ec",
+      "original_author": "Codex Local Build"
+    },
+    {
+      "path": "platform/ps5/contracts.cpp",
+      "source_project": "local PS5 implementation; authored by Codex at szampan request",
+      "source_revision": "2024e94bd79442a1d04afb55c121bc1e699f721e",
+      "source_sha256": "c64cacaba42685bc57e4f8fa4b9b6e340cbfc2217d8d59beda52c8d8f68716b8",
+      "original_author": "Codex"
+    },
+    {
+      "path": "platform/ps5/contracts.h",
+      "source_project": "local PS5 implementation; authored by Codex at szampan request",
+      "source_revision": "2024e94bd79442a1d04afb55c121bc1e699f721e",
+      "source_sha256": "1bc1d9b4c5ac6f0cd07ece0b54a14f0380b9c120c159b2f51914d4fc11048b5c",
+      "original_author": "Codex"
+    },
+    {
+      "path": "platform/ps5/filesystem.cpp",
+      "source_project": "local PS5 implementation; authored by Codex at szampan request",
+      "source_revision": "4422cc57c20b7f8627118201cf4ea5a68f086f84",
+      "source_sha256": "763e5707ee72dde89f0e4904d7ffd61e41959be1bebd74a5fe706439af94ee82",
+      "original_author": "Codex Local Build"
+    },
+    {
+      "path": "platform/ps5/filesystem.h",
+      "source_project": "local PS5 implementation; authored by Codex at szampan request",
+      "source_revision": "4422cc57c20b7f8627118201cf4ea5a68f086f84",
+      "source_sha256": "1cf1adaaba2ca8e7072fe442a0619e3b87c562f99d5386982459ea113a5494ad",
+      "original_author": "Codex Local Build"
+    },
+    {
+      "path": "platform/ps5/log.cpp",
+      "source_project": "local PS5 implementation; authored by Codex at szampan request",
+      "source_revision": "acb1ca47e1081e31377c2546703c6f98dc246ad5",
+      "source_sha256": "cfd028ad964ec98d3ad63bf9658b13569992cfef90ceeed155979c0bf9702729",
+      "original_author": "Codex Local Build"
+    },
+    {
+      "path": "platform/ps5/main.cpp",
+      "source_project": "local PS5 implementation; authored by Codex at szampan request",
+      "source_revision": "08bb60d2a5a5e29bf7b9906e9db3ba899b6ace09",
+      "source_sha256": "b175e2ec87a03f2155607d22c1fb134dd4eea2e82454debd84dca0b1c5bb830e",
+      "original_author": "Codex Local Build"
+    },
+    {
+      "path": "platform/ps5/services.cpp",
+      "source_project": "local PS5 implementation; authored by Codex at szampan request",
+      "source_revision": "b0a59ce3de850267b7d59cd937244a672c658688",
+      "source_sha256": "d7d98acdad8b5b05631dd21f0043f99098debdb0d7a0dfaf439326809b3fa8cb",
+      "original_author": "Codex"
+    },
+    {
+      "path": "platform/ps5/services.h",
+      "source_project": "local PS5 implementation; authored by Codex at szampan request",
+      "source_revision": "2024e94bd79442a1d04afb55c121bc1e699f721e",
+      "source_sha256": "c47c92f2ee7b3c4945e06d8576d178dd044fe181d5d145373a3b1fffc7f641cf",
+      "original_author": "Codex"
+    },
+    {
+      "path": "platform/ps5/title.cpp",
+      "source_project": "local PS5 implementation; authored by Codex at szampan request",
+      "source_revision": "b0a59ce3de850267b7d59cd937244a672c658688",
+      "source_sha256": "775a92e781678bd6b67af085110d36335ab3138df22a0bb91cbbe06a28d32133",
+      "original_author": "Codex Local Build"
+    },
+    {
+      "path": "platform/ps5/video.cpp",
+      "source_project": "local PS5 implementation; authored by Codex at szampan request",
+      "source_revision": "acb1ca47e1081e31377c2546703c6f98dc246ad5",
+      "source_sha256": "53539a938c4937fa98d53bc0c185126429b205b33fb0392564c46dc8404974b2",
+      "original_author": "Codex Local Build"
+    },
+    {
+      "path": "platform/ps5/video.h",
+      "source_project": "local PS5 implementation; authored by Codex at szampan request",
+      "source_revision": "b0a59ce3de850267b7d59cd937244a672c658688",
+      "source_sha256": "918f564809a8eb941f7c54959dc7ee020da80df6dc88d4ea17a9311ea6c1ed9f",
+      "original_author": "Codex Local Build"
+    },
+    {
+      "path": "ps5/game/CMakeLists.txt",
+      "source_project": "local PS5 implementation; authored by Codex at szampan request",
+      "source_revision": "7052f700083569f3d02a44edd8c1d1563cb52eca",
+      "source_sha256": "065cf0d5d112a36aef3c635e2a1c11299e29ead759522ae45599d7b30c7e7054",
+      "original_author": "Codex Local Build"
+    },
+    {
+      "path": "ps5/guest/CMakeLists.txt",
+      "source_project": "local PS5 implementation; authored by Codex at szampan request",
+      "source_revision": "b0a59ce3de850267b7d59cd937244a672c658688",
+      "source_sha256": "c093f341e79cf06f488b006483b00b9233a54c71f7acec3a8b8cb10bf438b02d",
+      "original_author": "Codex"
+    },
+    {
+      "path": "tools/ps5/build_objects.ps1",
+      "source_project": "local PS5 implementation; authored by Codex at szampan request",
+      "source_revision": "437d7f87409148bd7a62df5ca1ff24a84abf6f2c",
+      "source_sha256": "bcad0ddbc8f63384128e57bb62277b5ae9f599ffdf880a8279cb70d8e9053bd2",
+      "original_author": "Codex"
+    },
+    {
+      "path": "tools/ps5/export_link_inputs.py",
+      "source_project": "local PS5 implementation; authored by Codex at szampan request",
+      "source_revision": "6ccef5eff610fd5a47be6b206dac75c0da2da109",
+      "source_sha256": "83c38c92aa5df4357f3c87ebc696da27c2a82de89340656016677f7436ee2b5b",
+      "original_author": "Codex Local Build"
+    },
+    {
+      "path": "tools/ps5/artifact.py",
+      "source_project": "prior Codex generic artifact validator; only validate_artifact function reused",
+      "source_revision": "b0a59ce3de850267b7d59cd937244a672c658688",
+      "source_sha256": "c53b28d5ff25129b6726c5d9fc867afa8307b788e69597edcc16c0256d712193",
+      "original_author": "Codex"
+    }
+  ]
+}

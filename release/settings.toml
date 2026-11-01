@@ -1,0 +1,15 @@
+width=3840
+height=2160
+render_percent=100
+fps_cap=60
+vsync=true
+aspect_ratio="16:9"
+ui_aspect_correction=true
+ui_edge_anchors=true
+ui_native_portrait=true
+hd_input_prompts=true
+ui_menu_diagnostics=true
+ui_continue_refresh=true
+ui_font_upscale=true
+gpu_callbacks_async=true
+native_render_resolution=true

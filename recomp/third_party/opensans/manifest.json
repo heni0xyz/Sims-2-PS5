@@ -1,0 +1,15 @@
+{
+  "name": "Open Sans Regular",
+  "version": "3.003",
+  "author": "The Open Sans Project Authors",
+  "url": "https://github.com/googlefonts/opensans",
+  "license": "OFL-1.1",
+  "license_file": "OFL.txt",
+  "ttf": "OpenSans-Regular.ttf",
+  "ttf_sha256": "33e93bec67d91c396876db50694213802a39e43a911bb5c22322f0dbdf4d5e43",
+  "supplied_by": "szampan",
+  "modified_ttf": false,
+  "derivative_resource": "public-resources/installer-font.s2font",
+  "derivative_license": "OFL-1.1",
+  "scope": "First-run installation UI only"
+}

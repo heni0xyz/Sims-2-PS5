@@ -1,0 +1,9 @@
+build/
+dist/
+klog/
+.deps/
+imgui.ini
+/configure-windows.log
+/build-windows.log
+/ps5/sce_sys/pic0.dds
+/ps5/sce_sys/pic1.dds
