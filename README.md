@@ -5,6 +5,6 @@
 # Sims 2 PS5
  A recompilation project of The Sims 2 (Xbox) for the PS5
 
-This project is a fan-made creation. It is not affiliated with EA, Maxis, or any of their affiliates or subsidiaries. This project does not provide game data; you need a legal retail copy of The Sims 2 (NTSC) for the Original Xbox.
+This project is a fan-made creation. It is not affiliated with EA, Maxis, or any of their affiliates or subsidiaries. This project does not provide game data; you need a legal retail copy of The Sims 2 (USA/NTSC) for the Original Xbox.
 
 Discord server: https://discord.gg/gcATz3kvzt
