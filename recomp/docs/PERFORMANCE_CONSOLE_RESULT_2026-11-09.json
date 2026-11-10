@@ -1,0 +1,138 @@
+{
+  "schema": 1,
+  "date": "2026-11-09",
+  "build_id": "0aaecaff5112dfb3dddcca1f",
+  "run_id": "fps-0aaecaff-20261109-01",
+  "console_startup": "PASS",
+  "cpu_gpu_timer_support": "PASS",
+  "gameplay_source": "owner-reported",
+  "visual_capture": "NOT_TESTED",
+  "stable_60_fps": "FAIL_IN_SHORT_CAPTURE",
+  "observed_termination_seconds": 300.8,
+  "shutdown_marker_observed": false,
+  "fatal_or_gpu_fault_observed": false,
+  "original_restored": true,
+  "restore_startup_shutdown": "PASS",
+  "phase_protocol": "owner reports, approximate log-receipt timestamps; two-second leading/one-second trailing guard",
+  "phases": {
+    "close_camera": {
+      "measured_frame_intervals": 1507,
+      "weighted_fps": 59.67784626068304,
+      "weighted_frame_ms": 16.756636887193096,
+      "rate_fps_range": [
+        57.7,
+        60.1
+      ],
+      "frame_window_p99_ms": [
+        17.522204,
+        17.454297,
+        17.452052,
+        17.640718,
+        18.298907
+      ],
+      "worst_frame_ms": 49.635875,
+      "mean_cpu_renderer_draw_ms": 6.625,
+      "approximate_gpu_ms_per_frame": [
+        4.569190463576159,
+        4.52313298013245,
+        4.474793907284768,
+        4.3442235761589405,
+        6.6759637458193986
+      ],
+      "busiest_cpu_threads": [
+        {
+          "slot": "6",
+          "guest_thread": "00000024",
+          "cpu_pct": 75.49700194744095,
+          "observed_ms": 25027.466671
+        },
+        {
+          "slot": "5",
+          "guest_thread": "00000000",
+          "cpu_pct": 50.78007980839825,
+          "observed_ms": 25078.975945000002
+        },
+        {
+          "slot": "2",
+          "guest_thread": "00000018",
+          "cpu_pct": 21.908327322773328,
+          "observed_ms": 26035.648071
+        },
+        {
+          "slot": "10",
+          "guest_thread": "00000000",
+          "cpu_pct": 1.9171561719747736,
+          "observed_ms": 25066.711153999997
+        },
+        {
+          "slot": "12",
+          "guest_thread": "00000038",
+          "cpu_pct": 0.3267417558352326,
+          "observed_ms": 25044.24321
+        }
+      ]
+    },
+    "far_camera": {
+      "measured_frame_intervals": 1188,
+      "weighted_fps": 58.914214569267656,
+      "weighted_frame_ms": 16.973832330808083,
+      "rate_fps_range": [
+        55.9,
+        60.4
+      ],
+      "frame_window_p99_ms": [
+        20.299011,
+        18.785052,
+        17.744162,
+        21.541993
+      ],
+      "worst_frame_ms": 63.898233,
+      "mean_cpu_renderer_draw_ms": 8.657826086956522,
+      "approximate_gpu_ms_per_frame": [
+        6.8351105084745765,
+        6.700292423208191,
+        6.402853642384106,
+        6.380342281879195
+      ],
+      "busiest_cpu_threads": [
+        {
+          "slot": "6",
+          "guest_thread": "00000024",
+          "cpu_pct": 98.74337176384265,
+          "observed_ms": 21001.348879999998
+        },
+        {
+          "slot": "5",
+          "guest_thread": "00000000",
+          "cpu_pct": 63.823595551094456,
+          "observed_ms": 20092.725722
+        },
+        {
+          "slot": "2",
+          "guest_thread": "00000018",
+          "cpu_pct": 25.72417539980399,
+          "observed_ms": 20098.564559
+        },
+        {
+          "slot": "10",
+          "guest_thread": "00000000",
+          "cpu_pct": 1.9770825027968764,
+          "observed_ms": 20053.386717
+        },
+        {
+          "slot": "3",
+          "guest_thread": "0000001C",
+          "cpu_pct": 0.3575698272462547,
+          "observed_ms": 20040.281517
+        }
+      ]
+    }
+  },
+  "evidence_sha256": {
+    "klog.raw.log": "db6e98f56bd79fe123d6aa5db11c7642425d7d3b58a1879b1bd28144c3471789",
+    "phase-markers.json": "d0d95269ec876a5362579d190b3c937209b8059c437402f98c3f872a9b50d548",
+    "phase-summary.json": "8aba6eae267f468a839f33f01d44070e87ecf634403e3c47357dabfae5b8fd13",
+    "restore-klog.raw.log": "a144fe154b47151c108c32df4a640ccd42503fa90eddf6c296bb285719d4dd6a",
+    "restore-result.json": "9900f12fc2857dcd764cc313272bb5148da8ae8b5fd41e50385dfaf4fcc1d2b2"
+  }
+}

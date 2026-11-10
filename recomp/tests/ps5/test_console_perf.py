@@ -42,4 +42,35 @@ class ConsolePerf(unittest.TestCase):
         records[-1]=records[-1].replace('errors=0','errors=1')
         self.assertIsNone(analyze(records)['run']['correlated_windows'][0]['gpu_ms_per_frame_approx'])
 
+    def test_no_gpu_queries_is_unknown_instead_of_zero_cost(self):
+        prefix='[Sims2Independent] [SIMS2][PERF][INFO] t=2 build=aaaa run=run tid=1 milestone= guest=00000000 native=0 perf: '
+        result=analyze([frame('aaaa','run',1,100,20),prefix+'deep-gpu window=1 segments=0 sum_ms=0 max_ms=0 errors=0'])['run']
+        self.assertIsNone(result['correlated_windows'][0]['gpu_ms_per_frame_approx'])
+        self.assertTrue(any('GPU cost is unknown' in warning for warning in result['warnings']))
+
+    def test_pipeline_cache_timing_is_retained_for_stall_analysis(self):
+        prefix='[Sims2Independent] [SIMS2][PERF][INFO] t=2 build=aaaa run=run tid=1 milestone= guest=00000000 native=0 '
+        result=analyze([prefix+'perf: pipeline-cache bytes=397656 unchanged=1 written=0 read_ms=0.2 write_ms=0.0'])['run']
+        record=result['pipeline_cache_records'][0]
+        self.assertEqual(record['unchanged'],'1')
+        self.assertEqual(record['written'],'0')
+        self.assertEqual(record['t'],2)
+
+    def test_retains_attribution_and_flags_unusable_cpu_readings(self):
+        prefix='[Sims2Independent] [SIMS2][PERF][INFO] t=2 build=aaaa run=run tid=1 milestone= guest=00000000 native=0 '
+        result=analyze([frame('aaaa','run',1,100,20),
+            prefix+'perf: build-config schema=1 deep=1 guest_samples=1 fps_cap=60 vsync=1',
+            prefix+'perf: deep-thread window=1 slot=0 cpu_supported=0 age_ms=1500',
+            prefix+'perf: deep-scope window=1 slot=0 metric=fence calls=4 wall_ms=20 cpu_ms=0',
+            prefix+'perf: deep-guest window=1 slot=0 target=00123456 calls=2 wall_ms=5',
+            prefix+'perf: title thread per frame: recording 2.0 ms, waiting 3.0 ms',
+            prefix+'vulkan: present 600 target 3840x2880 window 3840x2160'])['run']
+        self.assertEqual(result['correlated_windows'][0]['scopes'][0]['metric'],'fence')
+        self.assertEqual(result['correlated_windows'][0]['guest_targets'][0]['target'],'00123456')
+        self.assertEqual(len(result['profiling_config_records']),1)
+        self.assertEqual(len(result['renderer_details']),1)
+        self.assertEqual(len(result['resolution_records']),1)
+        self.assertTrue(any('unsupported' in warning for warning in result['warnings']))
+        self.assertTrue(any('one second old' in warning for warning in result['warnings']))
+
 if __name__=='__main__':unittest.main()

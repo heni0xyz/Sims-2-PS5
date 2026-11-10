@@ -1,6 +1,8 @@
 dist/
 out/
 private/
+!vendor/PS5_PayloadSDK/include/freebsd/private/
+!vendor/PS5_PayloadSDK/include/freebsd/private/**
 __pycache__/
 *.iso
 *.xbe

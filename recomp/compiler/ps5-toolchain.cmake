@@ -1,0 +1,28 @@
+# Copyright (C) 2026 OpenAI Codex, for szampan
+# SPDX-License-Identifier: GPL-3.0-only
+# Archive-only LLVM cross-build using the same target/headers/ABI as the public
+# kit. Final title linkage must still use the captured template/RADV recipe.
+set(CMAKE_SYSTEM_NAME FreeBSD)
+set(CMAKE_SYSTEM_VERSION 9)
+set(CMAKE_SYSTEM_PROCESSOR x86_64)
+set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
+set(CMAKE_C_COMPILER "${SIMS2_COMPILER_BIN}/clang-23.exe")
+set(CMAKE_CXX_COMPILER "${SIMS2_COMPILER_BIN}/clang-23.exe")
+set(CMAKE_ASM_COMPILER "${SIMS2_COMPILER_BIN}/clang-23.exe")
+set(CMAKE_C_COMPILER_TARGET x86_64-sie-ps5)
+set(CMAKE_CXX_COMPILER_TARGET x86_64-sie-ps5)
+set(CMAKE_ASM_COMPILER_TARGET x86_64-sie-ps5)
+set(CMAKE_AR "${SIMS2_COMPILER_BIN}/llvm-ar.exe")
+set(CMAKE_RANLIB "${SIMS2_COMPILER_BIN}/llvm-ranlib.exe")
+set(CMAKE_SYSROOT "${SIMS2_PUBLIC_KIT}/sdk/target")
+set(CMAKE_FIND_ROOT_PATH "${SIMS2_PUBLIC_KIT}/sdk/target")
+set(CMAKE_FIND_ROOT_PATH_MODE_PROGRAM NEVER)
+set(CMAKE_FIND_ROOT_PATH_MODE_LIBRARY ONLY)
+set(CMAKE_FIND_ROOT_PATH_MODE_INCLUDE ONLY)
+set(CMAKE_FIND_ROOT_PATH_MODE_PACKAGE ONLY)
+set(CMAKE_POSITION_INDEPENDENT_CODE ON)
+set(_ps5_flags "-isysroot \"${SIMS2_PUBLIC_KIT}/sdk\" -resource-dir \"${SIMS2_PUBLIC_KIT}/clang-resource\" -femulated-tls -fno-plt -fno-stack-protector -fno-omit-frame-pointer -fdenormal-fp-math=ieee -ffunction-sections -fdata-sections -march=x86-64-v2")
+set(CMAKE_C_FLAGS_INIT "${_ps5_flags}")
+set(CMAKE_ASM_FLAGS_INIT "--target=x86_64-sie-ps5 ${_ps5_flags}")
+set(CMAKE_CXX_FLAGS_INIT "${_ps5_flags} -stdlib++-isystem \"${SIMS2_PUBLIC_KIT}/sdk/target/include/c++/v1\" -fexceptions -frtti")
+list(APPEND CMAKE_TRY_COMPILE_PLATFORM_VARIABLES SIMS2_COMPILER_BIN SIMS2_PUBLIC_KIT)

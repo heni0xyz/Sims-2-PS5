@@ -29,6 +29,7 @@
 #include <vector>
 
 #include "core/diag.h"
+#include "core/perf_clock.h"
 #include "core/log.h"
 #include "gpu/backend.h"
 #include "kernel/kernel.h"
@@ -117,7 +118,7 @@ bool Same(const uint8_t* a, const uint8_t* b, size_t n) {
     return i == n || !std::memcmp(a + i, b + i, n - i);
 }
 
-using Clock = std::chrono::steady_clock;
+using Clock = perf_clock::Clock;
 uint64_t Ns(Clock::time_point t) { return uint64_t(std::chrono::duration_cast<std::chrono::nanoseconds>(Clock::now() - t).count()); }
 
 // perf diagnostic: when a leaf started, read off the clock only with XBE_PERF

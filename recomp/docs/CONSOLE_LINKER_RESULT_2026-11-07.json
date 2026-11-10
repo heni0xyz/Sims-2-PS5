@@ -1,0 +1,32 @@
+{
+  "schema": 1,
+  "kind": "reviewed_console_linker_hardware_evidence",
+  "status": "PASS_SYNTHETIC_LINKING_ON_PS5",
+  "build_id": "ffceb5ef9749efa3",
+  "run_id": "1794091548-486829998",
+  "application_status": "PASS",
+  "input_hashes_verified": true,
+  "link_seconds": {
+    "first": 0.132035,
+    "expected-unresolved": 0.099121,
+    "repeat": 0.1265
+  },
+  "full_probe_seconds": 0.494429,
+  "output_sha256": "be7d5af019457a4f544aaa2b5dbd62370a4612095235bc00386ea54da67d2586",
+  "output_elf_bytes": 2200,
+  "binary_identical_outputs": true,
+  "application_exit_status": 0,
+  "original_title_process_exit_observed": true,
+  "title_unmount_observed": true,
+  "gpu_faults_observed": false,
+  "test_process_crash_observed": false,
+  "auxiliary_shell_exit_spawn_error_observed": true,
+  "compiler_on_console": "NOT_TESTED",
+  "linked_output_execution": "NOT_TESTED",
+  "iso_installation": "NOT_TESTED",
+  "game_execution": "NOT_TESTED",
+  "note": "One short synthetic run; no game performance, long-run leak, large-file, mmap, or installation-time claim.",
+  "auxiliary_shell_exit_classification": "template_LoadExec_exit_sentinel_after_original_title_process_exit",
+  "temporary_placeholder_files_observed": 6,
+  "temporary_cleanup": "FOLLOW_UP_IO_PROBE_REQUIRED"
+}

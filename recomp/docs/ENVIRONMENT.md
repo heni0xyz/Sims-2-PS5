@@ -1,4 +1,18 @@
-# Verified local environment, updated 31 October 2026
+# Verified local environment, updated 8 November 2026
+
+Current native compiler environment: LLVM 22.1.8, PS5_LLVM
+be5b58f51c93c67947b7e18cd45c2f9913f2c311; Windows cross-compiler Clang 23.1.4.
+The on-console compiler uses its own LLVM 22 builtin headers. SDK tool pin is
+f57d28fe65117a20612abc72f2f20d1cd3c8c8e4 (PS5 stat/mkdir control-file adapter;
+host path unchanged). The pinned platform/renderer title recipe below remains
+in use. No VM or server compilation is needed for these diagnostic increments.
+
+Direct authorized console access and the public control payload were verified
+for earlier compiler/load/execute/generation runs. Generation evidence is in
+CONSOLE_GENERATION_RESULT_2026-11-08.json. Latest first-unit candidate is BUILD
+PASS, CONSOLE NOT TESTED: services were unreachable, and console startup was
+deferred. Private endpoint/settings remain outside source control. Older
+environment and game-rendering entries below describe their recorded dates.
 
 31 October evening update: the newer owner a80d231d logs now establish
 PS5 startup, real gameplay and runtime-reported 3840x2880 targets (scale 6,

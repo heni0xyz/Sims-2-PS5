@@ -1,0 +1,22 @@
+{
+  "author": "szampan",
+  "date": "2026-11-10",
+  "license": "CC0-1.0",
+  "scope": "Home-only background; global Home/launcher icon; existing in-launcher background retained",
+  "files": {
+    "sims2.png": {
+      "sha256": "5ac575ec7a1e87ddd3d07f192c495f5dcf5034c771690e7a8ba9006a061c98f0",
+      "size": [
+        2048,
+        2048
+      ]
+    },
+    "thesims2bg.png": {
+      "sha256": "c1efa92cbc46aa1eb0a31622ee20eba3440b267fb3058789631f4aa25333a32c",
+      "size": [
+        3840,
+        2160
+      ]
+    }
+  }
+}

@@ -2,16 +2,18 @@
   "sdk": {
     "url": "https://github.com/TGP482/XboxXBERecomp.git",
     "public_base": "91146ff6e2a218b19c1109dc665d06020472ab57",
-    "revision": "faeb0eaca270e01a9e83bb2bc587c824c458ac32",
-    "local_changes": "Linux harness only; tool/recompiler source unchanged",
-    "license": "MIT"
+    "revision": "f57d28fe65117a20612abc72f2f20d1cd3c8c8e4",
+    "local_changes": "Linux harness; PS5-hosted generator control-file adapter. Decoder/analysis/code-generation algorithms unchanged; 71-file parity verified on PS5.",
+    "license": "MIT",
+    "previous_revision": "faeb0eaca270e01a9e83bb2bc587c824c458ac32",
+    "local_patch": "patches/sdk-ps5-generator-filesystem.patch"
   },
   "runtime_sdk": {
     "url": "https://github.com/abilliontokens/XboxXBERecomp.git",
     "public_base": "adc40ab688be14da932514bd9f6f59a29dab3c65",
     "previous_local_pin": "85bea0eb9666a9dbfe4c3ea54377509038d29e1b",
-    "revision": "163c80f2a9a2ac5b35b71eeebacae5526988b3de",
-    "local_changes": "First-present CPU-front upload correction verified by asset-free Vulkan startup screens; previous texture/native-detail/UI/ISO policies preserved; async completion remains disabled by title defaults",
+    "revision": "b7d6b489225b285d0fa9be25f882662d2dce063c",
+    "local_changes": "Fast observation-only PS5 TSC clock and bounded asynchronous pipeline-cache persistence with checked atomic file replacement. Guest time/deadlines/pacing unchanged. Previous first-present, texture, native-detail, UI and ISO policies preserved.",
     "license": "MIT upstream/earlier integration; new extensions GPL-3.0-only (LOCAL_CHANGES_LICENSE.md)"
   },
   "ps5_foundation": {
@@ -19,7 +21,8 @@
     "local_revision": "1d9a274d0615d8995fae9c0138421fe34e76b2db",
     "native_sdk_revision": "60ea4c66bf0944e85ea1d3eb078ec45079e7616b",
     "vulkan_revision": "f410e67a0241b3e8edcdbcd2a9b285dfc4a412ed",
-    "glslang_revision": "1062752a891c95b2bfeed9e356562d88f9df84ac"
+    "glslang_revision": "1062752a891c95b2bfeed9e356562d88f9df84ac",
+    "installer_local_revision": "273135e5d03efaa798f67c0d3747501fb0586091"
   },
   "host_dependencies": {
     "zydis": {
@@ -39,5 +42,10 @@
       "supplied_ttf_sha256": "33e93bec67d91c396876db50694213802a39e43a911bb5c22322f0dbdf4d5e43",
       "license": "OFL-1.1"
     }
+  },
+  "console_compiler": {
+    "url": "https://github.com/mihawk-99/PS5_LLVM.git",
+    "revision": "be5b58f51c93c67947b7e18cd45c2f9913f2c311",
+    "license": "Apache-2.0 WITH LLVM-exception"
   }
 }

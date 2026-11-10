@@ -1,0 +1,26 @@
+{
+  "sha256": "5091f1d51b379088e4f4d159323b0cb9e63650b061d627f3927e82617c072a70",
+  "size": 2429364,
+  "tags": [
+    {
+      "frame": "TXXX",
+      "text": "AI Generated\u0000Yes"
+    },
+    {
+      "frame": "TXXX",
+      "text": "DigitalSourceType\u0000http://cv.iptc.org/newscodes/digitalsourcetype/trainedAlgorithmicMedia"
+    },
+    {
+      "frame": "TXXX",
+      "text": "Generator\u0000Boppy AI music generator (boppy.me)"
+    },
+    {
+      "frame": "COMM",
+      "text": "eng\u0000AI-generated with Boppy (boppy.me)"
+    },
+    {
+      "frame": "TSSE",
+      "text": "Boppy AI music generator"
+    }
+  ]
+}

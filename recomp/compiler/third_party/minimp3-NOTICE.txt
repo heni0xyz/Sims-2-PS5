@@ -1,0 +1,10 @@
+minimp3 by lieff and contributors — CC0 1.0 / public domain.
+https://github.com/lieff/minimp3
+Headers copied unchanged from PSGFX revision
+5ee7aa9e7d91c9f518322847d13a6bda5ba97837, src/lib/at9/.
+PSGFX records the original minimp3 revision as ea99364.
+
+To the extent possible under law, the author(s) have dedicated all copyright
+and related and neighboring rights to this software to the public domain
+worldwide. This software is distributed without any warranty.
+https://creativecommons.org/publicdomain/zero/1.0/

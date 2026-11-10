@@ -7,6 +7,8 @@
 
 #include "gpu/vulkan.h"
 #include "core/deep_profile.h"
+#include "core/perf_clock.h"
+#include "gpu/cache_file.h"
 
 #include <algorithm>
 #include <array>
@@ -85,17 +87,7 @@ float RenderScale(uint32_t width,uint32_t height) {
     return scale;
 }
 // ---- perf (mirrors d3d12.cpp's Perf/LogPerf; logged once a second under diag::Perf()) ----
-#if defined(XBE_DEEP_PROFILE) && XBE_DEEP_PROFILE
-struct VkPerfClock {
-    using duration=std::chrono::nanoseconds;
-    using rep=duration::rep;using period=duration::period;
-    using time_point=std::chrono::time_point<VkPerfClock>;
-    static constexpr bool is_steady=true;
-    static time_point now() noexcept {return time_point(duration(deep_profile::NowNs()));}
-};
-#else
-using VkPerfClock = std::chrono::steady_clock;
-#endif
+using VkPerfClock = perf_clock::Clock;
 double VkPerfMs(VkPerfClock::time_point t) { return std::chrono::duration<double, std::milli>(VkPerfClock::now() - t).count(); }
 struct VkPerf {
     double draw = 0, present = 0, clear = 0, copy = 0;
@@ -517,6 +509,8 @@ private:
     VkPipelineLayout pipelineLayout_ = VK_NULL_HANDLE;
     VkPipelineCache pipelineCache_ = VK_NULL_HANDLE;
     std::filesystem::path pipelineCacheFile_;
+    std::unique_ptr<PipelineCacheWriter> pipelineCacheWriter_;
+    uint64_t pipelineCacheReportedFailures_=0;
     VkDescriptorPool imguiPool_ = VK_NULL_HANDLE;
     VkFormat depthFormat_ = VK_FORMAT_D24_UNORM_S8_UINT;
     bool anisotropy_ = false, fillNonSolid_ = false, bc_ = false;
@@ -1086,6 +1080,7 @@ bool VulkanBackend::Init(uint32_t width, uint32_t height) {
         VkPipelineCacheCreateInfo ci{VK_STRUCTURE_TYPE_PIPELINE_CACHE_CREATE_INFO};
         ci.initialDataSize = blob.size(); ci.pInitialData = blob.data();
         if (vkCreatePipelineCache(device_, &ci, nullptr, &pipelineCache_) != VK_SUCCESS) pipelineCache_ = VK_NULL_HANDLE;
+        if(pipelineCache_)pipelineCacheWriter_=std::make_unique<PipelineCacheWriter>(pipelineCacheFile_);
         LOGR("Vulkan adapter: %s (vendor %04x device %04x, driver %u)", props.deviceName, props.vendorID, props.deviceID, props.driverVersion);
         VkDescriptorPoolSize ps[2] = {{VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1024}, {VK_DESCRIPTOR_TYPE_SAMPLER, 1024}};
         VkDescriptorPoolCreateInfo di{VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO};
@@ -2824,13 +2819,21 @@ void VulkanBackend::Present(const Surface& front) {
     if (pipelineCache_ && presents_ % 300 == 0) SavePipelineCache();
 }
 void VulkanBackend::SavePipelineCache() {
+    if(!pipelineCacheWriter_)return;
+    const auto begin=VkPerfClock::now();
     size_t bytes = 0;
     if (vkGetPipelineCacheData(device_, pipelineCache_, &bytes, nullptr) != VK_SUCCESS || !bytes) return;
     std::vector<uint8_t> blob(bytes);
     if (vkGetPipelineCacheData(device_, pipelineCache_, &bytes, blob.data()) != VK_SUCCESS) return;
-    std::error_code ec; std::filesystem::create_directories(pipelineCacheFile_.parent_path(), ec);
-    std::ofstream f(pipelineCacheFile_, std::ios::binary | std::ios::trunc);
-    if (f) f.write(reinterpret_cast<const char*>(blob.data()), std::streamsize(bytes));
+    blob.resize(bytes);
+    const double readMs=VkPerfMs(begin);
+    const auto outcome=pipelineCacheWriter_->Submit(std::move(blob));
+    const auto stats=pipelineCacheWriter_->ReadStats();
+    if(stats.failures!=pipelineCacheReportedFailures_){pipelineCacheReportedFailures_=stats.failures;
+        LOGW("vulkan: pipeline cache write failures=%llu; next checkpoint retries",(unsigned long long)stats.failures);}
+    if(diag::Perf())LOGI("perf: pipeline-cache schema=2 async=1 bytes=%zu unchanged=%u queued=%u writes=%llu failures=%llu coalesced=%llu read_ms=%.6f last_write_ms=%.6f",
+        bytes,unsigned(outcome==PipelineCacheWriter::Outcome::Unchanged),unsigned(outcome==PipelineCacheWriter::Outcome::Queued),
+        (unsigned long long)stats.writes,(unsigned long long)stats.failures,(unsigned long long)stats.coalesced,readMs,stats.last_write_ms);
 }
 void VulkanBackend::ReleaseOldTextures() {
     if (presents_ % 60 != 0 || textures_.size() <= 2048) return;
@@ -2997,7 +3000,12 @@ void VulkanBackend::Destroy() {
     for (auto& [k, m] : modules_) if (m) vkDestroyShaderModule(device_, m, nullptr);
     for (auto& [k, s] : samplers_) if (s) vkDestroySampler(device_, s, nullptr);
     if (nullSampler_) vkDestroySampler(device_, nullSampler_, nullptr);
-    if (pipelineCache_) { SavePipelineCache(); vkDestroyPipelineCache(device_, pipelineCache_, nullptr); }
+    if (pipelineCache_) {
+        SavePipelineCache();
+        if(pipelineCacheWriter_){pipelineCacheWriter_->Stop();const auto stats=pipelineCacheWriter_->ReadStats();
+            if(stats.failures!=pipelineCacheReportedFailures_)LOGW("vulkan: final pipeline cache write failed");}
+        vkDestroyPipelineCache(device_, pipelineCache_, nullptr);
+    }
     if (imguiPool_) vkDestroyDescriptorPool(device_, imguiPool_, nullptr);
     for (auto& f : frames_) {
 #if defined(XBE_DEEP_PROFILE) && XBE_DEEP_PROFILE

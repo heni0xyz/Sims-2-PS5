@@ -23,8 +23,6 @@ def inspect(name,data):
     if len(data)>8*1024*1024:raise ValueError('Unexpected large source member: '+name)
 
 def prepare(git,foundation,output):
-    if (ROOT/"source-origin.json").exists():
-        raise ValueError("Vendored source layout: use Sims-2-PS5/tools/package_source.py; see PUBLIC_BUILD.md")
     components={'project':ROOT,'sdk':ROOT/'sdk','runtime-sdk':ROOT/'runtime-sdk','ps5-foundation':foundation.resolve()}
     records={};archives={}
     prefixes={'project':'sims2-independent','sdk':'sims2-independent/sdk','runtime-sdk':'sims2-independent/runtime-sdk','ps5-foundation':'PS5_Sims2Independent'}

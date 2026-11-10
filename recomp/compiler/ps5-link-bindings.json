@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "description": "SDK platform implementations omitted by the older captured RADV recipe; require archive definitions before binding",
+  "elf_link_options": ["-z", "nodynamic-undefined-weak"],
+  "aliases": {
+    "fchown": "ps5_fchown",
+    "fork": "ps5_fork",
+    "fstatfs": "ps5_fstatfs",
+    "getcwd": "ps5_getcwd",
+    "getpwnam_r": "ps5_getpwnam_r",
+    "isatty": "ps5_isatty",
+    "posix_madvise": "ps5_posix_madvise",
+    "realpath": "ps5_realpath",
+    "setsid": "ps5_setsid",
+    "statfs": "ps5_statfs",
+    "strsignal": "ps5_strsignal",
+    "umask": "ps5_umask",
+    "wait4": "ps5_wait4"
+  }
+}

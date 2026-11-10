@@ -1,7 +1,52 @@
 # Build from source (maintainers)
 
-Players use the packaged builder described in INSTALL.md. These instructions
-are for rebuilding public tooling and runtime dependencies.
+Players use the PS5-only launcher described in INSTALL.md. These instructions
+are for rebuilding public tooling and runtime dependencies on a development PC.
+
+## PS5-only launcher
+
+The source layout contains `recomp/` with full `sdk/` and `runtime-sdk/` trees,
+the tested `PS5_Sims2Installer/` foundation, the existing game foundation and
+`vendor/PS5_PayloadSDK/`. Exact component revisions/hashes are recorded in
+source-component-manifest.json and recomp/source-origin.json. No unpublished
+SDK commit needs to be fetched. Compiler source is pinned in SOURCES.md.
+
+First build the pinned public RADV/SDK/glslang dependencies with their existing
+scripts, export the proven native recipe and assemble the generic public kit
+using the maintainer scripts below. The kit excludes translated game code.
+Then build host TableGen tools and PS5 compiler/generator libraries with
+`recomp/tools/ps5/build_console_compiler.py`; its `--help` lists the host/PS5
+configure/build phases and bounded job options. It writes build-settings.json
+under its chosen output. Compiler compatibility and native writer sources are
+included under recomp/compiler.
+
+From `recomp/`, after that compiler build completes:
+
+```text
+python tools/ps5/build_installer.py --settings out/console-compiler/build-settings.json --platform-headers ../vendor/PS5_PayloadSDK/platform/include --foundation ../PS5_Sims2Installer --title-id PPSA99145 --output out/ps5-launcher-99145 --phase prepare
+python tools/ps5/build_installer.py --settings out/console-compiler/build-settings.json --platform-headers ../vendor/PS5_PayloadSDK/platform/include --foundation ../PS5_Sims2Installer --title-id PPSA99145 --output out/ps5-launcher-99145 --phase package
+python tools/ps5/test_launcher_host.py --settings out/console-compiler/build-settings.json --foundation ../PS5_Sims2Installer --resource-state out/ps5-launcher-99145/resource-state.json
+```
+
+The package-result.json pointer locates PPSA99145, its debug ELF and native
+manifest. This preserves the established RADV/native linker recipe. No ISO,
+generated guest source or compiled guest object is a public launcher input.
+The current candidate uses the f419-derived generic game kit. Newer runtime
+source/cache optimizations are included in source but require a refreshed,
+tested kit before they become a published launcher's private-game update.
+
+Hardware regression, after deploying the matching launcher to an authorized
+idle console with a complete private game/cache:
+
+```text
+python tools/ps5/test_launcher_handoff_console.py --console-tools <PS5_Vulkan-tools> --package-result out/ps5-launcher-99145/package-result.json --output out/ps5-debug/<new-run-id> --seconds 60
+```
+
+It captures logs before launch and verifies game boot and bounded shutdown.
+It does not equate boot/menu FPS with gameplay acceptance. Actual results and
+open gates are in recomp/docs/LAUNCHER_PLAY_FIX_2026-11-10.md.
+
+## Existing native kit and legacy PC-builder tooling
 
 1. Read `recomp/docs/BUILD.md`, `recomp/builder/README.md` and
    `recomp/docs/BUILDER_RELEASE.md`. Install public Clang/LLVM, CMake, Ninja,

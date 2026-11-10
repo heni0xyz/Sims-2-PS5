@@ -14,6 +14,9 @@ int main(int argc,char** argv){
             std::filesystem::create_directories(root/"hdd/Z");std::filesystem::create_directories(root/"hdd/E");
             {std::ofstream save(root/"hdd/E/synthetic-save.txt");save<<"keep this fixture";}
             {std::ofstream cache(root/"hdd/Z/old-cache.txt");cache<<"old cache fixture";}
+            if(std::filesystem::exists(root/"assets"))throw std::runtime_error("Use a fresh root for the public placeholder fixture");
+            std::filesystem::create_directory(root/"assets");
+            {std::ofstream marker(root/"assets/README.txt",std::ios::binary);marker<<"SIMS2-INSTALLER-PLACEHOLDER-1\r\n";}
         }
         std::string error;unsigned last=101;
         if(!sims2::install::FromIso(argv[1],root,[&](auto status){auto percent=unsigned(status.done*100/status.total);if(percent!=last){std::printf("INSTALL_PROGRESS %u%%\n",percent);std::fflush(stdout);last=percent;}return true;},error)){
@@ -21,6 +24,8 @@ int main(int argc,char** argv){
         }
         app::GameFiles game;if(!sims2::install::Ready(root,game,error)){std::fprintf(stderr,"INSTALLED_DATA_REFUSED: %s\n",error.c_str());return 1;}
         if(argc==4){
+            if(std::filesystem::exists(root/"assets/README.txt"))throw std::runtime_error("Public placeholder was not consumed");
+            std::puts("PASS_PUBLIC_PLACEHOLDER: legacy Windows CRLF accepted before actual ISO extraction");
             if(!sims2::install::PrepareCache(root,error) || !std::filesystem::is_empty(root/"hdd/Z") ||
                std::filesystem::file_size(root/"hdd/Z.before-notice-install/old-cache.txt")!=17 ||
                std::filesystem::file_size(root/"hdd/E/synthetic-save.txt")!=17)throw std::runtime_error("Cache archive/save preservation fixture failed: "+error);

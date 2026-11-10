@@ -1,0 +1,19 @@
+{
+  "source": "https://zlib.net/zlib-1.3.2.tar.gz",
+  "archive_sha256": "bb329a0a2cd0274d05519d61c667c062e06990d72e125ee2dfa8de64f0119d16",
+  "files": {
+    "zlib.h": {
+      "bytes": 103848,
+      "sha256": "818667d6ab6a37fe7469cb06a7f0cb2c2cb2f2c948a03e5accf1a4a74bf3020a"
+    },
+    "zconf.h": {
+      "bytes": 16955,
+      "sha256": "cb7c2c84211473b4699223edd363d3207b43b9578e739b5bf638f42204ea6e0f"
+    },
+    "LICENSE": {
+      "bytes": 1002,
+      "sha256": "e32ff4e00d9d94930537635291da39e7e612703334bf6fde8c7f1686fe8a45a2"
+    }
+  },
+  "changes": "None; public headers only; implementation already in pinned RADV archive"
+}

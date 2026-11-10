@@ -1,4 +1,28 @@
-# 0.1.0-alpha.1 — validation status
+# Current PS5-only launcher candidate
+
+**8db5af5a, PPSA99145:** native build/package checks PASS; the owner completed
+the preceding full extraction/compilation. Real PS5 cached-game handoff, memory
+and Vulkan initialization/presentation, 60-second and repeated 30-second normal
+shutdowns PASS. Older private game mode0644 is repaired without recompilation.
+Initial checking now gates input and selects Play when ready.
+
+Host tests cover 13 update transactions, 10 HTTP cases, complete public-bundle
+apply/private-data preservation, UI/startup/navigation/carousel, audio and
+extraction contracts. Real PS5 HTTPS metadata checking PASS. Full public update
+download/helper/apply/recovery still needs hardware acceptance. Home files and
+registration are verified; Home appearance/audio and rumble strength need owner
+observation. A complete fresh ISO-to-Play repeat remains separate from cache tests.
+
+The bundled game kit is f419-derived. Latest runtime optimization source is
+included, but gameplay performance must be measured with a refreshed kit.
+Stable 60 FPS, long-term stability and full story/freeplay coverage are open.
+The intermittent thin Continue background remains under investigation.
+
+Owner-supplied gameplay previews are presentation resources. Extracted game
+assets, private klogs and personal saves are excluded from source. See
+recomp/docs/LAUNCHER_PLAY_FIX_RESULT_2026-11-10.json for machine-readable scope.
+
+## Historical 0.1.0-alpha.1 validation
 
 Candidate: native build `f48a3b24684ecd4f2479a7c0`, title **PPSA99145**, display
 name **The Sims 2**. The faster configuration uses ordered WRITE-completion
@@ -19,4 +43,4 @@ metadata-fix build.
 Host regressions cover guest/platform contracts, UI policy, clipping/anchors,
 font filtering, installer safety and completion ordering. Software Vulkan PC
 readbacks establish rendering correctness for observed frames, not console FPS.
-No private klogs, game screenshots or save files are included in public source.
+No private klogs, extracted game data or save files are included in public source.

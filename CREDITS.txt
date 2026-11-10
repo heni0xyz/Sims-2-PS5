@@ -1,10 +1,73 @@
+SIMS 2 INDEPENDENT BOOTSTRAP — 31 October 2026
+szampan — initiator, legally supplied game dump, PS5 testing and direction.
+szampan — PS5 title icon, background and editable Pixlr artwork sources.
+OpenAI Codex — new isolated bootstrap glue and documentation, at szampan's direction.
 TGP482 — XboxXBERecomp static recompiler, signature scanner, Disc parser and SDK.
+abilliontokens — MIT-licensed XboxXBERecomp Linux/Vulkan fork and runtime fixes;
+                 no original Sims 2 project config, hooks or generated game source imported.
+OpenAI Codex — reused generic PS5 platform adapters and local SDK fixes from the
+               earlier port; individual origins recorded in docs/PLATFORM_IMPORTS.json.
+OpenAI Codex — independent GPU completion callback bring-up, ISO extraction and
+               asset preflight/regression tools for this separate project.
+OpenAI Codex for szampan — authored Create-a-Sim widescreen edge anchoring,
+               read-only native CAS lifecycle snapshots and centered-dialog guard.
+OpenAI Codex for szampan — observation-only PS5 performance clock and console
+               clock-cost regression; guest simulation timing remains unchanged.
+OpenAI Codex for szampan — exact pipeline-cache snapshot comparison and retry
+               handling to avoid redundant persistent cache writes.
+OpenAI Codex for szampan — bounded background cache persistence, shared atomic
+               cache-file replacement and I/O-gate/failure regressions.
+OpenAI Codex — native Windows diagnostic harness, bounded input/capture runners,
+               offscreen Vulkan adapter and windowless startup correction.
+OpenAI Codex — reused authored 16:9 viewport/dimmer policy and archive patcher;
+               new logical HUD edge anchors and native portrait camera correction.
+OpenAI Codex — optional pre-clip presentation mapping and real final-frame
+               readbacks for verifying widescreen UI on the PC.
+OpenAI Codex — independently identified HUD portrait camera correction, cinematic matte
+               policy, private UI-resource preservation and English console
+               notice patcher; experimental ordered GPU completion diagnostics.
+OpenAI Codex — optional native 4K detail policy, resolution diagnostics and
+               separate reproducible 4K package, at szampan's direction.
+OpenAI Codex — identified mode-menu logo and guarded left anchoring, lazy
+               draw-bound observation and bounded private UI texture diagnostics.
+OpenAI Codex — right-anchored pause/fast-forward children inside the left HUD,
+               shell-art conversion and title metadata integration for szampan.
+OpenAI Codex — host-only 256px Kenney vector texture replacement, strict owner
+               ISO bootstrap, bounded Continue geometry diagnostics and local
+               source-release inventory/export tools. Project code: GPLv3.
+szampan — title artwork PNG/PXZ originals dedicated under CC0-1.0.
+OpenAI Codex — Continue background readiness/animation refresh, English storage
+               device notices, correlated performance windows and bounded
+               ordered-write GPU callback experiments, for szampan.
+OpenAI Codex — optional monotone cubic 4x owner-font atlas reconstruction,
+               live font A/B diagnostics and reproducible source-only release
+               verification/export, for szampan (GPL-3.0-only).
 Kenney — Input Prompts 1.5A, filled-white PNG/SVG artwork, CC0-1.0.
+         Original notice is preserved under licenses/input-prompts in the title.
 The Open Sans Project Authors — Open Sans Regular3.003, SIL OFL1.1;
+                               unmodified font supplied by szampan.
+OpenAI Codex — transactional on-console ISO installation, progress/error UI,
+               native notice patching and explicit keep/delete source choice,
+               authored for szampan under GPL-3.0-only.
 Mihawk and PS5_VulkanTemplate contributors — PS5 title foundation and RADV stack.
+Mihawk — unchanged PS5_RetroArch bounded ELF core loader and linker layout,
+         pinned at 7268510b12fe7461342e0cc4497c87a0910c1055, GPL-3.0-or-later.
 John Törnblom and PS5_PayloadSDK contributors — public PS5 toolchain/platform work.
 Zydis contributors — x86 decoding; toml++ contributors — configuration parsing.
 Khronos/glslang and SPIR-V Tools contributors — HLSL/SPIR-V shader compilation.
 Arseny Kapoulkine and volk contributors — public Vulkan function loader.
 The original game remains the work of its original authors and rights holders.
 SDK and dependency notices remain applicable; see PROVENANCE.md and sdk/LICENSE.
+OpenAI Codex — PC/Mac owner-copy builder, audited portable native recipe export,
+               public Open Sans preparation title and release tooling, for szampan.
+OpenAI Codex — PS5-hosted compiler/generator integration, control-file adapter,
+               private generation parity and bounded compilation diagnostics,
+               for szampan. New PS5 integration: GPL-3.0-only; SDK adapter: MIT.
+
+Boppy — AI-generated launcher/Home music supplied by szampan; original MP3 and provenance tags preserved.
+lieff/minimp3 contributors — CC0 MP3 decoder used by the launcher.
+BlackBearReloaded / PS5 AT9 Converter and elripalda / PSGFX — GPLv3 ATRAC9 encoder; Alex Barney / LibAtrac9 — MIT tables.
+OpenAI Codex — launcher playback integration and reproducible five-second Home excerpt with one-second fade, for szampan.
+
+Richard Geldreich, Jr. - MIT/public-domain BC7 encoder used by the host-side Home artwork converter.
+OpenAI Codex - native Home background preparation, persistent launcher music toggle and separate game-update controls for szampan (GPL-3.0-only).

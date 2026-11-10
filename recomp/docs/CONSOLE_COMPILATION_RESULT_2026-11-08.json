@@ -1,0 +1,33 @@
+{
+  "schema": 1,
+  "status": "PASS",
+  "scope": "native PS5 generation and compilation of all generated game translation units",
+  "build_id": "56ffbab2e32b8ea7",
+  "title_id": "PPSA99147",
+  "run_id": "1794176851-13916594735",
+  "units": 65,
+  "optimization": "O2",
+  "compile_seconds_total": 526.644085,
+  "slowest_unit_seconds": 13.599204,
+  "whole_worker_seconds": 548.659628,
+  "object_bytes_total": 81206872,
+  "objects_independently_checked": true,
+  "object_checks": "all SHA-256 values match console records; ELF64 little-endian x86-64 ET_REL and section table bounds verified",
+  "normal_title_exit": true,
+  "console_idle_after": true,
+  "game_code_compiled": true,
+  "game_code_linked": false,
+  "game_code_executed": false,
+  "full_install_time_measured": false,
+  "private_evidence_directory": "out/ps5-debug/console-56ff-20261108-01",
+  "first_unit_probe": {
+    "build_id": "effac3b70e2d9484",
+    "run_id": "1794176372-13437614839",
+    "status": "PASS",
+    "compile_seconds": 8.560112,
+    "whole_worker_seconds": 25.845460,
+    "object_bytes": 1255272,
+    "object_sha256": "a21d27adb52c2cde1cf246170a9571f780be09df0361a24f0c417263ea358342",
+    "private_evidence_directory": "out/ps5-debug/console-effac-20261108-01"
+  }
+}

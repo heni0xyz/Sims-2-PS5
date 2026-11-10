@@ -1,0 +1,29 @@
+{
+  "supplied_by": "szampan",
+  "date": "2026-11-10",
+  "purpose": "Three explicitly supplied launcher gameplay previews",
+  "copyright": "Gameplay imagery remains the property of its original rights holders; these captures are not included in the CC0 title-art dedication.",
+  "files": [
+    {
+      "slot": 1,
+      "original": "20261109_002441_00958168.png.jpeg",
+      "source_sha256": "34b9dbcc8dd0398feadd0532cfef95d9e0536d393f14c8af60ab85d82e9af74a",
+      "preview": "preview-1.png",
+      "preview_sha256": "4c1a03cea489e7d8cc3ea474c2805bb9dc339b72d2da5920f6cb7122a39d594a"
+    },
+    {
+      "slot": 2,
+      "original": "20261101_172106_00311059.png.jpeg",
+      "source_sha256": "4b4808978ef5ad3a1bccc3e1744bd598b70f2c37d2c2fd88ed9616d3993de14d",
+      "preview": "preview-2.png",
+      "preview_sha256": "3b1eb53700ee0f5abb07a71635f114e864e905f8fbbde832ec9e6bfecc1be0af"
+    },
+    {
+      "slot": 3,
+      "original": "20261029_001314_00142865.png.jpeg",
+      "source_sha256": "8bbf49a282da4b28068536e3431309b6f417b0326b3e3960d082d7d511a2de8d",
+      "preview": "preview-3.png",
+      "preview_sha256": "1a8f310fa8d7f6c5e0af6483d72315f9a337029acc87df62becc511c85847fbf"
+    }
+  ]
+}

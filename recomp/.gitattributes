@@ -3,6 +3,17 @@
 *.py text eol=lf
 *.cpp text eol=lf
 *.h text eol=lf
+*.inc text eol=lf
 *.md text eol=lf
 *.svg text eol=lf
 *.ttf binary
+# Unified patches use a single-space prefix for an empty context line.
+/patches/*.patch text eol=lf whitespace=-blank-at-eol
+# Preserve vendored source bytes so pinned ORIGIN hashes survive checkout.
+/tools/audio/third_party/psgfx_at9/** -text
+/compiler/third_party/minimp3.h -text
+/compiler/third_party/minimp3_ex.h -text
+/tools/branding/third_party/** -text
+
+# Source snapshot: preserve exact bytes across checkouts.
+* -text

@@ -12,6 +12,7 @@
 #if !defined(_WIN32) || defined(XBE_VULKAN_HOST)
 
 #include "gpu/spirv.h"
+#include "gpu/cache_file.h"
 
 #include <cstring>
 #if defined(_WIN32)
@@ -111,28 +112,7 @@ bool ReadWords(const std::filesystem::path& path, std::vector<uint32_t>& words) 
 }
 
 void WriteWords(const std::filesystem::path& path, const std::vector<uint32_t>& words) {
-    // D4: write to a per-process temporary in the same directory, check the write,
-    // then rename over the target: a crash/kill/disk-full mid-write leaves the old
-    // entry (or nothing), never a truncated file at the cache name.
-    std::error_code ec;
-    std::filesystem::create_directories(path.parent_path(), ec);
-    std::filesystem::path tmp = path;
-#if defined(_WIN32)
-    tmp += ".tmp." + std::to_string(static_cast<long long>(_getpid()));
-#else
-    tmp += ".tmp." + std::to_string(static_cast<long long>(getpid()));
-#endif
-    {
-        std::ofstream f(tmp, std::ios::binary | std::ios::trunc);
-        if (!f) return;
-        f.write(reinterpret_cast<const char*>(words.data()), std::streamsize(words.size() * 4));
-        f.flush();
-        if (!f.good()) { std::filesystem::remove(tmp, ec); return; }
-        f.close();
-        if (f.fail()) { std::filesystem::remove(tmp, ec); return; }
-    }
-    std::filesystem::rename(tmp, path, ec);
-    if (ec) std::filesystem::remove(tmp, ec);
+    WriteCacheFile(path,{reinterpret_cast<const uint8_t*>(words.data()),words.size()*4});
 }
 
 #ifdef XBE_SPIRV_DXC

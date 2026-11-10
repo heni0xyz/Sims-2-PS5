@@ -18,6 +18,7 @@
 #include "app/platform.h"  // app::HostAspect (Linux Hor+ widening)
 #endif
 #include "core/diag.h"
+#include "core/perf_clock.h"
 #include "gpu/backend.h"
 #include "gpu/texture.h"
 #include "gpu/vertex.h"
@@ -99,12 +100,12 @@ constexpr bool kRenderThread = XBE_RENDER_THREAD;
 // perf diagnostic: title time inside one XDK draw call, into gpu::g_perf_hle_ns; the clock is read only with XBE_PERF
 struct HleScope {
     bool on = diag::Perf();
-    std::chrono::steady_clock::time_point t =
-        on ? std::chrono::steady_clock::now() : std::chrono::steady_clock::time_point{};
+    perf_clock::Clock::time_point t =
+        on ? perf_clock::Clock::now() : perf_clock::Clock::time_point{};
     ~HleScope() {
         if (on)
             gpu::g_perf_hle_ns += uint64_t(std::chrono::duration_cast<std::chrono::nanoseconds>(
-                                               std::chrono::steady_clock::now() - t).count());
+                                               perf_clock::Clock::now() - t).count());
     }
 };
 

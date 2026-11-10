@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "status": "PASS",
+  "scope": "private native game executable linked, converted and packaged on PS5 from its console-compiled objects",
+  "build_id": "c686c415f2e9b4ef",
+  "title_id": "PPSA99147",
+  "run_id": "1794178322-15387316333",
+  "source_object_run": "1794176851-13916594735",
+  "native_preparation_seconds": 20.788325,
+  "elf_bytes": 61006256,
+  "elf_sha256": "6ae70e185ef17ce5c0a983259db9c56da7670598b8cf41e9471a0902f01c90e6",
+  "self_bytes": 59676701,
+  "self_sha256": "f50e56ca4f9bce43ab59321408de6f7db484cfede46490df682462bf7f604c1e",
+  "matches_host_native_tool_byte_for_byte": true,
+  "normal_title_exit": true,
+  "console_idle_after": true,
+  "game_code_compiled_on_ps5": true,
+  "game_code_linked_on_ps5": true,
+  "game_code_executed": false,
+  "complete_iso_installer": false,
+  "private_evidence_directory": "out/ps5-debug/console-c686-20261108-01",
+  "prior_failure": {
+    "build_id": "534f65a376338d27",
+    "native_link_result": 0,
+    "packaging_result": 1,
+    "reason": "Import validation scanned static/debug symbols instead of loader-visible .dynsym. Discarded RADV declarations were not runtime imports.",
+    "correction": "Check the unchanged native writer's parsed dynamic symbol table against the original allowlist. Set readable modes only on newly created artifacts and collect remaining evidence after a read failure."
+  }
+}

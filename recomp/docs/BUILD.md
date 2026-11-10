@@ -98,7 +98,7 @@ Transfer the private bundle to the configured local Linux machine and use
 the project wrapper with foundation/driver/SDK paths. Actual local command:
 
 ```sh
-python3 tools/ps5/link_and_package.py --inputs /path/to/build-host/independent-f81-link-inputs.tar.gz --foundation /path/to/build-host/sims2-work/PS5_Sims2Independent --vulkan /path/to/build-host/sims2-work/PS5_Vulkan --payload-sdk-fork /path/to/build-host/sims2-work/PS5_PayloadSDK-Sims2
+python3 tools/ps5/link_and_package.py --inputs /home/debian/independent-f81-link-inputs.tar.gz --foundation /home/debian/sims2-work/PS5_Sims2Independent --vulkan /home/debian/sims2-work/PS5_Vulkan --payload-sdk-fork /home/debian/sims2-work/PS5_PayloadSDK-Sims2
 ```
 
 The wrapper checks every object/archive hash, invokes the unchanged foundation

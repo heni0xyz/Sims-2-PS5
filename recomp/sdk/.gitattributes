@@ -1,3 +1,6 @@
 * text=auto
 *.bat text eol=crlf
 *.sh text eol=lf
+
+# Source snapshot: preserve exact bytes across checkouts.
+* -text
