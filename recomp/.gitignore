@@ -12,15 +12,3 @@ __pycache__/
 *.elf
 *.bin
 *.prx
-
-# Public source safety
-*.dmp
-*.log
-.env
-.env.*
-!.env.example
-*.pem
-*.key
-*.pfx
-*.s2tex
-*.s2font

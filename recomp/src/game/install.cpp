@@ -106,6 +106,20 @@ bool ReadFile(const fs::path& path,std::vector<uint8_t>& bytes,size_t limit){
     bytes.resize(size);std::ifstream stream(path,std::ios::binary);return bool(stream.read(reinterpret_cast<char*>(bytes.data()),bytes.size()));
 }
 }
+bool RemovePlaceholder(const fs::path& root,std::string& error){
+    try{
+        const auto assets=Child(root,"assets");if(assets.empty())return true;
+        if(!fs::is_directory(files::NoFollow(assets)))throw std::runtime_error("Existing assets path is not a normal folder");
+        const auto marker_path=Child(assets,"README.txt");std::vector<uint8_t> bytes;
+        if(!ReadFile(marker_path,bytes,64))throw std::runtime_error("Existing assets are preserved; move incomplete data aside before retrying");
+        const std::string value(bytes.begin(),bytes.end());
+        if(value!="SIMS2-INSTALLER-PLACEHOLDER-1\n" && value!="SIMS2-INSTALLER-PLACEHOLDER-1\r\n")
+            throw std::runtime_error("Unrecognized assets README; it was not removed");
+        size_t count=0;for(const auto& entry:fs::directory_iterator(assets)){(void)entry;++count;}
+        if(count!=1)throw std::runtime_error("Existing assets contain other files; they will not be replaced");
+        files::Remove(marker_path);files::Remove(assets,true);return true;
+    }catch(const std::exception& exception){error=exception.what();return false;}
+}
 bool Extract(const fs::path& root,const std::vector<File>& files,const Read& read,const Finish& finish,const Notify& notify,std::string& error){
     error.clear();
     try{
@@ -263,6 +277,7 @@ bool FromIso(const fs::path& iso,const fs::path& root,const Notify& notify,std::
     };
     try{for(const auto& entry:image.Find(std::vector<std::string>{})->children)walk(walk,entry,"");}
     catch(const std::exception& exception){error=exception.what();return false;}
+    if(!RemovePlaceholder(root,error))return false;
     return Extract(root,files,[&](size_t index,uint64_t offset,std::span<uint8_t> out){return image.Read(*entries[index],offset,out.data(),uint32_t(out.size()))==out.size();},
         [&](const fs::path& stage,std::string& reason){
             const auto data=Child(stage,"DATA"),path=Child(data,"quickdat.arc");std::vector<uint8_t> archive;

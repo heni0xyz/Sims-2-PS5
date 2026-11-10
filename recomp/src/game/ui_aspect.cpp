@@ -1,6 +1,7 @@
 #include "game/ui_aspect.h"
 #include "game/ui_layout.h"
 #include "game/menu_logo.h"
+#include "game/cas_layout.h"
 #include "app/app.h"
 #include "core/log.h"
 #include <atomic>
@@ -84,6 +85,17 @@ gpu::DrawViewport UiViewport(const gpu::State& state,uint32_t width,uint32_t hei
     else if(app::HostAspect()>0)aspect=app::HostAspect();
     const float scale=sims2::ui::ScaleForPath(path,width,height,aspect,sims2::ui::enabled,format);
     if(scale==1)return {};
+    if(sims2::ui::cas_edge_anchors.load(std::memory_order_relaxed) && sims2::ui::edge_anchors && selected=="16:9" &&
+       !state.rs[gpu::kRsZEnable] && sims2::ui::CasEditorActive()) {
+        gpu::DrawBounds bounds{};
+        if(probe.Bounds(bounds))if(const int anchor=sims2::ui::CasDrawAnchor(bounds)) {
+            static std::atomic<unsigned> reported{0};const unsigned bit=anchor<0?1:2;
+            if(!(reported.fetch_or(bit,std::memory_order_relaxed)&bit))
+                LOGR("[SIMS2][UI][INFO] CAS editor anchor=%s bounds=%.3f,%.3f..%.3f,%.3f x_scale=%.9f",
+                    anchor<0?"left":"right",bounds.left,bounds.top,bounds.right,bounds.bottom,scale);
+            return {scale,anchor<0?0.f:1-scale,true,true};
+        }
+    }
     // The same artwork is also shown large and centered during startup. Match
     // both its exact mip identity and the evaluated upper-left draw bounds.
     if(sims2::ui::edge_anchors && selected=="16:9" && hash==sims2::ui::kDirect &&

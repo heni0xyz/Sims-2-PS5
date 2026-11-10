@@ -21,7 +21,21 @@ int main(int argc,char** argv){try{
     std::vector<sims2::install::File> files{{"DATA/test.dat",(1u<<20)+123},{"movies/test.dat",515}};
     auto read=[](size_t index,uint64_t at,std::span<uint8_t> out){for(size_t i=0;i<out.size();++i)out[i]=uint8_t((at+i)*31+index);return true;};
     auto check=[&](const fs::path& path){for(size_t i=0;i<files.size();++i){std::ifstream stream(path/"assets"/files[i].name,std::ios::binary);std::vector<uint8_t> actual((std::istreambuf_iterator<char>(stream)),{}),expected(files[i].bytes);read(i,0,expected);Need(actual==expected,"actual copied bytes");}};
-    std::string error;uint64_t previous=0;unsigned complete=0;const auto valid=root("valid");
+    std::string error;
+    for(const auto& [name,value]:std::vector<std::pair<std::string,std::string>>{
+        {"lf","SIMS2-INSTALLER-PLACEHOLDER-1\n"},{"crlf","SIMS2-INSTALLER-PLACEHOLDER-1\r\n"}}){
+        const auto p=root(name.c_str());fs::create_directory(p/"assets");
+        {std::ofstream out(p/"assets/README.txt",std::ios::binary);out<<value;}
+        Need(sims2::install::RemovePlaceholder(p,error) && !fs::exists(p/"assets"),"Known placeholder removed for both line endings");
+    }
+    const auto mixed=root("placeholder-mixed");fs::create_directory(mixed/"assets");
+    {std::ofstream out(mixed/"assets/README.txt",std::ios::binary);out<<"SIMS2-INSTALLER-PLACEHOLDER-1\n";}
+    {std::ofstream out(mixed/"assets/personal.txt");out<<"preserve";}
+    Need(!sims2::install::RemovePlaceholder(mixed,error) && fs::file_size(mixed/"assets/personal.txt")==8,"Mixed placeholder preserves unknown files");
+    const auto unrelated=root("placeholder-unrelated");fs::create_directory(unrelated/"assets");
+    {std::ofstream out(unrelated/"assets/README.txt");out<<"my text";}
+    Need(!sims2::install::RemovePlaceholder(unrelated,error) && fs::exists(unrelated/"assets/README.txt"),"Unknown README preserved");
+    uint64_t previous=0;unsigned complete=0;const auto valid=root("valid");
     Need(sims2::install::Extract(valid,files,read,{},[&](auto status){Need(status.done>=previous && status.done<=status.total,"monotonic bounded progress");previous=status.done;if(status.stage==sims2::install::Stage::Complete){Need(fs::exists(valid/"assets/DATA/test.dat"),"completion follows promotion");complete++;}return true;},error),error.c_str());
     Need(complete==1 && !fs::exists(valid/".sims2-installing"),"exactly one committed install");check(valid);
     Need(!sims2::install::Extract(valid,files,read,{},{},error),"existing assets refused");check(valid);

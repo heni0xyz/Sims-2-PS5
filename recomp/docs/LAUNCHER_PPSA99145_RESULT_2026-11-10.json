@@ -1,0 +1,10 @@
+{
+  "status": "PASS_READY_SHA256",
+  "build_id": "03006e893030c4da",
+  "title_id": "PPSA99145",
+  "files": 3256,
+  "content_id_preserved": true,
+  "console": "NOT_TESTED",
+  "kind": "PS5-only launcher/installer; Play requires a verified private prepared game",
+  "artifact_pointer": "out/ps5-launcher-99145/ready-result.json"
+}

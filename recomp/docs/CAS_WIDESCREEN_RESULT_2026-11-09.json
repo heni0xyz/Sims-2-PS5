@@ -1,0 +1,39 @@
+{
+  "schema": 1,
+  "date": "2026-11-09",
+  "change": "Create-a-Sim 16:9 edge anchoring",
+  "runtime_build_id": "f419954392867d74f193d70e",
+  "installer_build_id": "1326834c5239a3a3",
+  "source_commit": "5b16db5",
+  "host_policy": "PASS",
+  "host_vulkan_visual": "PASS_REVIEWED_PAGES",
+  "host_run": {
+    "run_id": "20261109T162527Z-21a70b",
+    "seconds": 853.2659999999996,
+    "reason": "TEST_STOP_REQUESTED",
+    "first_failure": null,
+    "fatal_records": [],
+    "clean_process_exit": false
+  },
+  "reviewed_pages": [
+    "CAS main",
+    "Body/Skin Tone",
+    "Fashion",
+    "Head Accessories"
+  ],
+  "game_build": "PASS",
+  "installer_build": "PASS",
+  "console_runtime": "NOT_TESTED",
+  "performance": "NOT_TESTED",
+  "private_eboot_sha256": "0f1de557370f73d9dbab9b91acd2d47827bf1e9e6d28fa82481c5944eeca3102",
+  "private_game": "out/cas-regression/native-f419/PPSA99145",
+  "private_debug_elf": "out/cas-regression/native-f419/llvm-pie.elf",
+  "installer": "out/ps5-installer/resources-f22c71adb6ba4bd9/package/PPSA99148",
+  "installer_debug_elf": "out/ps5-installer/resources-f22c71adb6ba4bd9/package/llvm-pie.elf",
+  "evidence": "docs/CAS_WIDESCREEN.md",
+  "limitations": [
+    "Not all CAS pages visually reviewed",
+    "No PS5 visual validation",
+    "No new FPS or 4K measurements"
+  ]
+}

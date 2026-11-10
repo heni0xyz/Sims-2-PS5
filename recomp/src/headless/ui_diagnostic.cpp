@@ -1,6 +1,7 @@
 // PC-only calibration and one-shot capture; never changes controller input.
 #if defined(SIMS2_HEADLESS_RUNTIME)
 #include "game/ui_aspect.h"
+#include "game/cas_layout.h"
 #include "game/render_resolution.h"
 #include "game/font_upscale.h"
 #include "gpu/backend.h"
@@ -20,7 +21,9 @@ void PollUiDiagnostic(int port,input::Pad&) {
         const bool read=std::fscanf(f,"%47s %d",action,&value)==2;
         std::fclose(f);
         if(std::remove("ui-diagnostic.cmd"))return;
-        if(read && !std::strcmp(action,"portrait_mode") && value>=0 && value<=1) {
+        if(read && !std::strcmp(action,"cas_edges") && value>=0 && value<=1) {
+            sims2::ui::cas_edge_anchors.store(value!=0,std::memory_order_relaxed);LOGR("[SIMS2][UI][CALIBRATION] cas_edges=%d",value);
+        } else if(read && !std::strcmp(action,"portrait_mode") && value>=0 && value<=1) {
             sims2::ui::native_portrait=value!=0;LOGR("[SIMS2][UI][CALIBRATION] native_portrait=%d",value);
         } else if(read && !std::strcmp(action,"native_resolution") && value>=0 && value<=1) {
             sims2::render::native_resolution=value!=0;

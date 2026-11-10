@@ -10,7 +10,12 @@
 #include "analysis.h"
 #include "codegen.h"
 
+#ifdef __PROSPERO__
+#include "ps5_filesystem.h"
+namespace fs = ps5_recomp_fs;
+#else
 namespace fs = std::filesystem;
+#endif
 
 static uint32_t ParseAddr(std::string_view s) { return uint32_t(std::stoul(std::string(s), nullptr, 0)); }
 

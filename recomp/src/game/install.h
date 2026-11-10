@@ -18,6 +18,9 @@ bool Extract(const std::filesystem::path& root,const std::vector<File>&,
              const Read&,const Finish&,const Notify&,std::string& error);
 bool FromIso(const std::filesystem::path& iso,const std::filesystem::path& root,
              const Notify&,std::string& error);
+// Only the exact, sole public README marker may be removed. Accept the legacy
+// Windows CRLF spelling as well; real or unknown owner data is preserved.
+bool RemovePlaceholder(const std::filesystem::path& root,std::string& error);
 // Strict supported XBE plus required disc members. Does not mount an ISO.
 bool Ready(const std::filesystem::path& root,app::GameFiles&,std::string& error);
 // One-time invalidation of the scratch Z cache for the known notice patch.

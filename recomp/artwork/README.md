@@ -11,3 +11,8 @@ legal text is in CC0-1.0.txt; original author attribution remains in credits.
 1920x1080 RGBA pic0.dds/pic1.dds using the provided composition. Originals
 are never overwritten. PXZ files do not enter the PS5 title. The existing
 template title recipe handles installation of the generated shell artwork.
+# Audio
+
+The title artwork's CC0 dedication does not cover the separately supplied music.
+See [audio/README.md](audio/README.md) for its original metadata, use terms and
+the reproducible six-second PS5 Home selection sound.

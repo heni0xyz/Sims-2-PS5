@@ -22,12 +22,23 @@ def refresh_native(native,kit):
     manifest=json.loads((kit/'kit.json').read_text())
     recipe=json.loads((native/'native-recipe.json').read_text())
     if not recipe.get('sdk_wrapper_evaluated'):raise ValueError('SDK wrapper not captured')
+    # Adding a runtime TU can renumber the captured objects. Remove only obsolete
+    # known runtime inputs whose stored digest still matches, never user edits.
+    obsolete=[]
+    for name,record in manifest['files'].items():
+        if name in recipe['files'] or not re.fullmatch(r'native/inputs/(?:runtime-\d{3}|\d{3}-\d{3})-[^/]+\.(?:c|cpp)\.o',name):continue
+        target=(kit/name).resolve()
+        if target.parent!=(kit/'native/inputs').resolve() or sha(target)!=record['sha256']:
+            raise ValueError('Obsolete runtime object was modified: '+name)
+        obsolete.append((name,target))
     for name,digest in recipe['files'].items():
         if manifest['files'].get(name,{}).get('sha256')==digest:continue
         source=native/name
         if sha(source)!=digest:raise ValueError('Native source digest mismatch')
         dest=kit/name;dest.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(source,dest)
         manifest['files'][name]=dict(bytes=dest.stat().st_size,sha256=digest)
+    for name,target in obsolete:
+        target.unlink();manifest['files'].pop(name)
     shutil.copyfile(native/'native-recipe.json',kit/'native-recipe.json')
     manifest['files']['native-recipe.json']=dict(bytes=(kit/'native-recipe.json').stat().st_size,sha256=sha(kit/'native-recipe.json'))
     manifest['link_argv']=['{KIT}/tools/ld.lld.exe',*recipe['link_argv']]

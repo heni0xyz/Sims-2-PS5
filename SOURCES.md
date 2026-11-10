@@ -6,12 +6,20 @@ contains the exact native SDK additions at `vendor/PS5_PayloadSDK`:
 60ea4c66bf0944e85ea1d3eb078ec45079e7616b (a local revision, not an upstream URL).
 Its original public base is identified by its source notices/build scripts.
 
+The new PS5-only installer foundation is included as `PS5_Sims2Installer/`.
+Generator/runtime SDKs are complete source directories under recomp, including
+local PS5 adapters. Their local provenance SHAs need not be fetched upstream.
+`source-component-manifest.json` records exported source hashes. Native SDK
+header symlinks are flattened only to contents within the pinned public source
+archive, including FreeBSD implementation headers.
+
 Other unmodified public components can be obtained at these exact revisions.
 Keep these source directions beside the binary downloads; do not substitute
 newer revisions when reproducing this release:
 
 | Component | Source |
 |---|---|
+| PS5-hosted Clang/LLVM/LLD | https://github.com/mihawk-99/PS5_LLVM/tree/be5b58f51c93c67947b7e18cd45c2f9913f2c311 |
 | PS5_Vulkan/native packaging/CRT/link scripts | https://github.com/mihawk-99/PS5_Vulkan/tree/f410e67a0241b3e8edcdbcd2a9b285dfc4a412ed |
 | Mesa/RADV | https://github.com/mihawk-99/PS5_Mesa/tree/1ba9874f478657ccf6da72ce55f0260164cc0bd0 |
 | glslang | https://github.com/KhronosGroup/glslang/tree/1062752a891c95b2bfeed9e356562d88f9df84ac |

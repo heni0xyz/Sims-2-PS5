@@ -55,6 +55,3 @@ private eboot, ISO, XBE, assets, saves and owner logs. Include complete
 corresponding public source and all third-party licenses. Local generation does
 not license the original game's content. The authored builder is GPL-3.0-only;
 dependency licenses remain separate.
-
-Single Windows exe embeds its audited kit; no separate kit download is required.
-The public packager requires prepare_public_notices.py before bundling.

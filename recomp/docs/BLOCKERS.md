@@ -1,5 +1,96 @@
 # Current failures and external requirements
 
+## 10 November: Play spawn failure resolved on hardware
+
+Candidate 8db5af5a5dd85551 repairs the previously verified private game from 0644
+to 0777. Real cached-game handoff/boot/Vulkan presentation/60-second own shutdown
+PASS, followed by a launcher screenshot/reopen PASS. No game recompilation was
+needed. See LAUNCHER_PLAY_FIX_2026-11-10.md. The original errno13/EACCES is closed;
+the template's separate errno22 diagnostic on its final LoadExec("exit") remains
+recorded and is not treated as another failed game spawn.
+
+Remaining gates: complete public download/helper/update/recovery on hardware;
+owner acceptance of Home visual/audio and motor feedback; fresh full ISO-to-Play
+repeat after the fix; gameplay/performance measurement with the latest runtime
+kit; reproducible publication of local runtime-sdk changes before source release.
+Real console GitHub HTTPS metadata checking now PASS. No public release/push/PR
+was performed during this authorized console session.
+
+## Current launcher release gates (10 November 2026)
+
+Native candidate 7e81417b20d88218 and full host update/extraction/generation tests PASS. A complete fresh ISO-to-Play console run, actual HTTPS/helper LoadExec/recovery, haptic timing and Home metadata refresh are still required. This turn is explicitly local-only; no console or GitHub mutation was performed. The current public runtime kit remains f419-derived. Source PR preparation must also resolve local runtime-sdk commit publication/pinning without shipping owner game code. See LAUNCHER_NAVIGATION_UPDATE_2026-11-10.md and its result JSON. Earlier build-only/checker-only limitations below are historical.
+
+## 8 November 2026: PS5-only preparation
+
+Latest gate: console access restored; real first-unit and complete 65-unit O2
+compilation PASS on PS5, including independent object checks and clean exits.
+See CONSOLE_COMPILATION_RESULT_2026-11-08.json. Earlier console-unavailable and
+compilation-unverified entries below are superseded.
+
+Native-title linking/conversion is the next hardware gate. The new private
+packager preserves the captured RADV recipe and original public native writer;
+it does not require a new game-module ABI/import adapter. Private output loading,
+gameplay and a complete resumable ISO installer still need validation through
+this path. The existing playable static title is preserved.
+
+Current gate: effac3b70e2d9484 BUILD PASS, CONSOLE NOT TESTED. It will compile one
+real generated source unit at O2, check its ELF object and record all diagnostics.
+Console services did not answer; testing is deferred until the console is
+started later. No new candidate was deployed or launched. The established
+working title and saves are untouched.
+
+The previous native generator gate is closed by f622a1b9ef81c744 on PS5: all 71
+files match the reviewed host hashes twice, existing output is refused and the
+title exits normally. Canonical evidence: CONSOLE_GENERATION_RESULT_2026-11-08.json.
+Next steps and exact commands: compiler/CONSOLE_GENERATION_TEST.md. Full-game
+compilation, strong HLE/hook binding, import/TLS/thread/unwind integration,
+module loading, gameplay and resumable ISO installation remain unverified.
+The no-import fixture adapter cannot load the full game unchanged. No total
+install-time or performance estimate is supported by these tests.
+
+### Historical gates below (superseded where newer evidence is recorded)
+
+Latest: f00dde58ac5ec7c4 additionally executes its PS5-compiled authored fixture
+through the unchanged pinned PS5_RetroArch loader: 32 oracle calls, rejection,
+unload/allocation checks and normal exit PASS. The adapter rejects external
+imports and is not the full game's loader/runtime. Native generator parity and
+game-module integration are next. See compiler/CONSOLE_EXECUTION_TEST.md.
+
+Earlier: b04be1035b09b705 passes actual C++ compilation, I/O and synthetic linking
+on the owner's console, with normal exit. Earlier getcwd/header-order failures
+below are resolved for this scenario. Generated code execution, full game
+generation/compilation, private-title conversion or module integration, resumed
+installation and playable game execution through that path remain open.
+
+The first PPSA99147 compiler diagnostic 14fb8665bc404469 now has hardware FAIL:
+SIGSEGV in libc getcwd during LLVM physical-VFS construction. Source and matching
+debug-ELF analysis identify the missing SDK binding. Candidate a72d982ec4cb8260
+binds getcwd and realpath to existing verified platform implementations and adds
+VFS diagnostics. Native rebuild/final fresh check PASS; corrected runtime awaits
+a new full klog and run folder. See CONSOLE_COMPILER_CRASH_2026-11-08.md.
+The separate prior
+PPSA99146 synthetic linker scenario has hardware PASS. Next requirement is a
+tester run of PPSA99147 with full klog and its generated run folder. It checks
+actual console C++ compilation and filesystem operations, not just linking
+precompiled objects. No ISO or game files are required by this diagnostic.
+
+Successful on-console C++ compilation, malformed-input/fatal recovery and
+generated-output execution remain unverified. Full ISO generation/compilation, resumable install,
+native private-title conversion/packaging and launching still need integration
+and hardware validation. In particular, the current private-title converter in
+the public kit is a Windows-host tool; this diagnostic does not port it to PS5
+or prove an alternative loader. Do not publish this as a PS5-only installer.
+
+No new gameplay or performance changes are included. Existing release and saves
+are preserved. Older entries below are historical requirements/results.
+
+Owner-copy release: Windows native build and private data install PASS. Public
+PS5 instruction title build PASS; new title/Windows-linked game execution on PS5
+NOT TESTED. Windows8.1 compatibility is a target without a real test host. No Mac
+is available to build/test a Catalina-compatible native .app/tool bundle; common
+Python source does not establish that compatibility. Single-repository Windows
+exe/source/public-title packaging is ongoing. No publication or remote writes.
+
 Earlier-port optimization audit complete: all audited generic speedups are
 already inherited/enabled. Exact old SDK8f5b279 is an ancestor of current163c80f;
 critical memory/dispatcher/filesystem files unchanged. GPU completion policy,
@@ -105,3 +196,5 @@ diagnostics are recorded in OPEN_UI_ISSUES.md.
 The previous working PS5 port is preserved separately and supplies no game
 config, hooks or generated game source to this project. The MIT runtime fork
 is an explicit credited dependency, not a newly authored replacement engine.
+
+2026-11-10: Launcher self-update backend remains unimplemented (current action is a version check). It needs a compatible public-only update bundle, download integrity checks, staged helper handoff, atomic promotion/recovery and a save-preservation test before enabling automatic installation. The latest public v1.0.0 packages are not compatible PS5-only updates. Explicit game-update cache handling builds, but requires console validation with installed owner data.

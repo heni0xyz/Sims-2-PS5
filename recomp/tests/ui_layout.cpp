@@ -2,6 +2,7 @@
 #include "game/ui_layout.h"
 #include "game/hud_portrait.h"
 #include "game/menu_logo.h"
+#include "game/cas_layout.h"
 #include "gpu/draw_viewport.h"
 #include <cmath>
 #include <cstdio>
@@ -97,5 +98,20 @@ int main() {
     Require(!sims2::ui::CornerLogo(sims2::ui::kLocal,0xb,512,512,7,sims2::ui::kSimsLogoMip,corner),"other shader route unchanged");
     Require(!sims2::ui::CornerLogo(sims2::ui::kDirect,0xb,512,512,7,sims2::ui::kSimsLogoMip,{NAN,0,128,128}),"invalid logo bounds unchanged");
     Require(std::fabs(32*45.0f/56*2-51.428571f)<.0001f,"left-anchored 720p margin retains authored position without center gutter");
-    std::puts("PASS_UI_LAYOUT: synthetic group anchoring, preserved CB fields, reflow, mattes and pass-through");
+    Require(sims2::ui::CasEditorScreen(4) && sims2::ui::CasEditorScreen(16),"CAS main and item grid are editor pages");
+    for(unsigned screen:{0u,3u,23u,24u,UINT32_MAX})
+        Require(!sims2::ui::CasEditorScreen(screen),"CAS genetics, keyboard, family and unknown screens retain centered mapping");
+    Require(sims2::ui::CasDrawAnchor({22,32,237,448})==-1,"CAS left panel and title stay together at left edge");
+    Require(sims2::ui::CasDrawAnchor({510,370,606,430})==1,"CAS labels and button symbols use right edge");
+    Require(sims2::ui::CasDrawAnchor({144,58,496,410})==0,"centered dialog panel is not an edge group");
+    Require(sims2::ui::CasDrawAnchor({0,16,640,464})==0,"CAS full-screen layer stays full width");
+    Require(sims2::ui::CasDrawAnchor({NAN,0,200,200})==0,"CAS invalid geometry is rejected");
+    Require(sims2::ui::CasDrawAnchor({200,100,100,200})==0,"CAS inverted geometry is rejected");
+    Require(sims2::ui::CasModalChange("LoadWidget","<scrn><scrnid>0G2D</scrnid></scrn>")==1,"CAS modal disables edge mapping");
+    Require(sims2::ui::CasModalChange("Tween","<tween><id>0G2D</id><alpha>0</alpha></tween>")==0,"CAS modal stays centered through its fade-out");
+    Require(sims2::ui::CasModalChange("RemoveScreen","0G2D")==-1,"CAS anchors resume only when the modal is removed");
+    Require(sims2::ui::CasModalChange("LoadWidget","<scrn><scrnid>other</scrnid><subscrn>0G2D</subscrn></scrn>")==0,"other root with modal-like text is ignored");
+    constexpr float uiScale=45.f/56;
+    Require(std::fabs((1-uiScale)*640-2*(1-uiScale)*320)<1e-5f,"CAS left and right shifts are symmetric");
+    std::puts("PASS_UI_LAYOUT: synthetic group anchoring, preserved CB fields, reflow, mattes, CAS and pass-through");
 }

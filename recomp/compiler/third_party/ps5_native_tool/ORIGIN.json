@@ -1,0 +1,35 @@
+{
+  "repository": "https://github.com/mihawk-99/PS5_Vulkan",
+  "revision": "f410e67a0241b3e8edcdbcd2a9b285dfc4a412ed",
+  "files": {
+    "tooling/native/elf_object.cpp": {
+      "bytes": 12125,
+      "sha256": "2fc0f25fb67e1dd1b1a7c91e78e7ae191a1d08f95b9ac4047c6a252606077ae9"
+    },
+    "tooling/native/elf_object.hpp": {
+      "bytes": 3748,
+      "sha256": "fc12dd8f98cfb282cad5b0a541338e49b8ccbb87006a89cc5fff05ea4fe3aacb"
+    },
+    "tooling/native/sce_module_writer.cpp": {
+      "bytes": 37431,
+      "sha256": "7d218781ec1bc077476bcf49685a9c230e5ade1b032d909ae7f883ad80c99ab5"
+    },
+    "tooling/native/sce_module_writer.hpp": {
+      "bytes": 869,
+      "sha256": "b80586c50b72b7ff4160c0944903390299f723ad7629b4ccb162275d1023761d"
+    },
+    "tooling/native/self_container.cpp": {
+      "bytes": 22199,
+      "sha256": "a0f9fb36fac13dd07bea05044e5165c35de39cdc5ef4b386bcc6789a0a939e61"
+    },
+    "tooling/native/self_container.hpp": {
+      "bytes": 2305,
+      "sha256": "c06a754fb6897b816154a598cdc7413dcbb2260baed54e00d8e854bbed9b7100"
+    },
+    "tooling/native/hash.hpp": {
+      "bytes": 6220,
+      "sha256": "f76621a0d649f0920debbe813cc562498aa478d5c503de73b66e7cf4db9d4e5d"
+    }
+  },
+  "changes": "None; library algorithms used directly, no host CLI or system modifications"
+}

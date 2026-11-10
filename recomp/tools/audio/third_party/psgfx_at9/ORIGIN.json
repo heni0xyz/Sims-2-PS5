@@ -1,0 +1,21 @@
+{
+  "repository": "https://github.com/elripalda/psgfx",
+  "revision": "5ee7aa9e7d91c9f518322847d13a6bda5ba97837",
+  "path": "src/lib/at9",
+  "license": "GPL-3.0-or-later; MIT tables; CC0/MIT-0 input decoders",
+  "files": {
+    "at9.h": "e53528e33bdab7ceefb6c87c905d138986e22c71b9568b6e2212d97b6c4b14d8",
+    "at9_decode.cpp": "7833e6a443e8518fc43ea18c5e427c16f0a64c1935dc6a78fbddb79e0c81e85a",
+    "at9_encoder.cpp": "ee34f1e7e6763eec5bbdab5be515d5a09d6947df7bdcc49109995cb90b9e6d3d",
+    "at9_internal.h": "41e73b351622fa7694b869e9bcf8ddad2214dfa13092fd989e68e095b7c226a7",
+    "at9_snd0.cpp": "e0d8158546112b13107f1af2ab5df40e93b2e5a79ef4bd0327150cd735e3f17f",
+    "at9_tables.cpp": "81bd14175f7d093b7fdba28e28f06d383f19a492f4aacabd819bac1e361432df",
+    "at9_tables.h": "174df1b5d21055f52ea86695f905038adc0de162b7dfb7c0689dc419512a6a64",
+    "dr_flac.h": "1b76a2ef33ff7d14974894ad36085fa6fe8776a94c2d4493268f11fcb947ce99",
+    "dr_wav.h": "e739b7993825c3650c924122e2106ced87bf4a186b66651e2c6ade1eb3bfda4a",
+    "LICENSE": "bfde1fd94c3b17b89fbbfa6321660c8284f631bf126db1e0a32c897944a842db",
+    "minimp3.h": "29735314aa1814ca4b089a3605202c1f57af67b3413603dfb246402eff413fd7",
+    "minimp3_ex.h": "669d7d0fd3768e1fb99026267b02e6f069fe97350fa5c1eec9ac1f7d64189a9b",
+    "NOTICES.md": "6823e2f0c5e1b6dff25530f298b7a5a5a90d2435c60ada56b9bedec3f6ec57b9"
+  }
+}

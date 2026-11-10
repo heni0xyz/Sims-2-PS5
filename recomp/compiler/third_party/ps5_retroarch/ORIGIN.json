@@ -1,0 +1,18 @@
+{
+  "repository": "https://github.com/mihawk-99/PS5_RetroArch",
+  "revision": "7268510b12fe7461342e0cc4497c87a0910c1055",
+  "files": {
+    "LICENSE": {
+      "bytes": 35149,
+      "sha256": "3972dc9744f6499f0f9b2dbf76696f2ae7ad8af9b23dde66d6af86c9dfb36986"
+    },
+    "src/core_loader_ps5.cpp": {
+      "bytes": 29041,
+      "sha256": "4596e38678101e367a2cda79deabc1563a11d518489d50ce819a52730a5758fc"
+    },
+    "tooling/native/ps5-core.ld": {
+      "bytes": 1373,
+      "sha256": "5ffe0f0e99e23de5245afb46fa6dfda6dd860b53d942a5fe2f06eaf9e520df42"
+    }
+  }
+}

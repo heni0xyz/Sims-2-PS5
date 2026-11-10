@@ -1,0 +1,15 @@
+{
+  "build_id": "0aaecaff5112dfb3dddcca1f",
+  "status": "BUILD_PASS_RUNTIME_NOT_TESTED",
+  "eboot_sha256": "9b62d1933fc183c0362fb81351b9cff65f41db61b7412c78574e2e63b1987a71",
+  "eboot_bytes": 59841949,
+  "deep_profile": true,
+  "guest_sampling": true,
+  "optimization": "O2",
+  "debug_symbols": "g1",
+  "telemetry_test": "PASS_SYNTHETIC_HOST_ONLY",
+  "analyzer_tests": "PASS_6_TESTS",
+  "ps5_execution": "NOT_TESTED",
+  "stable_60_fps": "NOT_TESTED",
+  "debug_elf": "work/sims2-independent/out/fps-diagnostic/native-0aaecaff/llvm-pie.elf"
+}

@@ -56,6 +56,20 @@ int main() {
         app::Get().width=1920;app::Get().height=1080;app::Get().fps_cap=60;app::Get().aspect_ratio="16:9";
         sims2::ui::enabled=true;
         app::Load();app::LogSystem();
+#if defined(SIMS2_PERFORMANCE_LOG)
+        LOGI("perf: build-config schema=1 deep=%u guest_samples=%u fps_cap=%u vsync=%u (diagnostic overhead; compare with normal profile before accepting performance)",
+#if defined(XBE_DEEP_PROFILE) && XBE_DEEP_PROFILE
+             1u,
+#else
+             0u,
+#endif
+#if defined(XBE_GUEST_PROFILE) && XBE_GUEST_PROFILE
+             1u,
+#else
+             0u,
+#endif
+             app::Get().fps_cap,unsigned(app::Get().vsync));
+#endif
         input::Init();
         app::GameFiles game;
         std::string data_error;

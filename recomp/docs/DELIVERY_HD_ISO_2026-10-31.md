@@ -88,7 +88,7 @@ python tools/ps5/export_link_inputs.py out/build/ps5-game-profile private/hd-iso
 In the configured Linux VM, the executed command was:
 
 ```sh
-python3 /path/to/build-host/sims2-work/sims2-independent-hd-iso/tools/ps5/link_and_package.py --inputs /path/to/build-host/hd-iso-7bd91d7c-link-inputs.tar.gz --foundation /path/to/build-host/sims2-work/PS5_Sims2Independent --vulkan /path/to/build-host/sims2-work/PS5_Vulkan --payload-sdk-fork /path/to/build-host/sims2-work/PS5_PayloadSDK-Sims2 --resolution 4k
+python3 /home/debian/sims2-work/sims2-independent-hd-iso/tools/ps5/link_and_package.py --inputs /home/debian/hd-iso-7bd91d7c-link-inputs.tar.gz --foundation /home/debian/sims2-work/PS5_Sims2Independent --vulkan /home/debian/sims2-work/PS5_Vulkan --payload-sdk-fork /home/debian/sims2-work/PS5_PayloadSDK-Sims2 --resolution 4k
 ```
 
 Back on Windows, validate_delivery.py <native-directory> --extract and

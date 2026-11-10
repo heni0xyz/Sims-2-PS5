@@ -1,24 +1,258 @@
 {
-  "schema": 1,
-  "source_snapshot_sha256": "618b30063efbbdbe62becc49fb0994dd2f72d377781f14c881e82a957ea4c80f",
+  "schema": 2,
   "components": {
     "project": {
-      "revision": "aa0ee2ac07990b8c4c07813d9c549c530d4a8cc9",
-      "archive_prefix": "sims2-independent"
+      "revision": "08f3a13dfb43f621a4b531b3011cac19bc05b4c1",
+      "archive_prefix": "recomp",
+      "omitted": [
+        ".gitmodules"
+      ],
+      "flattened_links": {},
+      "export_overrides": {
+        ".gitattributes": {
+          "source_sha256": "f9fc026f4e4368383a9ec35e1097513cacfd86691c12b9a79251eb7c9697dd73",
+          "reason": "Git attributes only; preserve source bytes across Windows checkouts."
+        },
+        "compiler/third_party/ps5_native_tool/.gitattributes": {
+          "source_sha256": "a79691a93b46e49ce460c26ef22afcc03d6eca1e63bf2edbc20e96159510f6c9",
+          "reason": "Git attributes only; preserve source bytes across Windows checkouts."
+        },
+        "compiler/third_party/ps5_retroarch/.gitattributes": {
+          "source_sha256": "a79691a93b46e49ce460c26ef22afcc03d6eca1e63bf2edbc20e96159510f6c9",
+          "reason": "Git attributes only; preserve source bytes across Windows checkouts."
+        },
+        "compiler/third_party/zlib_headers/.gitattributes": {
+          "source_sha256": "a79691a93b46e49ce460c26ef22afcc03d6eca1e63bf2edbc20e96159510f6c9",
+          "reason": "Git attributes only; preserve source bytes across Windows checkouts."
+        }
+      }
     },
     "sdk": {
-      "revision": "faeb0eaca270e01a9e83bb2bc587c824c458ac32",
-      "archive_prefix": "sims2-independent/sdk"
+      "revision": "f57d28fe65117a20612abc72f2f20d1cd3c8c8e4",
+      "archive_prefix": "recomp/sdk",
+      "omitted": [],
+      "flattened_links": {},
+      "export_overrides": {
+        ".gitattributes": {
+          "source_sha256": "5c69dbc84e5005c50b514105ccc4faa8063b1a2730c12430df2e76012c8c62ca",
+          "reason": "Git attributes only; preserve source bytes across Windows checkouts."
+        },
+        "templates/game/.gitattributes": {
+          "source_sha256": "c097b920734e9f78faf0f2c22bdd4eef18ea881b80d289e94d87574d628d8697",
+          "reason": "Git attributes only; preserve source bytes across Windows checkouts."
+        }
+      }
     },
     "runtime-sdk": {
-      "revision": "163c80f2a9a2ac5b35b71eeebacae5526988b3de",
-      "archive_prefix": "sims2-independent/runtime-sdk"
+      "revision": "b7d6b489225b285d0fa9be25f882662d2dce063c",
+      "archive_prefix": "recomp/runtime-sdk",
+      "omitted": [],
+      "flattened_links": {},
+      "export_overrides": {
+        ".gitattributes": {
+          "source_sha256": "c097b920734e9f78faf0f2c22bdd4eef18ea881b80d289e94d87574d628d8697",
+          "reason": "Git attributes only; preserve source bytes across Windows checkouts."
+        },
+        "templates/game/.gitattributes": {
+          "source_sha256": "c097b920734e9f78faf0f2c22bdd4eef18ea881b80d289e94d87574d628d8697",
+          "reason": "Git attributes only; preserve source bytes across Windows checkouts."
+        }
+      }
+    },
+    "ps5-installer": {
+      "revision": "273135e5d03efaa798f67c0d3747501fb0586091",
+      "archive_prefix": "PS5_Sims2Installer",
+      "omitted": [
+        "ps5/screenshots/bloom.jpg",
+        "ps5/screenshots/computeparticles.jpg",
+        "ps5/screenshots/deferred.jpg",
+        "ps5/screenshots/descriptorindexing.jpg",
+        "ps5/screenshots/designs/aurora.jpg",
+        "ps5/screenshots/designs/boot.jpg",
+        "ps5/screenshots/designs/carousel.jpg",
+        "ps5/screenshots/designs/components.jpg",
+        "ps5/screenshots/designs/constellation.jpg",
+        "ps5/screenshots/designs/dashboard.jpg",
+        "ps5/screenshots/designs/editorial.jpg",
+        "ps5/screenshots/designs/files.jpg",
+        "ps5/screenshots/designs/hud.jpg",
+        "ps5/screenshots/designs/inventory.jpg",
+        "ps5/screenshots/designs/keyboard.jpg",
+        "ps5/screenshots/designs/neon.jpg",
+        "ps5/screenshots/designs/paper.jpg",
+        "ps5/screenshots/designs/player.jpg",
+        "ps5/screenshots/designs/radial.jpg",
+        "ps5/screenshots/designs/settings.jpg",
+        "ps5/screenshots/designs/store.jpg",
+        "ps5/screenshots/designs/terminal.jpg",
+        "ps5/screenshots/designs/themes.jpg",
+        "ps5/screenshots/designs/toolbox.jpg",
+        "ps5/screenshots/designs/trophies.jpg",
+        "ps5/screenshots/dynamicrendering.jpg",
+        "ps5/screenshots/gltfloading.jpg",
+        "ps5/screenshots/imgui.jpg",
+        "ps5/screenshots/indirectdraw.jpg",
+        "ps5/screenshots/instancing.jpg",
+        "ps5/screenshots/meshshader.jpg",
+        "ps5/screenshots/multisampling.jpg",
+        "ps5/screenshots/pbrtexture.jpg",
+        "ps5/screenshots/rayquery.jpg",
+        "ps5/screenshots/shadowmapping.jpg",
+        "ps5/screenshots/starter.jpg",
+        "ps5/screenshots/texturemipmapgen.jpg",
+        "ps5/screenshots/themes/acrylic.jpg",
+        "ps5/screenshots/themes/admin.jpg",
+        "ps5/screenshots/themes/ant.jpg",
+        "ps5/screenshots/themes/blueprint.jpg",
+        "ps5/screenshots/themes/brutal.jpg",
+        "ps5/screenshots/themes/candy.jpg",
+        "ps5/screenshots/themes/chakra.jpg",
+        "ps5/screenshots/themes/classic.jpg",
+        "ps5/screenshots/themes/clay.jpg",
+        "ps5/screenshots/themes/code.jpg",
+        "ps5/screenshots/themes/contrast.jpg",
+        "ps5/screenshots/themes/crisp.jpg",
+        "ps5/screenshots/themes/daisy.jpg",
+        "ps5/screenshots/themes/fresh.jpg",
+        "ps5/screenshots/themes/friendly.jpg",
+        "ps5/screenshots/themes/gloss.jpg",
+        "ps5/screenshots/themes/hazard.jpg",
+        "ps5/screenshots/themes/humane.jpg",
+        "ps5/screenshots/themes/layers.jpg",
+        "ps5/screenshots/themes/light.jpg",
+        "ps5/screenshots/themes/neutral.jpg",
+        "ps5/screenshots/themes/paper.jpg",
+        "ps5/screenshots/themes/pico.jpg",
+        "ps5/screenshots/themes/pill.jpg",
+        "ps5/screenshots/themes/pixel.jpg",
+        "ps5/screenshots/themes/sketch.jpg",
+        "ps5/screenshots/themes/soft.jpg",
+        "ps5/screenshots/themes/standard.jpg",
+        "ps5/screenshots/themes/tiles.jpg",
+        "ps5/screenshots/themes/utility.jpg",
+        "ps5/screenshots/vulkan-template.mp4",
+        "ps5/screenshots/vulkan-template.webp"
+      ],
+      "flattened_links": {},
+      "export_overrides": {
+        ".gitattributes": {
+          "source_sha256": null,
+          "reason": "Git attributes only; preserve source bytes across Windows checkouts."
+        }
+      }
     },
     "ps5-foundation": {
       "revision": "1d9a274d0615d8995fae9c0138421fe34e76b2db",
-      "archive_prefix": "PS5_Sims2Independent"
+      "archive_prefix": "PS5_Sims2Independent",
+      "omitted": [
+        "ps5/screenshots/bloom.jpg",
+        "ps5/screenshots/computeparticles.jpg",
+        "ps5/screenshots/deferred.jpg",
+        "ps5/screenshots/descriptorindexing.jpg",
+        "ps5/screenshots/designs/aurora.jpg",
+        "ps5/screenshots/designs/boot.jpg",
+        "ps5/screenshots/designs/carousel.jpg",
+        "ps5/screenshots/designs/components.jpg",
+        "ps5/screenshots/designs/constellation.jpg",
+        "ps5/screenshots/designs/dashboard.jpg",
+        "ps5/screenshots/designs/editorial.jpg",
+        "ps5/screenshots/designs/files.jpg",
+        "ps5/screenshots/designs/hud.jpg",
+        "ps5/screenshots/designs/inventory.jpg",
+        "ps5/screenshots/designs/keyboard.jpg",
+        "ps5/screenshots/designs/neon.jpg",
+        "ps5/screenshots/designs/paper.jpg",
+        "ps5/screenshots/designs/player.jpg",
+        "ps5/screenshots/designs/radial.jpg",
+        "ps5/screenshots/designs/settings.jpg",
+        "ps5/screenshots/designs/store.jpg",
+        "ps5/screenshots/designs/terminal.jpg",
+        "ps5/screenshots/designs/themes.jpg",
+        "ps5/screenshots/designs/toolbox.jpg",
+        "ps5/screenshots/designs/trophies.jpg",
+        "ps5/screenshots/dynamicrendering.jpg",
+        "ps5/screenshots/gltfloading.jpg",
+        "ps5/screenshots/imgui.jpg",
+        "ps5/screenshots/indirectdraw.jpg",
+        "ps5/screenshots/instancing.jpg",
+        "ps5/screenshots/meshshader.jpg",
+        "ps5/screenshots/multisampling.jpg",
+        "ps5/screenshots/pbrtexture.jpg",
+        "ps5/screenshots/rayquery.jpg",
+        "ps5/screenshots/shadowmapping.jpg",
+        "ps5/screenshots/starter.jpg",
+        "ps5/screenshots/texturemipmapgen.jpg",
+        "ps5/screenshots/themes/acrylic.jpg",
+        "ps5/screenshots/themes/admin.jpg",
+        "ps5/screenshots/themes/ant.jpg",
+        "ps5/screenshots/themes/blueprint.jpg",
+        "ps5/screenshots/themes/brutal.jpg",
+        "ps5/screenshots/themes/candy.jpg",
+        "ps5/screenshots/themes/chakra.jpg",
+        "ps5/screenshots/themes/classic.jpg",
+        "ps5/screenshots/themes/clay.jpg",
+        "ps5/screenshots/themes/code.jpg",
+        "ps5/screenshots/themes/contrast.jpg",
+        "ps5/screenshots/themes/crisp.jpg",
+        "ps5/screenshots/themes/daisy.jpg",
+        "ps5/screenshots/themes/fresh.jpg",
+        "ps5/screenshots/themes/friendly.jpg",
+        "ps5/screenshots/themes/gloss.jpg",
+        "ps5/screenshots/themes/hazard.jpg",
+        "ps5/screenshots/themes/humane.jpg",
+        "ps5/screenshots/themes/layers.jpg",
+        "ps5/screenshots/themes/light.jpg",
+        "ps5/screenshots/themes/neutral.jpg",
+        "ps5/screenshots/themes/paper.jpg",
+        "ps5/screenshots/themes/pico.jpg",
+        "ps5/screenshots/themes/pill.jpg",
+        "ps5/screenshots/themes/pixel.jpg",
+        "ps5/screenshots/themes/sketch.jpg",
+        "ps5/screenshots/themes/soft.jpg",
+        "ps5/screenshots/themes/standard.jpg",
+        "ps5/screenshots/themes/tiles.jpg",
+        "ps5/screenshots/themes/utility.jpg",
+        "ps5/screenshots/vulkan-template.mp4",
+        "ps5/screenshots/vulkan-template.webp"
+      ],
+      "flattened_links": {},
+      "export_overrides": {
+        ".gitattributes": {
+          "source_sha256": null,
+          "reason": "Git attributes only; preserve source bytes across Windows checkouts."
+        }
+      }
+    },
+    "native-sdk": {
+      "revision": "60ea4c66bf0944e85ea1d3eb078ec45079e7616b",
+      "archive_prefix": "vendor/PS5_PayloadSDK",
+      "omitted": [],
+      "flattened_links": {
+        "include/freebsd/_semaphore.h": "sys/_semaphore.h",
+        "include/freebsd/aio.h": "sys/aio.h",
+        "include/freebsd/errno.h": "sys/errno.h",
+        "include/freebsd/fcntl.h": "sys/fcntl.h",
+        "include/freebsd/float.h": "machine/float.h",
+        "include/freebsd/floatingpoint.h": "machine/floatingpoint.h",
+        "include/freebsd/linker_set.h": "sys/linker_set.h",
+        "include/freebsd/ncurses.h": "curses.h",
+        "include/freebsd/poll.h": "sys/poll.h",
+        "include/freebsd/sched.h": "sys/sched.h",
+        "include/freebsd/stdarg.h": "machine/stdarg.h",
+        "include/freebsd/stdatomic.h": "sys/stdatomic.h",
+        "include/freebsd/stdint.h": "sys/stdint.h",
+        "include/freebsd/syslog.h": "sys/syslog.h",
+        "include/freebsd/ucontext.h": "sys/ucontext.h"
+      },
+      "export_overrides": {
+        ".gitattributes": {
+          "source_sha256": null,
+          "reason": "Git attributes only; preserve source bytes across Windows checkouts."
+        }
+      }
     }
   },
-  "layout": "SDK source trees are included, not Git submodules. No unpublished commit must be fetched.",
+  "layout": "Complete SDK source trees included; no unpublished commit fetch is required.",
+  "launcher_candidate": "8db5af5a5dd85551",
   "native_game_code_included": false
 }

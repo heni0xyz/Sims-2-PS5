@@ -2,6 +2,7 @@
 #include "game/ui_layout.h"
 #include "game/ui_aspect.h"
 #include "game/menu_diagnostics.h"
+#include "game/cas_layout.h"
 #include "app/app.h"
 #include "kernel/kernel.h"
 #include "core/log.h"
@@ -126,6 +127,18 @@ void TraceUiLayout(const X86Context&,const std::string&,const std::string&);
 #endif
 X86_FUNC(sub_0001E080) {
     const uint32_t stack=ctx.esp;
+    std::string modal_operation,modal_argument;
+    // Observe the original modal's real lifetime, including its fade-out.
+    // Publish only after the original bridge succeeds. CAS itself does not
+    // use these XML roots, so generic dialogs retain one centered transform.
+    if(GuestString(kernel::R32(stack+4),80)=="cmdProc") {
+        const uint32_t count=kernel::R32(stack+16);
+        if(count>=2 && count<=5) {
+            modal_operation=GuestString(kernel::R32(stack+20),80);
+            if(modal_operation=="LoadWidget" || modal_operation=="RemoveScreen")
+                modal_argument=GuestString(kernel::R32(stack+24),65536);
+        }
+    }
     const bool active=sims2::ui::enabled && sims2::ui::edge_anchors && app::Get().aspect_ratio=="16:9";
 #if defined(SIMS2_HEADLESS_RUNTIME)
     const bool trace=std::getenv("SIMS2_UI_LAYOUT_TRACE")!=nullptr;
@@ -142,7 +155,7 @@ X86_FUNC(sub_0001E080) {
                 const auto value=GuestString(kernel::R32(stack+20+4*i),512);
                 if(!value.empty())arguments+="arg"+std::to_string(i)+"="+value+";";
             }
-            if(arguments.find("0M2M")!=arguments.npos || arguments.find("_box")!=arguments.npos)
+            if(arguments.find("0M2M")!=arguments.npos || arguments.find("_box")!=arguments.npos || arguments.find("CAS")!=arguments.npos)
                 TraceUiLayout(ctx,"Call-"+function,arguments);
         }
     }
@@ -154,7 +167,7 @@ X86_FUNC(sub_0001E080) {
 #if defined(SIMS2_HEADLESS_RUNTIME)
             if(trace && operation!="LoadWidget" && operation!="Reflow") {
                 const auto argument=GuestString(kernel::R32(stack+24),65536);
-                if(argument.find("0M2M")!=argument.npos || argument.find("dialogbox")!=argument.npos)
+                if(argument.find("0M2M")!=argument.npos || argument.find("0G2D")!=argument.npos || argument.find("dialogbox")!=argument.npos)
                     TraceUiLayout(ctx,operation,argument);
             }
 #endif
@@ -192,5 +205,6 @@ X86_FUNC(sub_0001E080) {
         }
     }
     __imp__sub_0001E080(ctx,base);
+    sims2::ui::NoteCasModal(modal_operation,modal_argument);
 }
 #endif

@@ -57,7 +57,7 @@ python tools/ps5/export_link_inputs.py out/build/ps5-game-profile private/instal
 On the existing local Linux VM, from the new committed source checkout:
 
 ```text
-python3 tools/ps5/link_and_package.py --inputs /path/to/build-host/installer-opensans-9bb7544b-link-inputs.tar.gz --foundation /path/to/build-host/sims2-work/PS5_Sims2Independent --vulkan /path/to/build-host/sims2-work/PS5_Vulkan --payload-sdk-fork /path/to/build-host/sims2-work/PS5_PayloadSDK-Sims2 --resolution 4k
+python3 tools/ps5/link_and_package.py --inputs /home/debian/installer-opensans-9bb7544b-link-inputs.tar.gz --foundation /home/debian/sims2-work/PS5_Sims2Independent --vulkan /home/debian/sims2-work/PS5_Vulkan --payload-sdk-fork /home/debian/sims2-work/PS5_PayloadSDK-Sims2 --resolution 4k
 ```
 
 After copying results locally:

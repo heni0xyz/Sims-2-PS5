@@ -1,0 +1,43 @@
+{
+  "date": "2026-11-10",
+  "build_id": "7e81417b20d88218",
+  "title_id": "PPSA99148",
+  "build": "PASS",
+  "source_closure": "PASS",
+  "public_package_hashes": "PASS",
+  "host_ui_layouts": 10,
+  "tab_transition_frames": 11,
+  "play_fade_frames": 13,
+  "play_fade_ms": 180,
+  "terminal_frame": "PASS_ALL_BLACK_HOST",
+  "host_update_transaction_tests": 13,
+  "host_http_contract_cases": 10,
+  "host_full_bundle": {
+    "status": "PASS_HOST_FULL_PUBLIC_BUNDLE",
+    "build_id": "7e81417b20d88218",
+    "files": 3254,
+    "bytes": 513587921,
+    "sha256": "e8ee1aebdf4fd5d781680222b9014203e10f6e33b19ca5cc342d663e6c985085",
+    "private_fixture_preserved": true,
+    "native_eboot_replacement": true,
+    "scope": "Production bundle writer/staging/apply and full-size eboot replacement on host filesystem; no network, SELF execution or PS5 LoadExec"
+  },
+  "owner_iso": {
+    "status": "PASS_HOST_ISO_EXTRACTION_AND_GENERATION",
+    "xbe_sha1": "16f9e41ce26c315a758f25d43ba1fa9d3809d1ad",
+    "files": 71,
+    "units": 65,
+    "legacy_placeholder": true,
+    "save_fixture_preserved": true,
+    "scope": "Fresh owner ISO extraction, patches and production generator parity; no cached guest objects; no full compile/link/Play in this test"
+  },
+  "runtime_validation": "NOT_TESTED",
+  "full_iso_to_play_on_ps5": "NOT_TESTED",
+  "performance": "NOT_TESTED_THIS_CANDIDATE",
+  "deployment": "NOT_PERFORMED_LOCAL_ONLY",
+  "publication": "NOT_PERFORMED",
+  "installed_console_build_unchanged": "1bd9b9f22e9e99bb",
+  "artifact_pointer": "out/ps5-installer/package-result.json",
+  "local_core_commit": "8ddfb30",
+  "local_branch": "codex/launcher-navigation-updater"
+}

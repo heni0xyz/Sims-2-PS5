@@ -1,0 +1,4 @@
+* text eol=lf
+
+# Source snapshot: preserve exact bytes across checkouts.
+* -text

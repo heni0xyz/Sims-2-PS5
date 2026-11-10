@@ -1,0 +1,18 @@
+{
+  "input_rate": 48000,
+  "input_channels": 2,
+  "input_seconds": 120,
+  "clip_seconds": 120,
+  "bitrate_kbps": 120,
+  "loop": true,
+  "bytes": 1800488,
+  "loudness_lufs": -28.0,
+  "sample_rate": 48000,
+  "channels": 2,
+  "frames": 5760000,
+  "source_sha256": "5091f1d51b379088e4f4d159323b0cb9e63650b061d627f3927e82617c072a70",
+  "snd0_sha256": "afdb5e9b281aae7d977da75e4b20898f826c810019bf047ad28138fbe76bbf63",
+  "encoder_revision": "5ee7aa9e7d91c9f518322847d13a6bda5ba97837",
+  "validation": "HOST_CONTAINER_AND_PCM_PASS",
+  "console_home_playback": "NOT_TESTED"
+}

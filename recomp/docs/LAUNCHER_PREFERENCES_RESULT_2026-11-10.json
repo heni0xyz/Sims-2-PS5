@@ -1,0 +1,17 @@
+{
+  "date": "2026-11-10",
+  "build_id": "1bd9b9f22e9e99bb",
+  "title_id": "PPSA99148",
+  "build": "PASS",
+  "deploy": "PASS_20_FILES_SHA256",
+  "background": "PASS_BC7_3840x2160_AND_HOME_REGISTRATION",
+  "launcher_music_gain": 0.2,
+  "persistent_mute": "HOST_TEST_PASS_CONSOLE_PENDING",
+  "music_toggle": "DualSense touchpad",
+  "update_section": "AVAILABLE_BEFORE_INSTALL",
+  "launcher_update": "VERSION_CHECK_ONLY_AUTOMATIC_INSTALLER_PENDING",
+  "game_update": "EXPLICIT_LOCAL_PAYLOAD_UPDATE_COMPILES_CONSOLE_PENDING",
+  "public_release_checked": "v1.0.0",
+  "saves_settings_preserved": true,
+  "application_launched": false
+}

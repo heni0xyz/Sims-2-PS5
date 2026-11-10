@@ -1,0 +1,10 @@
+{
+  "repository": "https://github.com/elripalda/psgfx",
+  "revision": "5ee7aa9e7d91c9f518322847d13a6bda5ba97837",
+  "author": "Richard Geldreich, Jr.",
+  "license": "MIT or public domain; full notice in source",
+  "files": {
+    "bc7enc.h": "5a31d20d41d6fe87b4c2946b64566ab0fe7ba08533ceb2ce70faf955e617960c",
+    "bc7enc.cpp": "8060ced7992267cbde0cff97e369955b250cfde2558af22645b69bfc29576e39"
+  }
+}
