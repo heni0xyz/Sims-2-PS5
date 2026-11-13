@@ -8,6 +8,10 @@
 
 using namespace kernel;
 
+#if defined(SIMS2_HEADLESS_RUNTIME) || defined(SIMS2_NATIVE_THUMBNAILS)
+void ProbePendingFamilyPortrait(const X86Context& ctx, uint8_t* base, bool requested);
+#endif
+
 namespace {
 
 // XPP device type records: CurrentConnected, ChangeConnected, PreviousConnected
@@ -101,6 +105,9 @@ HLE_STDCALL(XInputGetState, 2) {
         LOG_FIRST(4, "xapi: XInputGetState port=%u not connected", port);
         return 1167;  // ERROR_DEVICE_NOT_CONNECTED
     }
+#if defined(SIMS2_HEADLESS_RUNTIME) || defined(SIMS2_NATIVE_THUMBNAILS)
+    if (port == 0) ProbePendingFamilyPortrait(ctx, kernel::g_base, p.analog[2] > 127);
+#endif
     std::lock_guard<std::mutex> lock(g_ports_lock);
     Handle& h = g_handles[a[0]];
     const bool buttons_changed = p.buttons != h.last.buttons || std::memcmp(p.analog, h.last.analog, 8) != 0;

@@ -1,3 +1,12 @@
+# PS5-only launcher test candidate 1.1.1
+
+- Plum Glass launcher with Play, Install and Update icons, a subtle gradient on
+  the selected tab, and an update notice shown when a new release is available.
+- Experimental native Sim portraits. The runtime regenerates supported
+  32×32 thumbnails at 128×128 and includes a 512×512 path for Create a Sim.
+  Family thumbnails have been checked in the PC renderer. Gameplay, Create a
+  Sim and the complete ISO-to-Play flow still need PS5 validation.
+
 # PS5-only launcher source candidate (1.1.0 / 8db5af5a)
 
 - Prepare the owner's USA Xbox ISO on PS5, including code generation,

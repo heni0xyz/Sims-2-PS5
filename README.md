@@ -56,7 +56,7 @@ required. [BUILD.md](BUILD.md) describes maintainer builds; [SOURCES.md](SOURCES
 records dependencies. Reproduce the source ZIP with:
 
 ```text
-python tools/package_source.py --output ../source-package --version 1.1.0
+python tools/package_source.py --output ../source-package --version 1.1.1
 ```
 
 The archive contains source and the supplied presentation resources, excluding
