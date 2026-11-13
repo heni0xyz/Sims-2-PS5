@@ -153,6 +153,7 @@ struct Viewport {
 struct Surface {
     uint32_t header = 0;  // guest D3DSurface
     uint32_t data = 0, format = 0, size = 0;
+    uint32_t rasterScale = 0;  // explicit host scale, zero selects the renderer default
 };
 
 struct State {

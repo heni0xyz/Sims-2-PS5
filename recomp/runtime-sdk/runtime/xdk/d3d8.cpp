@@ -58,6 +58,21 @@ using namespace kernel;
 #endif
 
 namespace d3d {
+#if defined(SIMS2_HEADLESS_RUNTIME) || defined(SIMS2_NATIVE_THUMBNAILS)
+static std::atomic<uint32_t> thumbnailRequests{0};
+static std::atomic<uint32_t> casPortraitRequests{0};
+static std::atomic<uint32_t> artworkRequests{0};
+void BeginPortraitRaster(PortraitRaster pass) {
+    if (pass == PortraitRaster::Thumbnail) thumbnailRequests.fetch_add(1, std::memory_order_release);
+    if (pass == PortraitRaster::CasPortrait) casPortraitRequests.fetch_add(1, std::memory_order_release);
+    if (pass == PortraitRaster::Artwork) artworkRequests.fetch_add(1, std::memory_order_release);
+}
+void EndPortraitRaster(PortraitRaster pass) {
+    if (pass == PortraitRaster::Thumbnail) thumbnailRequests.fetch_sub(1, std::memory_order_release);
+    if (pass == PortraitRaster::CasPortrait) casPortraitRequests.fetch_sub(1, std::memory_order_release);
+    if (pass == PortraitRaster::Artwork) artworkRequests.fetch_sub(1, std::memory_order_release);
+}
+#endif
 namespace {
 bool g_async_gpu_callbacks=false;
 std::once_flag g_callback_worker;
@@ -769,12 +784,64 @@ HLE_STDCALL(D3DDevice_SetRenderTarget, 2) {
     AddRef(ctx, zs);
     Release(ctx, old_rt);
     Release(ctx, old_zs);
-    Set(g_state.rt, SurfaceOf(rt));
-    Set(g_state.zs, SurfaceOf(zs));
+    auto colourSurface = SurfaceOf(rt);
+    auto depthSurface = SurfaceOf(zs);
+#if defined(SIMS2_HEADLESS_RUNTIME) || defined(SIMS2_NATIVE_THUMBNAILS)
+#if defined(SIMS2_NATIVE_THUMBNAILS)
+    constexpr uint32_t portraitRasterScale = 4;
+#else
+    static const uint32_t portraitRasterScale = [] {
+        const char* value = std::getenv("SIMS2_PORTRAIT_RASTER_SCALE");
+        if (!value) return 0u;
+        if (std::strcmp(value, "4") == 0) return 4u;
+        return std::strcmp(value, "1") == 0 ? 1u : 0u;
+    }();
+#endif
+    if (portraitRasterScale && R32(ctx.esp) == 0x00214f9c &&
+        (thumbnailRequests.load(std::memory_order_acquire) || artworkRequests.load(std::memory_order_acquire) ||
+         casPortraitRequests.load(std::memory_order_acquire))) {
+        gpu::TextureDesc colour{};
+        gpu::TextureDesc depth{};
+        if (gpu::DescribeSurface(colourSurface, colour) && colour.width == colour.height &&
+            (!zs || (gpu::DescribeSurface(depthSurface, depth) && depth.width == colour.width && depth.height == colour.height))) {
+            uint32_t scale = 0;
+            if (colour.width == 64 && (colour.format == 0x12 || colour.format == 0x1e) &&
+                colour.pitch == 256 && thumbnailRequests.load(std::memory_order_acquire)) {
+                // The game rasterizes its 32px icon into a 64px target before quantizing it.
+                scale = portraitRasterScale == 4 ? 2 : 1;
+            } else if (colour.width == 128 && (colour.format == 0x12 || colour.format == 0x1e) &&
+                       colour.pitch == 512 && casPortraitRequests.load(std::memory_order_acquire)) {
+                scale = portraitRasterScale;
+            } else if (colour.width == 128 && colour.format == 0x1c && colour.pitch == 256 &&
+                       artworkRequests.load(std::memory_order_acquire)) {
+                scale = portraitRasterScale;
+            }
+            if (scale) {
+                colourSurface.rasterScale = scale;
+                depthSurface.rasterScale = scale;
+                LOG_FIRST(16, "d3d: native portrait queued color=%08X depth=%08X extent=%u scale=%u",
+                    colourSurface.data, depthSurface.data, colour.width, scale);
+            }
+        }
+    }
+#endif
+    Set(g_state.rt, colourSurface);
+    Set(g_state.zs, depthSurface);
     UpdateSuperSample();
     // SetRenderTarget resets the viewport to the whole target
     uint32_t w, h;
     gpu::SurfaceSize(g_state.rt, w, h);
+#if defined(SIMS2_HEADLESS_RUNTIME)
+    static const bool tracePortraitTargets = std::getenv("SIMS2_UI_LAYOUT_TRACE") != nullptr;
+    if (tracePortraitTargets && w == h && w >= 16 && w <= 512) {
+        gpu::TextureDesc colour{};
+        uint32_t depthW = 0, depthH = 0;
+        if (zs) gpu::SurfaceSize(g_state.zs, depthW, depthH);
+        if (gpu::DescribeSurface(g_state.rt, colour))
+            LOG_FIRST(160, "d3d: portrait-target candidate caller=%08X color=%08X depth=%08X extent=%ux%u format=%02X pitch=%u depth-extent=%ux%u",
+                R32(ctx.esp), g_state.rt.data, g_state.zs.data, w, h, colour.format, colour.pitch, depthW, depthH);
+    }
+#endif
     Set(g_state.viewport, {0, 0, w, h, 0.0f, 1.0f});
     UpdateViewportConstants();
     return 0;

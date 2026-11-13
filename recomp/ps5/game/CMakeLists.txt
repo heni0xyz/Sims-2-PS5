@@ -18,6 +18,7 @@ option(SIMS2_OBJECT_WAIT_CHANNELS "Object-specific dispatcher wake channels" OFF
 option(SIMS2_DEEP_PROFILE "Detailed diagnostic CPU/wait/frame/GPU telemetry" OFF)
 option(SIMS2_GUEST_PROFILE "Diagnostic sampled guest/kernel call wall times" OFF)
 option(SIMS2_FAST_HANDLES "Cache hot kernel handles with close/publication invalidation" ON)
+option(SIMS2_NATIVE_THUMBNAILS "Render saved Sim thumbnails at four times their original width and height" OFF)
 if(SIMS2_GUEST_PROFILE AND NOT SIMS2_PERFORMANCE_LOG)
     message(FATAL_ERROR "Guest call profiling requires performance reports")
 endif()
@@ -32,7 +33,7 @@ if(NOT SIMS2_BUILD_ID)
          "${ROOT}/config/*.toml" "${ROOT}/ps5/*.txt" "${ROOT}/repositories.lock.json")
     string(TOUPPER "${CMAKE_BUILD_TYPE}" identity_configuration)
     # Optimization and logging variants must never share a runtime identity.
-    set(identity "${CMAKE_CXX_COMPILER_ID}-${CMAKE_CXX_COMPILER_VERSION}-${CMAKE_BUILD_TYPE}-${CMAKE_CXX_FLAGS}-${CMAKE_CXX_FLAGS_${identity_configuration}}-${CMAKE_C_FLAGS}-${CMAKE_C_FLAGS_${identity_configuration}}-${SIMS2_DIAGNOSTIC_LOG}-${SIMS2_PERFORMANCE_LOG}-${SIMS2_VULKAN_STARTUP_PROBE}-${SIMS2_GUEST_PROFILE}-${SIMS2_FAST_HANDLES}-${SIMS2_DEEP_PROFILE}-${SIMS2_OBJECT_WAIT_CHANNELS}")
+    set(identity "${CMAKE_CXX_COMPILER_ID}-${CMAKE_CXX_COMPILER_VERSION}-${CMAKE_BUILD_TYPE}-${CMAKE_CXX_FLAGS}-${CMAKE_CXX_FLAGS_${identity_configuration}}-${CMAKE_C_FLAGS}-${CMAKE_C_FLAGS_${identity_configuration}}-${SIMS2_DIAGNOSTIC_LOG}-${SIMS2_PERFORMANCE_LOG}-${SIMS2_VULKAN_STARTUP_PROBE}-${SIMS2_GUEST_PROFILE}-${SIMS2_FAST_HANDLES}-${SIMS2_DEEP_PROFILE}-${SIMS2_OBJECT_WAIT_CHANNELS}-${SIMS2_NATIVE_THUMBNAILS}")
     foreach(source IN LISTS identity_sources)
         file(SHA256 "${source}" sha)
         file(RELATIVE_PATH relative_source "${ROOT}" "${source}")
@@ -71,6 +72,9 @@ target_include_directories(sims2-runtime PRIVATE "${ROOT}/runtime-sdk/runtime" "
     "${PS5_FOUNDATION}/ps5/src" "${PS5_FOUNDATION}/ps5/third_party/volk"
     "${PS5_FOUNDATION}/external" "${TOML_INCLUDE}" "${GLSLANG_SOURCE}")
 target_compile_definitions(sims2-runtime PRIVATE VK_NO_PROTOTYPES "SIMS2_BUILD_ID=\"${SIMS2_BUILD_ID}\"")
+if(SIMS2_NATIVE_THUMBNAILS)
+    target_compile_definitions(sims2-runtime PRIVATE SIMS2_NATIVE_THUMBNAILS=1)
+endif()
 target_compile_options(sims2-runtime PRIVATE -march=x86-64-v2 -fPIC -fno-strict-aliasing
     -fdenormal-fp-math=ieee -fno-omit-frame-pointer -ffunction-sections -fdata-sections
     "SHELL:-include \"${PS5_FOUNDATION}/ps5/third_party/volk/volk.h\"")

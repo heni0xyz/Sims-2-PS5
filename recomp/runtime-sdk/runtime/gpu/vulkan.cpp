@@ -18,6 +18,7 @@
 #include <cstdlib>
 #include <stdexcept>
 #include <cstring>
+#include <deque>
 #include <filesystem>
 #include <fstream>
 #include <functional>
@@ -79,6 +80,98 @@ DrawViewportProbeCallback g_draw_viewport_probe = nullptr;
 RenderScaleCallback g_render_scale = nullptr;
 bool g_native_presentation=false;
 TextureReplacementCallback g_texture_replacement=nullptr;
+#if (defined(XBE_VULKAN_HOST) && defined(SIMS2_HEADLESS_RUNTIME)) || defined(SIMS2_NATIVE_THUMBNAILS)
+struct PortraitProbe {
+    uint32_t sim{};
+    std::array<uint8_t, 1024> indices{};
+    std::vector<uint8_t> pixels;
+    TextureReplacement replacement{};
+    bool bound{};
+};
+std::mutex g_portrait_probe_lock;
+PortraitProbe g_pending_portrait;
+bool g_generated_portrait_requested{};
+std::vector<uint8_t> g_generated_portrait_pixels;
+std::vector<PortraitProbe> g_pending_generated_portraits;
+struct CasPortrait {
+    std::vector<uint8_t> guestPixels;
+    std::vector<uint8_t> nativePixels;
+    TextureReplacement replacement{};
+    bool bound{};
+};
+bool g_cas_portrait_requested{};
+std::vector<uint8_t> g_cas_portrait_pixels;
+std::vector<CasPortrait> g_pending_cas_portraits;
+std::deque<CasPortrait> g_cas_portraits;
+// Texture cache entries can keep pointers to the replacement while new portraits arrive.
+std::deque<PortraitProbe> g_portrait_probes;
+
+void CachePortrait(PortraitProbe probe) {
+    // Keep existing replacement addresses valid until the Vulkan texture
+    // cache releases its references. A full cache falls back to guest P8.
+    constexpr size_t maxPortraits = 512;
+    if (g_portrait_probes.size() >= maxPortraits ||
+        std::any_of(g_portrait_probes.begin(), g_portrait_probes.end(), [&](const auto& entry) {
+            return entry.sim == probe.sim && entry.indices == probe.indices && entry.pixels == probe.pixels;
+        })) return;
+    g_portrait_probes.push_back(std::move(probe));
+    auto& saved = g_portrait_probes.back();
+    saved.replacement = {128, 128, 1, uint32_t(saved.pixels.size()), saved.pixels.data()};
+    LOGR("vulkan: cached native 128px portrait sim=%08x", saved.sim);
+}
+
+const TextureReplacement* ResolvePortraitProbe(const TextureDesc& d, const uint8_t* source, uint32_t bytes) {
+    if (d.width == 128 && d.height == 128 && !d.cube && d.depth == 1 &&
+        (d.format == 0x06 || d.format == 0x07 || d.format == 0x12 || d.format == 0x1e)) {
+        std::vector<CasPortrait> pending;
+        {
+            std::lock_guard lock(g_portrait_probe_lock);
+            pending.swap(g_pending_cas_portraits);
+        }
+        for (auto& portrait : pending) {
+            if (g_cas_portraits.size() >= 32) break;
+            if (std::any_of(g_cas_portraits.begin(), g_cas_portraits.end(), [&](const auto& entry) {
+                return entry.guestPixels == portrait.guestPixels && entry.nativePixels == portrait.nativePixels;
+            })) continue;
+            auto& saved = g_cas_portraits.emplace_back(std::move(portrait));
+            saved.replacement = {512, 512, 1, uint32_t(saved.nativePixels.size()), saved.nativePixels.data()};
+        }
+        if (g_cas_portraits.empty()) return nullptr;
+        std::vector<uint8_t> decoded;
+        uint32_t pitch{};
+        DecodeLevel(d, 0, 0, source, nullptr, decoded, pitch);
+        for (auto it = g_cas_portraits.rbegin(); it != g_cas_portraits.rend(); ++it) {
+            if (it->guestPixels != decoded) continue;
+            if (!it->bound) {
+                LOGR("vulkan: bound native 512px CAS portrait to texture %08x", d.data);
+                it->bound = true;
+            }
+            return &it->replacement;
+        }
+        return nullptr;
+    }
+    if (d.format != 0x0b || d.width != 32 || d.height != 32 ||
+        d.cube || d.depth != 1 || bytes != 1024) return nullptr;
+    {
+        std::vector<PortraitProbe> pending;
+        {
+            std::lock_guard lock(g_portrait_probe_lock);
+            pending.swap(g_pending_generated_portraits);
+        }
+        for (auto& probe : pending) CachePortrait(std::move(probe));
+    }
+    for (auto it = g_portrait_probes.rbegin(); it != g_portrait_probes.rend(); ++it) {
+        auto& probe = *it;
+        if (std::memcmp(source, probe.indices.data(), bytes) != 0) continue;
+        if (!probe.bound) {
+            LOGR("vulkan: bound native 128px portrait to menu texture %08x sim=%08x", d.data, probe.sim);
+            probe.bound = true;
+        }
+        return &probe.replacement;
+    }
+    return nullptr;
+}
+#endif
 float RenderScale(uint32_t width,uint32_t height) {
     if(g_native_presentation)return 1.0f;
     const float baseline=app::RenderScale(height);
@@ -235,8 +328,8 @@ VkFormat HostFormatVk(Host h) {
 }
 uint8_t ShadowDepthKind(uint32_t format) { return format == 0x2C || format == 0x30 ? 2 : 1; }
 uint32_t GuestPitch(uint32_t width) { return (width * 4 + 63) & ~63u; }
-bool ReadBackFits(uint32_t data, uint32_t gw, uint32_t gh, uint32_t size) {
-    uint64_t bytes = uint64_t(GuestPitch(gw)) * gh;
+bool ReadBackFits(uint32_t data, uint32_t gw, uint32_t gh, uint32_t size, uint32_t pitch = 0) {
+    uint64_t bytes = uint64_t(pitch ? pitch : GuestPitch(gw)) * gh;
     if (!size || bytes <= size) return true;
     static std::mutex m; static std::unordered_set<uint32_t> refused; bool first;
     { std::lock_guard lock(m); first = refused.insert(data).second; }
@@ -265,8 +358,22 @@ struct Target {
     ImageRes res, fb; bool depth = false;
     uint32_t gw = 0, gh = 0, w = 0, h = 0; float dx = 0;
     uint32_t data = 0, bytes = 0; uint64_t epoch = 0, sig = 0;
+    uint32_t surfaceFormat = 0, surfaceSize = 0, guest16Format = 0, guest16Pitch = 0, rasterScale = 0;
     bool drawn = false; std::vector<uint8_t> read;
 };
+bool IsLinearGuest16(uint32_t format) {
+    return format == 0x10 || format == 0x11 || format == 0x1c || format == 0x1d;
+}
+uint16_t PackLinearGuest16(uint32_t format, const uint8_t* bgra) {
+    const unsigned b = bgra[0], g = bgra[1], r = bgra[2], a = bgra[3];
+    switch (format) {
+        case 0x10: return uint16_t((a >> 7) << 15 | (r >> 3) << 10 | (g >> 3) << 5 | (b >> 3));
+        case 0x11: return uint16_t((r >> 3) << 11 | (g >> 2) << 5 | (b >> 3));
+        case 0x1c: return uint16_t((r >> 3) << 10 | (g >> 3) << 5 | (b >> 3));
+        case 0x1d: return uint16_t((a >> 4) << 12 | (r >> 4) << 8 | (g >> 4) << 4 | (b >> 4));
+        default: return 0;
+    }
+}
 struct Tex {
     ImageRes res; TextureDesc d; VkFormat fmt = VK_FORMAT_UNDEFINED;
     uint32_t levels = 1; uint64_t sig = 0, frame = 0, palette = 0; uint8_t flags = 0;
@@ -467,7 +574,7 @@ private:
     void PeriodicCapture(Target* front);
     void SavePipelineCache();
     void CapSaveColor(Target& t, const char* name);
-    void CapSaveColorAs(Target& t, const std::filesystem::path& file);
+    void CapSaveColorAs(Target& t, const std::filesystem::path& file, bool native = false);
     void CapStep(const Surface& rt);
     void Destroy();
 
@@ -809,8 +916,15 @@ void VulkanBackend::WaitFrame(Frame& f) {
         const bool trace = VkStartupTrace() && submitCounter_.load(std::memory_order_acquire) <= 8;
         if (trace) LOGI("vk-startup: fence-wait begin frame=%llu segment=%llu", (unsigned long long)frame_, (unsigned long long)f.gen);
         VkResult result;
+        uint64_t timeoutNs = 5000000000ull;
+#if defined(SIMS2_HEADLESS_RUNTIME) && defined(XBE_VULKAN_HOST)
+        // Software Vulkan can spend several seconds compiling a new pipeline.
+        // The replay watchdog still bounds a stalled process.
+        static const bool softwareReplay = std::getenv("SIMS2_TEST_SOFTWARE_VULKAN") != nullptr;
+        if (softwareReplay) timeoutNs = 60000000000ull;
+#endif
         {deep_profile::Scope measured(deep_profile::Metric::Fence);
-            result=vkWaitForFences(device_,1,&f.fence,VK_TRUE,5000000000ull);}
+            result=vkWaitForFences(device_,1,&f.fence,VK_TRUE,timeoutNs);}
         if (result != VK_SUCCESS) {
             LOGE("vulkan: GPU completion failed %d; pending fence and resources retained", int(result));
             throw std::runtime_error("Vulkan GPU completion failed: " + std::to_string(result));
@@ -1296,12 +1410,17 @@ Target* VulkanBackend::EnsureTarget(const Surface& s, bool depth) {
     if (!s.header) return nullptr;
     TargetSlot slot = FindTargetSlot(s, depth, 0);
     targetUsed_[slot.data] = frame_;
-    if (slot.sized) return &slot.it->second;
+    if (slot.sized && slot.it->second.surfaceFormat == s.format &&
+        slot.it->second.surfaceSize == s.size &&
+        slot.it->second.rasterScale == s.rasterScale) return &slot.it->second;
     if (slot.it != targets_.end()) ReleaseTarget(slot.it);
     Target t; t.depth = depth; t.gw = slot.gw; t.gh = slot.gh;
+    t.surfaceFormat = s.format; t.surfaceSize = s.size;
+    t.rasterScale = s.rasterScale;
     uint32_t gw = IsFrameTarget(t) ? WidenedGuestWidth() : t.gw;
     t.dx = (gw - t.gw) / 2.0f;
-    t.w = std::max(1u, uint32_t(std::lround(gw * scale_))); t.h = std::max(1u, uint32_t(std::lround(t.gh * scale_)));
+    const float targetScale = t.rasterScale ? float(t.rasterScale) : scale_;
+    t.w = std::max(1u, uint32_t(std::lround(gw * targetScale))); t.h = std::max(1u, uint32_t(std::lround(t.gh * targetScale)));
     VkPhysicalDeviceProperties properties{};vkGetPhysicalDeviceProperties(physical_,&properties);
     if(t.w>properties.limits.maxImageDimension2D || t.h>properties.limits.maxImageDimension2D ||
        t.w>properties.limits.maxFramebufferWidth || t.h>properties.limits.maxFramebufferHeight) {
@@ -1315,6 +1434,13 @@ Target* VulkanBackend::EnsureTarget(const Surface& s, bool depth) {
         throw std::runtime_error("Vulkan render target allocation failed");
     }
     t.data = slot.data; t.bytes = depth ? slot.gw * slot.gh * 4 : GuestPitch(slot.gw) * slot.gh;
+    TextureDesc desc{};
+    if (!depth && DescribeSurface(s, desc) && desc.linear &&
+        IsLinearGuest16(desc.format) && desc.pitch >= slot.gw * 2) {
+        t.guest16Format = desc.format;
+        t.guest16Pitch = desc.pitch;
+        t.bytes = LevelSize(desc, 0);
+    }
     if (depth) {
         Transition(t.res, VK_IMAGE_LAYOUT_TRANSFER_DST_OPTIMAL);
         VkImageSubresourceRange range{VkImageAspectFlags(VK_IMAGE_ASPECT_DEPTH_BIT | VK_IMAGE_ASPECT_STENCIL_BIT), 0, 1, 0, 1}; VkClearDepthStencilValue v{1.0f, 0};
@@ -1571,6 +1697,9 @@ VkImageView VulkanBackend::BindGuestTexture(const State& s, int stage, const Tex
     if (tx.frame != presents_ + 1 || !same || tx.palette != palette.hash) {
         const uint8_t* p = static_cast<const uint8_t*>(kernel::HostPtr(d.data));
         const auto* replacement=g_texture_replacement?g_texture_replacement(d,p,total,palette.va?palette.colours:nullptr):nullptr;
+#if (defined(XBE_VULKAN_HOST) && defined(SIMS2_HEADLESS_RUNTIME)) || defined(SIMS2_NATIVE_THUMBNAILS)
+        if (!replacement) replacement = ResolvePortraitProbe(d, p, total);
+#endif
         same=same && tx.replacement==replacement;
         if(!same && !CreateTexImage(tx,d,fi,replacement)) {textures_.erase(key);return VK_NULL_HANDLE;}
         tx.frame = presents_ + 1; tx.palette = palette.hash;
@@ -1600,6 +1729,11 @@ VkImageView VulkanBackend::BindTargetTexture(const State& s, int stage, const Te
     TexInfo& info = stages.info[stage];
     if (&t == drawDs_) { LOG_FIRST(8, "vulkan: stage %d samples the depth buffer it draws with, reads nothing", stage); return VK_NULL_HANDLE; }
     bool feedback = &t == drawRt_; stages.rt[stage] = true;
+    if (cap_) {
+        std::fprintf(cap_, "target-sample draw %u stage %d source %08x guest %ux%u host %ux%u into %08x depth %d program %016llx\n",
+            capI_, stage, t.data, t.gw, t.gh, t.w, t.h, s.rt.data, int(t.depth),
+            (unsigned long long)(s.vs ? s.vs->hash : 0));
+    }
     if (!t.depth && LatchCpuWrite(t)) { Surface su; su.header = s.textures[size_t(stage)]; UploadTarget(t, su); }
     info.kind = kTex2D;
     Target* rt = FindTarget(s.rt, false);
@@ -2197,18 +2331,6 @@ void VulkanBackend::Draw(const State& s, uint32_t prim, uint32_t start, uint32_t
             LogDraw(s,prim,count,a,sh,stages,c,size);
         }
     }
-    if(cap_) {
-        static unsigned uiSourceRecords=0;
-        for(unsigned stage=0;stage<4 && uiSourceRecords<24;stage++) {
-            TextureDesc texture{};
-            if(!s.textures[stage] || !Describe(s.textures[stage],texture) || texture.width!=128 || texture.height!=128)continue;
-            if(targets_.find(SizedTargetKey(texture.data,false,texture.width,texture.height))==targets_.end())continue;
-            uiSourceRecords++;
-            LOGR("vulkan: captured UI target sampled stage=%u source=%08x program=%016llx",stage,texture.data,(unsigned long long)(s.vs?s.vs->hash:0));
-            std::fprintf(cap_,"ui-target-sample stage %u source %08x program %016llx\n",stage,texture.data,(unsigned long long)(s.vs?s.vs->hash:0));
-            LogDraw(s,prim,count,a,sh,stages,c,size);
-        }
-    }
     DrawViewport adjustment=g_draw_viewport && size.dx==0?g_draw_viewport(s,size.w,size.h):DrawViewport{};
     if(g_draw_viewport_probe && size.dx==0) {
         const ProbeContext probe{s,a,sh,c,size};
@@ -2304,7 +2426,7 @@ ImageRes VulkanBackend::CreatePixelImage(const std::vector<uint8_t>& px, uint32_
 void VulkanBackend::UploadTarget(Target& t, const Surface& s) {
     TextureDesc d; if (!Describe(s.header, d) || Format(d.format).depth) return;
     std::vector<uint8_t> px; uint32_t pitch;
-    bool over = !t.drawn && d.width == t.gw && d.height == t.gh && t.read.size() == size_t(t.gw) * t.gh * 4;
+    bool over = !t.guest16Format && !t.drawn && d.width == t.gw && d.height == t.gh && t.read.size() == size_t(t.gw) * t.gh * 4;
     if (over) {
         pitch = t.gw * 4; px.assign(t.read.size(), 0);
         uint32_t guestPitch = GuestPitch(t.gw); const uint8_t* guest = static_cast<const uint8_t*>(kernel::HostPtr(t.data));
@@ -2853,13 +2975,16 @@ void VulkanBackend::ApplySettings() {
         targets_.clear(); scale_ = want; widen_ = wide; hostAspect_ = aspect; boundRt_ = boundDs_ = nullptr;
     }
 }
-void VulkanBackend::CapSaveColorAs(Target& t, const std::filesystem::path& file) {
-    ImageRes src = PrepareCopySource(t, nullptr);
-    std::vector<uint8_t> px; if (!ReadBackImage(src, t.gw, t.gh, px)) return;
+void VulkanBackend::CapSaveColorAs(Target& t, const std::filesystem::path& file, bool native) {
+    const uint32_t width = native ? t.w : t.gw, height = native ? t.h : t.gh;
+    ImageRes src = native ? t.res : PrepareCopySource(t, nullptr);
+    std::vector<uint8_t> px;
+    const bool ok = src.Valid() && ReadBackImage(src, width, height, px);
     if (src.image != t.res.image) DestroyImage(src);
+    if (!ok) return;
     FILE* f = std::fopen(file.string().c_str(), "wb"); if (!f) return;
     uint8_t hd[54] = {'B', 'M'}; auto put = [&](int o, uint32_t v) { std::memcpy(hd + o, &v, 4); };
-    put(2, 54 + uint32_t(px.size())); put(10, 54); put(14, 40); put(18, t.gw); put(22, uint32_t(-int32_t(t.gh))); hd[26] = 1; hd[28] = 32; put(34, uint32_t(px.size()));
+    put(2, 54 + uint32_t(px.size())); put(10, 54); put(14, 40); put(18, width); put(22, uint32_t(-int32_t(height))); hd[26] = 1; hd[28] = 32; put(34, uint32_t(px.size()));
     std::fwrite(hd, 1, 54, f); std::fwrite(px.data(), 1, px.size(), f); std::fclose(f);
 }
 void VulkanBackend::CapSaveColor(Target& t, const char* name) { CapSaveColorAs(t, capDir_ / (std::string(name) + ".bmp")); }
@@ -2876,15 +3001,116 @@ void VulkanBackend::Sync(uint32_t data, uint32_t size) {
     if (LowPhysical(data)) { LOG_FIRST(8, "vulkan: read-back to low physical %08X refused", data); return; }
     auto it = targets_.find(TargetMapKey(data, false));
     if (it == targets_.end() || !it->second.drawn || TargetStale(data)) return;
-    if (!ReadBackFits(data, it->second.gw, it->second.gh, size)) return;
     Target& t = it->second;
+    if (!ReadBackFits(data, t.gw, t.gh, size, t.guest16Pitch)) return;
+#if defined(XBE_VULKAN_HOST)
+    if (t.rasterScale && !diag::CaptureDir().empty()) {
+        static unsigned captures = 0;
+        if (captures < 12) {
+            char name[80];
+            std::snprintf(name, sizeof(name), "portrait-native-%02u-%08x-%ux%u.bmp",
+                ++captures, t.data, t.w, t.h);
+            const auto dir = app::ExeDir() / diag::CaptureDir() / "portraits";
+            std::error_code error;
+            std::filesystem::create_directories(dir, error);
+            if (!error) CapSaveColorAs(t, dir / name, true);
+        }
+    }
+#endif
+#if (defined(XBE_VULKAN_HOST) && defined(SIMS2_HEADLESS_RUNTIME)) || defined(SIMS2_NATIVE_THUMBNAILS)
+#if defined(SIMS2_HEADLESS_RUNTIME)
+    static const char* portraitIndices = std::getenv("SIMS2_TEST_PORTRAIT_BIND_INDICES");
+#endif
+    if (t.rasterScale == 4 && t.gw == 128 && t.gh == 128 && t.w == 512 && t.h == 512) {
+        bool requested;
+        {
+            std::lock_guard lock(g_portrait_probe_lock);
+            requested = g_cas_portrait_requested;
+        }
+        std::vector<uint8_t> pixels;
+        if (requested && ReadBackImage(t.res, t.w, t.h, pixels) && pixels.size() == 512u * 512u * 4u) {
+            // Match the colour-key test in the guest's 32-bit bitmap copy.
+            for (size_t i = 0; i < pixels.size(); i += 4) {
+                auto* pixel = &pixels[i];
+                if (pixel[0] >= 253 && pixel[1] <= 2 && pixel[2] >= 253) {
+                    std::memset(pixel, 0, 4);
+                } else {
+                    pixel[3] = 255;
+                }
+            }
+            std::lock_guard lock(g_portrait_probe_lock);
+            if (g_cas_portrait_requested) g_cas_portrait_pixels = std::move(pixels);
+        }
+    }
+    if (t.rasterScale == 2 && t.gw == 64 && t.gh == 64 && t.w == 128 && t.h == 128) {
+        PortraitProbe probe;
+        bool requested = false;
+        bool generated = false;
+        {
+            std::lock_guard lock(g_portrait_probe_lock);
+            if (g_pending_portrait.sim) {
+                probe = std::move(g_pending_portrait);
+                g_pending_portrait.sim = 0;
+                requested = true;
+            } else if (g_generated_portrait_requested) {
+                requested = true;
+                generated = true;
+            }
+        }
+#if defined(SIMS2_HEADLESS_RUNTIME)
+        if (!requested && portraitIndices && g_portrait_probes.empty()) {
+            std::ifstream indices(portraitIndices, std::ios::binary);
+            requested = bool(indices.read(reinterpret_cast<char*>(probe.indices.data()), probe.indices.size())) &&
+                indices.peek() == std::char_traits<char>::eof();
+        }
+#endif
+        if (requested && ReadBackImage(t.res, t.w, t.h, probe.pixels) &&
+            probe.pixels.size() == 128u * 128u * 4u) {
+            // Saved thumbnail UVs address the original bottom-up image.
+            constexpr size_t rowBytes = 128 * 4;
+            for (size_t row = 0; row < 64; ++row) {
+                auto top = probe.pixels.begin() + row * rowBytes;
+                auto bottom = probe.pixels.begin() + (127 - row) * rowBytes;
+                std::swap_ranges(top, top + rowBytes, bottom);
+            }
+            for (size_t i = 0; i < probe.pixels.size(); i += 4) {
+                auto* pixel = &probe.pixels[i];
+                const bool transparent = pixel[0] == 255 && pixel[1] == 0 && pixel[2] == 255;
+                if (transparent) pixel[0] = pixel[2] = 0;
+                pixel[3] = transparent ? 0 : 255;
+            }
+            if (generated) {
+                std::lock_guard lock(g_portrait_probe_lock);
+                if (g_generated_portrait_requested) g_generated_portrait_pixels = std::move(probe.pixels);
+            } else {
+                CachePortrait(std::move(probe));
+            }
+        }
+    }
+#endif
     ImageRes src = PrepareCopySource(t, nullptr); if (!src.Valid()) return;
     std::vector<uint8_t> px; bool ok = ReadBackImage(src, t.gw, t.gh, px);
     if (src.image != t.res.image) DestroyImage(src);
     if (!ok) return;
-    uint32_t pitch = GuestPitch(t.gw); uint8_t* guest = static_cast<uint8_t*>(kernel::HostPtr(data));
-    for (uint32_t y = 0; y < t.gh; y++) std::memcpy(guest + size_t(y) * pitch, &px[size_t(y) * t.gw * 4], t.gw * 4);
-    t.read = std::move(px); t.drawn = false; t.sig = MemSig(t.data, t.bytes);
+    uint8_t* guest = static_cast<uint8_t*>(kernel::HostPtr(data));
+    if (t.guest16Format) {
+        for (uint32_t y = 0; y < t.gh; ++y) {
+            auto* dst = guest + size_t(y) * t.guest16Pitch;
+            const auto* row = px.data() + size_t(y) * t.gw * 4;
+            for (uint32_t x = 0; x < t.gw; ++x) {
+                const auto pixel = PackLinearGuest16(t.guest16Format, row + x * 4);
+                std::memcpy(dst + x * 2, &pixel, sizeof(pixel));
+            }
+        }
+        t.read.clear();
+        LOG_FIRST(16, "vulkan: packed read-back of %08X extent=%ux%u format=%02X pitch=%u",
+            data, t.gw, t.gh, t.guest16Format, t.guest16Pitch);
+    } else {
+        uint32_t pitch = GuestPitch(t.gw);
+        for (uint32_t y = 0; y < t.gh; ++y) std::memcpy(guest + size_t(y) * pitch, &px[size_t(y) * t.gw * 4], t.gw * 4);
+        t.read = std::move(px);
+    }
+    t.drawn = false; t.sig = MemSig(t.data, t.bytes);
 }
 void VulkanBackend::SyncLate(uint32_t data, uint32_t size) { if (!DeliverLate(data, size)) Sync(data, size); RecordLate(data); }
 bool VulkanBackend::DeliverLate(uint32_t data, uint32_t size) {
@@ -2927,7 +3153,9 @@ bool VulkanBackend::DeliverLate(uint32_t data, uint32_t size) {
 void VulkanBackend::RecordLate(uint32_t data) {
     auto it = targets_.find(TargetMapKey(data, false));
     if (it == targets_.end() || TargetStale(data)) return;
-    Target& t = it->second; t.sig = MemSig(t.data, t.bytes); t.read.clear();
+    Target& t = it->second;
+    if (t.guest16Format) return; // These require format conversion in Sync.
+    t.sig = MemSig(t.data, t.bytes); t.read.clear();
     std::lock_guard lock(lateLock_);
     Late& l = late_[data];
     if (l.gw != t.gw || l.gh != t.gh) {
@@ -3022,5 +3250,43 @@ void VulkanBackend::Destroy() {
 }
 }  // namespace
 std::unique_ptr<Backend> CreateBackend() { return std::make_unique<VulkanBackend>(); }
+#if (defined(XBE_VULKAN_HOST) && defined(SIMS2_HEADLESS_RUNTIME)) || defined(SIMS2_NATIVE_THUMBNAILS)
+void SetSavedPortraitProbe(uint32_t sim, const uint8_t* indices) {
+    std::lock_guard lock(g_portrait_probe_lock);
+    g_pending_portrait.sim = sim;
+    if (sim && indices) std::memcpy(g_pending_portrait.indices.data(), indices, g_pending_portrait.indices.size());
+}
+void BeginGeneratedPortrait() {
+    std::lock_guard lock(g_portrait_probe_lock);
+    g_generated_portrait_pixels.clear();
+    g_generated_portrait_requested = true;
+}
+void EndGeneratedPortrait(const uint8_t* indices) {
+    std::lock_guard lock(g_portrait_probe_lock);
+    g_generated_portrait_requested = false;
+    if (indices && !g_generated_portrait_pixels.empty()) {
+        PortraitProbe probe;
+        std::memcpy(probe.indices.data(), indices, probe.indices.size());
+        probe.pixels = std::move(g_generated_portrait_pixels);
+        g_pending_generated_portraits.push_back(std::move(probe));
+    }
+    g_generated_portrait_pixels.clear();
+}
+void BeginCasPortrait() {
+    std::lock_guard lock(g_portrait_probe_lock);
+    g_cas_portrait_pixels.clear();
+    g_cas_portrait_requested = true;
+}
+void EndCasPortrait(std::vector<uint8_t> pixels) {
+    std::lock_guard lock(g_portrait_probe_lock);
+    g_cas_portrait_requested = false;
+    if (pixels.size() == 128u * 128u * 4u && !g_cas_portrait_pixels.empty() &&
+        g_pending_cas_portraits.size() < 32) {
+        g_pending_cas_portraits.push_back({std::move(pixels), std::move(g_cas_portrait_pixels)});
+        LOGR("vulkan: queued native 512px CAS portrait");
+    }
+    g_cas_portrait_pixels.clear();
+}
+#endif
 }  // namespace gpu
 #endif  // !defined(_WIN32)

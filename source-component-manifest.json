@@ -391,8 +391,8 @@
           "mode": 420
         },
         "compiler/installer_view.cpp": {
-          "bytes": 13866,
-          "sha256": "a2368907d7d64dd4d7161ad919f87ae20ec07ea6c178b4e921d77625f302744f",
+          "bytes": 16744,
+          "sha256": "bd359ac53d473dbc95fd8e0bb73ba57f43c280ed5fe615cfb90378471b2fab36",
           "mode": 420
         },
         "compiler/installer_view.h": {
@@ -617,7 +617,7 @@
         },
         "config/installer-version.json": {
           "bytes": 105,
-          "sha256": "381058ff10d0d8cab4109148de54a91947aa22821899fc9114d98728ef8bb87a",
+          "sha256": "fc30a13e7c2a3f7691d235a8cb36a0294f7ab22326b67dbd2ef582d7b740ec81",
           "mode": 420
         },
         "config/ps5-titles.json": {
@@ -1256,8 +1256,8 @@
           "mode": 420
         },
         "ps5/game/CMakeLists.txt": {
-          "bytes": 7985,
-          "sha256": "2abfcc3826dc30935b1921c6d6881a4153f9d56bc7a3e8bc101c47cfd0a2026a",
+          "bytes": 8244,
+          "sha256": "fc9c308e8d623ea83f9c6d1f5755831ca0fb3ac636f0464973c9affa412b0ae7",
           "mode": 420
         },
         "ps5/guest/CMakeLists.txt": {
@@ -1336,8 +1336,8 @@
           "mode": 420
         },
         "src/game/hud_portrait.cpp": {
-          "bytes": 1854,
-          "sha256": "b41e2d5acf0c56789f409026e89512c87b8ac96d6e42f1535de98f65cd740f3d",
+          "bytes": 25893,
+          "sha256": "9925be3452d918eca06b42276ae65cd9ffca5984172985b25186bd2b37776629",
           "mode": 420
         },
         "src/game/hud_portrait.h": {
@@ -1921,8 +1921,8 @@
           "mode": 420
         },
         "tools/ps5/build_objects.ps1": {
-          "bytes": 7869,
-          "sha256": "65694d2a28f14e0b7fb21873c593fc480cfa4f350d86c994f67497b0d6b885df",
+          "bytes": 8402,
+          "sha256": "d2915c4e1021bc3e07efd855d06caf79eb6e84fa65f630efd8e144ce70477bf0",
           "mode": 420
         },
         "tools/ps5/compile_prompt_mips.py": {
@@ -3092,8 +3092,8 @@
           "mode": 420
         },
         "runtime/gpu/state.h": {
-          "bytes": 9002,
-          "sha256": "f10fbe0b30a99d9b0748134fd8129c359580b0b31a480a977cefadb545f0385a",
+          "bytes": 9092,
+          "sha256": "294bffacb0fde3d2f87a04f4c040c11176b0483b0a140f5906eb2ccbbd751a2e",
           "mode": 420
         },
         "runtime/gpu/texture.cpp": {
@@ -3122,8 +3122,8 @@
           "mode": 420
         },
         "runtime/gpu/vulkan.cpp": {
-          "bytes": 210727,
-          "sha256": "ed93c59d25e2698a8c348e74b662abe3f08c6c40bccade5a7cfa4b23be11f2cb",
+          "bytes": 222970,
+          "sha256": "2b668bbdbf3ef4695f811d5f1921a58a1467f46923a5ad30b7ad8dcd70cbc1f2",
           "mode": 420
         },
         "runtime/gpu/vulkan.h": {
@@ -3262,13 +3262,13 @@
           "mode": 420
         },
         "runtime/xdk/d3d8.cpp": {
-          "bytes": 67431,
-          "sha256": "9c880bbac2372690de259c4b7c10c9a7ecec4078bb178a84b27aaa74b4440dc9",
+          "bytes": 71340,
+          "sha256": "07a350d9427b2564834c01d60bb47c27a0986531457e3a37bdce21979098d073",
           "mode": 420
         },
         "runtime/xdk/d3d8.h": {
-          "bytes": 469,
-          "sha256": "89618280b0c831f5f266edbaabaed16067ffdf21fc9c0b9ad6336d903bab924d",
+          "bytes": 796,
+          "sha256": "f717edaf60e73e010d84914feb0fe0abfbfc6f37551d6fcd576b3ce232aaa565",
           "mode": 420
         },
         "runtime/xdk/dsound.cpp": {
@@ -3292,8 +3292,8 @@
           "mode": 420
         },
         "runtime/xdk/xapi.cpp": {
-          "bytes": 5463,
-          "sha256": "68970222dfa30e6119d33d1108d70af6e2152d898ebc915df301ffced313bd81",
+          "bytes": 5803,
+          "sha256": "63eb6308c7de23a1d46f9c1790cb4f07583e39b5e8f9b20eb45a64104a5b106b",
           "mode": 420
         },
         "runtime/xdk/xnet.cpp": {

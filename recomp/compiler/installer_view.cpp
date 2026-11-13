@@ -1,10 +1,10 @@
 // Copyright (C) 2026 OpenAI Codex, for szampan
 // SPDX-License-Identifier: GPL-3.0-only
-// Selected layout B: artwork on the left, setup on the right. A shared view
-// also permits asset-free host layout review without starting the compiler.
+// Plum Glass launcher shared by the PS5 and host preview.
 #include "installer_view.h"
 #include "installer_ui_assets.h"
 #include <algorithm>
+#include <array>
 #include <cmath>
 
 namespace {
@@ -14,6 +14,8 @@ constexpr ImU32 white=IM_COL32(245,244,250,255),muted=IM_COL32(192,189,206,255),
 // pixels by that line height, whereas the selected design uses em sizes.
 constexpr float font_em=1.362f;
 constexpr float tv_text_scale=1.12f;
+
+enum class SectionIcon { Play, Install, Update };
 
 struct Canvas {
   ImDrawList *draw=ImGui::GetOverlayDrawList();
@@ -46,6 +48,19 @@ struct Canvas {
   void rect(float x,float y,float w,float h,ImU32 color,float radius) {
     Sims2InstallerRoundedPath(draw,p(x,y),p(x+w,y+h),radius*scale);draw->PathFillConvex(color);
   }
+  void selected_tab_background(float x,float y) {
+    constexpr float width=156,height=48;
+    const int first=draw->VtxBuffer.Size;
+    rect(x,y,width,height,IM_COL32(106,77,151,255),24);
+    const float top=p(x,y).y;
+    for(int i=first;i<draw->VtxBuffer.Size;++i){
+      auto &vertex=draw->VtxBuffer[i];
+      const float t=std::clamp((vertex.pos.y-top)/(height*scale),0.f,1.f);
+      const int shade=int(std::lround(9.f-17.f*t));
+      const ImU32 alpha=vertex.col&IM_COL32(0,0,0,255);
+      vertex.col=alpha|IM_COL32(106+shade,77+shade,151+shade,0);
+    }
+  }
   void outline(float x,float y,float w,float h,ImU32 color,float radius,float thickness=1) {
     Sims2InstallerRoundedPath(draw,p(x,y),p(x+w,y+h),radius*scale);draw->PathStroke(color,true,thickness*scale);
   }
@@ -60,6 +75,45 @@ struct Canvas {
   void action(float x,float y,Sims2InstallerImage icon,const std::string &label) {
     image(icon,x,y-15,30,30);text(x+44,y-8,17,white,label);
   }
+  void section_icon(SectionIcon icon,float x,float y,ImU32 color) {
+    if(icon==SectionIcon::Play){
+      draw->AddTriangleFilled(p(x-6,y-8),p(x+8,y),p(x-6,y+8),color);
+    }else if(icon==SectionIcon::Install){
+      for(const auto &line:{std::array<float,4>{0,-8,0,4},{-4,0,0,4},{0,4,4,0},
+                             {-8,3,-8,8},{-8,8,8,8},{8,8,8,3}})
+        draw->AddLine(p(x+line[0],y+line[1]),p(x+line[2],y+line[3]),color,1.7f*scale);
+    }else{
+      // Fill the cloud as horizontal spans, omitting the arrow so the
+      // gradient or animated highlight shows through it.
+      y-=2;
+      const float step=0.5f/scale;
+      for(float row=-9;row<8;row+=step){
+        const float v=row+step*.5f;
+        float left=10,right=-10;
+        const auto lobe=[&](float cx,float cy,float r){
+          const float d=v-cy;
+          if(std::abs(d)>=r)return;
+          const float w=std::sqrt(r*r-d*d);
+          left=std::min(left,cx-w);right=std::max(right,cx+w);
+        };
+        lobe(-5,2,6);lobe(0,-2,7);lobe(6,2,6);
+        if(left>=right)continue;
+        const float gap=v>=-5 && v<0?1.35f:v>=0 && v<5?5-v:0;
+        const auto span=[&](float a,float b){
+          if(a<b)draw->AddRectFilled(p(x+a,y+row),p(x+b,y+row+step),color);
+        };
+        if(gap>0){span(left,-gap);span(gap,right);}else span(left,right);
+      }
+    }
+  }
+  void tab(float x,float y,SectionIcon icon,ImU32 color,const char* value,bool selected) {
+    constexpr float size=22;
+    const float width=font->CalcTextSizeA(size*font_em*tv_text_scale*scale,100000,0,value).x/scale;
+    const float left=x-(24+width)*.5f;
+    section_icon(icon,left+8,y,color);
+    center(left+24+width*.5f,y,size,color,value);
+    if(selected)center(left+24+width*.5f+.38f,y,size,color,value);
+  }
 };
 }
 
@@ -71,9 +125,11 @@ void Sims2DrawInstallerView(const Sims2InstallerView &s) {
   const bool error=phase==Sims2InstallPhase::Error,stopped=phase==Sims2InstallPhase::Cancelled;
   c.image(Sims2InstallerImage::Background,-c.offset.x/c.scale,-c.offset.y/c.scale,c.display.x/c.scale,c.display.y/c.scale);
   c.draw->AddRectFilled(ImVec2(0,0),c.display,IM_COL32(0,0,0,191)); // 75% black.
+  c.draw->AddRectFilledMultiColor(ImVec2(0,0),c.display,IM_COL32(38,16,64,134),IM_COL32(38,16,64,134),
+    IM_COL32(20,31,51,109),IM_COL32(20,31,51,109));
   c.image(Sims2InstallerImage::Logo,40,28,70,70,16);
   c.text(130,35,34,white,"The Sims 2");c.text(132,80,15,muted,"v"+s.version);
-  c.center(1140,60,13,muted,"LAUNCHER MENU");
+  if(s.update.state==Sims2UpdateState::Available)c.center(1100,60,13,white,"NEW UPDATE AVAILABLE");
   if(s.initial_check){
     c.center(640,346,30,white,"Checking your game...");
     c.center(640,394,16,muted,"Please wait");
@@ -89,7 +145,8 @@ void Sims2DrawInstallerView(const Sims2InstallerView &s) {
     c.image(Sims2InstallerImage::Cross,left,320,80,80);
     c.center(left+104+text_width*.5f,360,64,white,"Play");
   }else{
-  c.rect(40,128,1200,474,IM_COL32(41,37,51,255),22);
+  c.rect(40,128,1200,474,IM_COL32(45,32,64,235),22);
+  c.outline(40,128,1200,474,IM_COL32(219,194,246,65),22);
   const int preview=std::clamp(s.preview,0,2);
   const int image_begin=c.draw->VtxBuffer.Size;
   c.image(Sims2InstallerImage(int(Sims2InstallerImage::Preview1)+preview),64,152,664,373.5f,16);
@@ -104,7 +161,7 @@ void Sims2DrawInstallerView(const Sims2InstallerView &s) {
   c.text(369,572,14,muted,"Browse images");
 
   c.text(770,164,29,white,update?"Updates":question?"Your game is ready.":error?"Let's try again.":"Enjoy the game!");
-  c.text(770,205,29,mint,update?"Keep your game fresh.":question?"Keep your ISO?":error?"We couldn't finish.":"The Sims 2 PS5");
+  c.text(770,205,update?17:29,update?muted:mint,update?"Launcher and game updates":question?"Keep your ISO?":error?"We couldn't finish.":"The Sims 2 PS5");
   if(update){c.text(770,259,15,muted,"Update the launcher and your personal game.");c.text(770,284,15,muted,"Your settings and saved games stay safe.");}
   else if(question){c.text(770,259,15,muted,"Installation completed successfully.");c.text(770,284,15,muted,"You can now delete the source ISO to free space.");}
   else if(error || stopped){c.text(770,259,15,muted,stopped?"Installation was stopped.":"Setup needs your attention.");
@@ -128,17 +185,19 @@ void Sims2DrawInstallerView(const Sims2InstallerView &s) {
     c.rect(754,328,466,86,IM_COL32(50,43,62,255),16);
     c.rect(754,428,466,86,IM_COL32(50,43,62,255),16);
     c.rect(754,328+100*s.update_position+s.update_offset,466,86,IM_COL32(87,69,113,255),16);
-    c.text(774,345,20,white,"Update launcher");
+    c.section_icon(SectionIcon::Update,789,356,white);
+    c.text(812,345,19,white,"Update launcher");
     const auto description=updating?s.update.message+(" ("+std::to_string(int(s.update.progress*100))+"%)"):
       status==Sims2UpdateState::Failed?(s.restart_required?"Close and reopen the launcher to retry.":"Update failed. See klog; retry or close."):
       available && !s.update.compatible?"New release needs a manual package update.":
       status==Sims2UpdateState::Checking?"Checking GitHub...":
       status==Sims2UpdateState::Unavailable?"Check your connection and try again.":
       available?("New release: "+s.update.version):("Launcher v"+s.version+" is current.");
-    c.draw->PushClipRect(c.p(774,378),c.p(1204,410),true);c.text(774,382,13,muted,description);c.draw->PopClipRect();
+    c.draw->PushClipRect(c.p(812,378),c.p(1204,410),true);c.text(812,382,13,muted,description);c.draw->PopClipRect();
     const bool gameUpdate=s.has_game && s.game_update_available;
-    c.text(774,445,20,gameUpdate || s.busy?white:dim,"Update game");
-    c.text(774,482,13,muted,!s.has_game?"Install your game first.":s.busy?"Updating with the launcher's game data...":
+    c.section_icon(SectionIcon::Install,789,456,gameUpdate || s.busy?white:dim);
+    c.text(812,445,19,gameUpdate || s.busy?white:dim,"Update game");
+    c.text(812,482,13,muted,!s.has_game?"Install your game first.":s.busy?"Updating with the launcher's game data...":
       gameUpdate?"New game data is included in this launcher.":"Your game matches this launcher's data.");
     if(s.busy || updating){c.rect(770,525,434,8,IM_COL32(99,90,115,255),4);
       const float fraction=updating?s.update.progress:progress;
@@ -190,17 +249,17 @@ void Sims2DrawInstallerView(const Sims2InstallerView &s) {
   // Explicit rounded paths keep it smooth at native 4K with this ImGui revision.
   for(int spread=3;spread>=1;--spread)
     c.outline(388-spread,624-spread,504+spread*2,60+spread*2,IM_COL32(201,187,224,5+2*(3-spread)),30+spread,1.4f);
-  c.rect(388,624,504,60,IM_COL32(40,36,51,255),30);
+  c.rect(388,624,504,60,IM_COL32(43,31,61,244),30);
   c.outline(388.5f,624.5f,503,59,IM_COL32(213,204,230,52),29.5f,1);
   const float selected=472+168*s.selection_position+s.selection_offset;
-  c.rect(selected-78,630,156,48,IM_COL32(102,84,131,255),24);
+  c.selected_tab_background(selected-78,630);
   c.outline(selected-77.5f,630.5f,155,47,IM_COL32(235,224,253,35),23.5f,.8f);
   const int pulse=239+int(10*(.5+.5*std::sin(s.time*1.85)));
   const ImU32 active=IM_COL32(pulse,pulse,pulse,255);
   const auto label=[&](Sims2LauncherSection section,bool enabled){return !enabled?dim:s.section==section?active:muted;};
-  c.center(472,654,23,label(Sims2LauncherSection::Play,ready && !s.busy),"Play");
-  c.center(640,654,23,label(Sims2LauncherSection::Install,true),"Install");
-  c.center(808,654,23,label(Sims2LauncherSection::Update,!s.busy),"Update");
+  c.tab(472,654,SectionIcon::Play,label(Sims2LauncherSection::Play,ready && !s.busy),"Play",s.section==Sims2LauncherSection::Play);
+  c.tab(640,654,SectionIcon::Install,label(Sims2LauncherSection::Install,true),"Install",s.section==Sims2LauncherSection::Install);
+  c.tab(808,654,SectionIcon::Update,label(Sims2LauncherSection::Update,!s.busy),"Update",s.section==Sims2LauncherSection::Update);
   c.image(Sims2InstallerImage::L1,40,645,34,34);c.center(87,662,16,muted,"/");
   c.image(Sims2InstallerImage::R1,100,645,34,34);c.text(150,655,17,white,"Move section");
   c.image(Sims2InstallerImage::Circle,1040,645,34,34);

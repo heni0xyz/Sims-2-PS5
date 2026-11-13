@@ -5,6 +5,7 @@ param(
     [switch]$DeepProfile,
     [switch]$ObjectWaitChannels,
     [switch]$NoHandleCache,
+    [switch]$NativeThumbnails,
     [string]$Dependencies='',
     [string]$BuildDirectory='',
     [string]$TomlInclude='',
@@ -58,6 +59,7 @@ try {
     $objectWaitSetting=if($ObjectWaitChannels){'ON'}else{'OFF'}
     $deepProfileSetting=if($DeepProfile){'ON'}else{'OFF'}
     $handleCacheSetting=if($NoHandleCache){'OFF'}else{'ON'}
+    $nativeThumbnailsSetting=if($NativeThumbnails){'ON'}else{'OFF'}
     $env:PATH="$llvm;$env:PATH"
     $started=[DateTime]::UtcNow
     function Write-BuildState([string]$State,[hashtable]$Details=@{}) {
@@ -77,7 +79,7 @@ try {
         '-DCMAKE_EXPORT_COMPILE_COMMANDS=ON',"-DPS5_PLATFORM_HEADERS=$Dependencies/sdk-pin-headers/platform/include",
         "-DTOML_INCLUDE=$TomlInclude","-DSIMS2_DIAGNOSTIC_LOG=$diagnostic","-DSIMS2_PERFORMANCE_LOG=$performance",
         "-DSIMS2_GUEST_PROFILE=$guestProfileSetting","-DSIMS2_FAST_HANDLES=$handleCacheSetting","-DSIMS2_DEEP_PROFILE=$deepProfileSetting","-DSIMS2_OBJECT_WAIT_CHANNELS=$objectWaitSetting",
-        '-DSIMS2_VULKAN_STARTUP_PROBE=OFF','-DSIMS2_BUILD_ID=')
+        "-DSIMS2_NATIVE_THUMBNAILS=$nativeThumbnailsSetting",'-DSIMS2_VULKAN_STARTUP_PROBE=OFF','-DSIMS2_BUILD_ID=')
     foreach($entry in @(@('PS5_FOUNDATION',$FoundationDirectory),@('PS5_VULKAN_DIR',$VulkanDirectory),@('GLSLANG_SOURCE',$GlslangSource),@('GLSLANG_BUILD',$GlslangBuild))){
         if($entry[1]){$arguments+="-D$($entry[0])=$($entry[1])"}
     }
@@ -92,11 +94,15 @@ try {
         if(-not $flags.Count -or $flags[$flags.Count-1].Groups[1].Value -ne $expected){throw "Unexpected optimization for $($command.file)"}
         if($Mode -ne 'Debug' -and $command.command -notmatch '(?:^|\s)-DNDEBUG(?:\s|$)'){throw 'Optimized build must define NDEBUG'}
     }
+    $portraitCommand=$selected | Where-Object {$_.file -match '[/\\]src[/\\]game[/\\]hud_portrait\.cpp$'}
+    if(-not $portraitCommand -or ($portraitCommand.command.Contains('-DSIMS2_NATIVE_THUMBNAILS=1') -ne [bool]$NativeThumbnails)){
+        throw 'The runtime compile command does not match the requested thumbnail option'
+    }
     $identity=(Get-Content -LiteralPath (Join-Path $BuildDirectory 'build-id.txt') -Raw).Trim()
     Write-BuildState 'COMPILE' @{build_id=$identity;audited_compile_commands=$selected.Count;optimization="O$expected"}
     & $cmake --build $BuildDirectory --target sims2-runtime sims2-guest sims2-ps5-memory sims2-ps5-services --parallel $Jobs *> (Join-Path $BuildDirectory 'objects-build.log')
     if($LASTEXITCODE){Write-BuildState 'COMPILE_FAILED' @{build_id=$identity};throw 'Native object compilation failed; see objects-build.log'}
-    $profile=@{schema=1;build_id=$identity;mode=$Mode;configuration=$configuration;optimization="O$expected";debug_symbols='g1';diagnostic_logging=$diagnostic;performance_logging=$performance;guest_profile=$guestProfileSetting;fast_handles=$handleCacheSetting;deep_profile=$deepProfileSetting;object_wait_channels=$objectWaitSetting;startup_probe='OFF';audited_compile_commands=$selected.Count;native_link='still required through existing title recipe'}
+    $profile=@{schema=1;build_id=$identity;mode=$Mode;configuration=$configuration;optimization="O$expected";debug_symbols='g1';diagnostic_logging=$diagnostic;performance_logging=$performance;guest_profile=$guestProfileSetting;fast_handles=$handleCacheSetting;deep_profile=$deepProfileSetting;object_wait_channels=$objectWaitSetting;native_thumbnails=$nativeThumbnailsSetting;startup_probe='OFF';audited_compile_commands=$selected.Count;native_link='still required through existing title recipe'}
     $profile | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $BuildDirectory 'build-profile.json')
     Write-BuildState 'OBJECTS_READY' $profile
     Write-Output "Native objects ready: mode=$Mode optimization=O$expected build=$identity; final title link remains required."
